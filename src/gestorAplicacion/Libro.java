@@ -1,3 +1,4 @@
+package src.gestorAplicacion;
 
 public class Libro{
 	private String titulo,autor,descripcion,isbn;
