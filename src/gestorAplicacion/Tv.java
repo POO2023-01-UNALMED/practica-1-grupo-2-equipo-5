@@ -1,6 +1,6 @@
 package src.gestorAplicacion;
-
-public class Tv extends Electronico{
+import java.io.Serializable;
+public class Tv extends Electronico implements Serializable{
     private int pulgadas;
     private String resolucion;
 

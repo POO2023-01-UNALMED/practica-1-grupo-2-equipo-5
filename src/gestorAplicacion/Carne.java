@@ -1,5 +1,6 @@
 package src.gestorAplicacion;
-public class Carne extends Comida {
+import java.io.Serializable;
+public class Carne extends Comida implements Serializable{
 	private String tipo;
 	private float lbs;
 	private float $libra;

@@ -1,8 +1,8 @@
 package src.gestorAplicacion;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Supermercado {
+public class Supermercado  implements Serializable{
 	public String nombre;
 	public ArrayList<Libro> oferlibros;
 	public Supermercado(String nombre,ArrayList<Libro> oferlibros) {

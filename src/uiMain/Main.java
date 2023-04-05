@@ -1,5 +1,6 @@
 package src.uiMain;
 
+import src.gestorAplicacion.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -39,7 +40,7 @@ public class Main {
 				+ "2. Volver al menu anterior");
 		int tipo=input.nextInt();
 		switch(tipo) {
-		//Aquí empieza el flujo de las 4 de las funcionalidades
+		//Aquï¿½ empieza el flujo de las 4 de las funcionalidades
 		case 1:
 			System.out.println("Elegiste libros\n");
 			System.out.println("----------------------------------------");
@@ -63,7 +64,7 @@ public class Main {
 			System.out.println("----------------------------------------");
 			++i;
 		}
-		System.out.println("Ingrese -1 para volver al menú anterior\n");
+		System.out.println("Ingrese -1 para volver al menï¿½ anterior\n");
 		int opcion= input.nextInt();
 		if(opcion==-1) seleccionarTipo();
 		else {

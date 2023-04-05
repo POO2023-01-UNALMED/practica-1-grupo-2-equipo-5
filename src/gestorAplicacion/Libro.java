@@ -1,12 +1,13 @@
 package src.gestorAplicacion;
-
-public class Libro{
+import java.io.Serializable;
+public class Libro implements Serializable{
 	private String titulo,autor,descripcion,isbn;
 	private int precio;
 	static int numlibros;
-	Libro(String titulo,String autor,String isbn,int precio){
+	public Libro(String titulo,String autor,String descripcion, String isbn,int precio){
 		this.titulo=titulo;
 		this.autor=autor;
+		this.descripcion=descripcion;
 		this.isbn=isbn;
 		this.precio=precio;
 	}

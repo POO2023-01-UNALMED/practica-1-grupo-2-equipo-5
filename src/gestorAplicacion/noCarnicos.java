@@ -1,5 +1,6 @@
 package src.gestorAplicacion;
-public class noCarnicos extends Comida{
+import java.io.Serializable;
+public class noCarnicos extends Comida implements Serializable{
 
 	private String nombre;
 	private int precioUnidad;

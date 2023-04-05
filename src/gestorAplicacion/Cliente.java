@@ -3,6 +3,10 @@ package src.gestorAplicacion;
 import java.util.ArrayList;
 public class Cliente {
 	private String nombre,direccion;
+	public Cliente(String nombre, String direccion){
+		this.nombre = nombre;
+		this.direccion = direccion;
+	}
 	private ArrayList<Object> carrito = new ArrayList<Object> ();
 	public String getNombre() {
 		return nombre;
