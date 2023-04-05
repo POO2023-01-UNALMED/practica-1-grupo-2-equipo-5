@@ -1,9 +1,14 @@
 package src.gestorAplicacion;
+//package gestorAplicacion;
 
 import java.util.ArrayList;
 public class Cliente {
 	private String nombre,direccion;
 	private ArrayList<Object> carrito = new ArrayList<Object> ();
+	public Cliente (String nombre,String direccion) {
+		this.nombre=nombre;
+		this.direccion=direccion;
+	}
 	public String getNombre() {
 		return nombre;
 	}

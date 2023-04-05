@@ -1,15 +1,19 @@
 package src.gestorAplicacion;
+//package gestorAplicacion;
 
 public class Libro{
 	private String titulo,autor,descripcion,isbn;
 	private int precio;
 	static int numlibros;
-	Libro(String titulo,String autor,String isbn,int precio){
+	
+	public Libro(String titulo,String autor,String descripcion,String isbn,int precio){
 		this.titulo=titulo;
 		this.autor=autor;
 		this.isbn=isbn;
 		this.precio=precio;
+		this.descripcion=descripcion;
 	}
+	
 	public String getTitulo() {
 		return titulo;
 	}
