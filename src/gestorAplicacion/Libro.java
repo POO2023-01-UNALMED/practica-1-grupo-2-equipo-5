@@ -10,7 +10,9 @@ public class Libro implements Serializable{
 		this.descripcion=descripcion;
 		this.isbn=isbn;
 		this.precio=precio;
+		this.descripcion=descripcion;
 	}
+	
 	public String getTitulo() {
 		return titulo;
 	}

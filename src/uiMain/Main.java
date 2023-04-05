@@ -1,4 +1,5 @@
 package src.uiMain;
+//package uiMain;
 
 import src.gestorAplicacion.*;
 import java.util.ArrayList;
@@ -82,7 +83,6 @@ public class Main {
 				System.out.println("Se ha agregado al carrito!\n");
 				System.out.println("1. Volver al menu anterior\n");
 				System.out.println("2. Finalizar compra\n");
-				
 				int decision = input.nextInt();
 				switch(decision) {
 				case 1:
