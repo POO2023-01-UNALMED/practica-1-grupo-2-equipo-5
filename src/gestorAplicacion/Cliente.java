@@ -1,4 +1,4 @@
-package src.gestorAplicacion;
+package gestorAplicacion;
 //package gestorAplicacion;
 
 import java.util.ArrayList;
@@ -28,5 +28,5 @@ public class Cliente {
 	public void setCarrito(ArrayList<Object> carrito) {
 		this.carrito = carrito;
 	}
-	
+
 }

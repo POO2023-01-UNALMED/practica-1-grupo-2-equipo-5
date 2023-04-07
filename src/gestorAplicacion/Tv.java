@@ -1,11 +1,12 @@
-package src.gestorAplicacion;
+package gestorAplicacion;
 import java.io.Serializable;
 public class Tv extends Electronico implements Serializable{
     private int pulgadas;
     private String resolucion;
 
-    public Tv(String nombre, int precio, int numelectro, String marca, int pulgadas, String resolucion) {
-        super(nombre, precio, numelectro, marca);
+    public Tv(String nombre, int precio, String marca, Supermercado supermercado,
+              int pulgadas, String resolucion) {
+        super(nombre, precio, marca, supermercado);
         this.pulgadas = pulgadas;
         this.resolucion = resolucion;
     }

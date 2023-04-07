@@ -1,4 +1,4 @@
-package src.gestorAplicacion;
+package gestorAplicacion;
 import java.io.Serializable;
 public class Celular extends Electronico implements Serializable {
     private int almacenamiento;
@@ -6,8 +6,9 @@ public class Celular extends Electronico implements Serializable {
     private int bateria;
     private String color;
     private int ram;
-    public Celular(String nombre, int precio, int numelectro, String marca, int almacenamiento, int camaras, int bateria, String color, int ram) {
-        super(nombre, precio, numelectro, marca);
+    public Celular(String nombre, int precio,  String marca,
+                   Supermercado supermercado, int almacenamiento, int camaras, int bateria, String color, int ram) {
+        super(nombre, precio, marca, supermercado);
         this.almacenamiento = almacenamiento;
         this.camaras = camaras;
         this.bateria = bateria;

@@ -1,16 +1,19 @@
-package src.gestorAplicacion;
+package gestorAplicacion;
+import java.io.Serializable;
+
 //Definimos la clase abstracta
-public abstract class Electronico {
+public abstract class Electronico implements Serializable {
+    private Supermercado supermercado;
     private String nombre;
     private int precio;
-    private  int numelectro;
+
     private String marca;
 
-    protected Electronico (String nombre, int precio, int numelectro, String marca){
+    protected Electronico (String nombre, int precio, String marca, Supermercado supermercado){
         this.nombre = nombre;
         this.precio = precio;
-        this.numelectro = numelectro;
         this.marca = marca;
+        this.supermercado = supermercado;
     }
 
     public String getNombre() {
@@ -29,19 +32,17 @@ public abstract class Electronico {
         this.precio = precio;
     }
 
-    public int getNumelectro() {
-        return numelectro;
-    }
-
-    public void setNumelectro(int numelectro) {
-        this.numelectro = numelectro;
-    }
-
     public String getMarca() {
         return marca;
     }
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+    public Supermercado getSupermercado(){
+        return this.supermercado;
+    }
+    public void setSupermercado(Supermercado supermercado){
+        this.supermercado = supermercado;
     }
 }

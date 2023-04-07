@@ -1,18 +1,21 @@
-package src.gestorAplicacion;
+package gestorAplicacion;
 import java.io.Serializable;
+import uiMain.Main;
 public class Libro implements Serializable{
+	private Supermercado supermercado;
 	private String titulo,autor,descripcion,isbn;
 	private int precio;
 	static int numlibros;
-	public Libro(String titulo,String autor,String descripcion, String isbn,int precio){
+	public Libro(String titulo,String autor,String descripcion, String isbn,int precio, Supermercado supermercado){
 		this.titulo=titulo;
 		this.autor=autor;
-		this.descripcion=descripcion;
+		this.descripcion= descripcion;
 		this.isbn=isbn;
 		this.precio=precio;
-		this.descripcion=descripcion;
+		this.supermercado = supermercado;
+		Main.lista_libros.add(this);
 	}
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -43,11 +46,11 @@ public class Libro implements Serializable{
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
-	public int getNumlibros() {
+	public static int getNumlibros() {
 		return numlibros;
 	}
-	public void setNumlibros(int numlibros) {
-		this.numlibros = numlibros;
+	public static void setNumlibros(int numlibros) {
+		Libro.numlibros = numlibros;
 	}
 
 }
