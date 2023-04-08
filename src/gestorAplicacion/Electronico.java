@@ -1,4 +1,5 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
 
 //Definimos la clase abstracta

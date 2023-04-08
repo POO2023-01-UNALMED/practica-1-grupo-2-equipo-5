@@ -1,5 +1,7 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
+
 public class Celular extends Electronico implements Serializable {
     private int almacenamiento;
     private int camaras;

@@ -1,5 +1,7 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
+
 public class Carne extends Alimentos implements Serializable{
 	private String tipo;
 	private float pesoLibra;

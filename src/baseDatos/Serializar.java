@@ -1,12 +1,13 @@
-package baseDatos;
+package src.baseDatos;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import src.gestorAplicacion.*;
 
-import gestorAplicacion.*;
 public class Serializar {
     static File archivo = new File("");
 

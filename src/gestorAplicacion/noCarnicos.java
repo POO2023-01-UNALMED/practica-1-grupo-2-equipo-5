@@ -1,5 +1,7 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
+
 public class noCarnicos extends Alimentos implements Serializable{
 
 	private String nombreAli;

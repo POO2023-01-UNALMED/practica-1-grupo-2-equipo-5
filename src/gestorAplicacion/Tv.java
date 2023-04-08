@@ -1,5 +1,7 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
+
 public class Tv extends Electronico implements Serializable{
     private int pulgadas;
     private String resolucion;

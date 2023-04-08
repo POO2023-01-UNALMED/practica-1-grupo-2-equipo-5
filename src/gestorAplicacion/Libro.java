@@ -1,6 +1,8 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
-import uiMain.Main;
+import src.uiMain.Main;
+
 public class Libro implements Serializable{
 	private Supermercado supermercado;
 	private String titulo,autor,descripcion,isbn;

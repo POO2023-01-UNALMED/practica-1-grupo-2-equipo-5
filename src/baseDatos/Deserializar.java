@@ -1,12 +1,14 @@
-package baseDatos;
+package src.baseDatos;
+
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import uiMain.Main;
-import gestorAplicacion.*;
+import src.uiMain.Main;
+import src.gestorAplicacion.*;
+
 public class Deserializar {
     static File archivo = new File("");
     public static ArrayList<Celular> deserializarCelulares(){
@@ -31,6 +33,7 @@ public class Deserializar {
             return new ArrayList<Celular>();
         }
     }
+    
     public static ArrayList<Tv> deserializarTvs(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
@@ -53,6 +56,7 @@ public class Deserializar {
             return new ArrayList<Tv>();
         }
     }
+    
     public static ArrayList<Libro> deserializarLibros() {
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
@@ -86,9 +90,9 @@ public class Deserializar {
             file.close();
             o.close();
             return lista_supermercados;
-
+        
         }catch(FileNotFoundException e){
-            System.out.println("No hay supermercados registrados. ¿Deseas crear un supermercado? " +
+            System.out.println("No hay supermercados registrados. Deseas crear un supermercado? " +
                     "\n1 = Si" +
                     "\n2 = No");
             String respuesta = Main.sc.next();
@@ -101,17 +105,22 @@ public class Deserializar {
                 ArrayList<Supermercado> lista_supermercados = new ArrayList<Supermercado>();
                 System.out.print("Ingresa el nombre del supermercado nuevo: ");
                 Supermercado supermercado = new Supermercado(Main.sc.next());
+                //Aqui se ejecutaria la opcion para a�adir productos
+                Main.anadirProducto(supermercado);
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;
             }
+            
             return  new ArrayList<Supermercado>();
         }
+        
         catch(IOException e){
             System.out.println("MOFETICA");
             return new ArrayList<Supermercado>();
         }
+        
         catch(ClassNotFoundException e) {
-            System.out.println("No hay supermercados registrados. ¿Deseas crear un supermercado? " +
+            System.out.println("No hay supermercados registrados. Deseas crear un supermercado? " +
                     "\n1 = Si" +
                     "\n2 = No");
             String respuesta = Main.sc.next();
@@ -127,6 +136,7 @@ public class Deserializar {
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;
             }
+            
             return new ArrayList<Supermercado>();
         }
     }

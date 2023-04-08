@@ -1,5 +1,7 @@
-package gestorAplicacion;
+package src.gestorAplicacion;
+
 import java.io.Serializable;
+
 // Se define la clase abstracta
 public abstract class Alimentos implements Serializable {
 	
