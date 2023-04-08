@@ -2,21 +2,21 @@ package gestorAplicacion;
 import java.io.Serializable;
 public class noCarnicos extends Alimentos implements Serializable{
 
-	private String nombre;
+	private String nombreAli;
 	private int precioUnidad;
 
-	public noCarnicos(String nombre, int precio, int numcomi, Supermercado supermercado, String nombre2, int precioUnidad) {
-		super(nombre, precio, numcomi, supermercado);
-		nombre = nombre2;
+	public noCarnicos(String nombre, int precio, Supermercado supermercado, String nombreAli, int precioUnidad) {
+		super(nombre, precio, supermercado);
+		this.nombreAli = nombreAli;
 		this.precioUnidad = precioUnidad;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombreAli() {
+		return nombreAli;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombreAli(String nombreAli) {
+		this.nombreAli = nombreAli;
 	}
 
 	public int getPrecioUnidad() {

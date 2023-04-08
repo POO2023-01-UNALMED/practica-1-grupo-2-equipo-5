@@ -28,12 +28,13 @@ public class Main {
 		Cliente cliente = new Cliente(nombre, direccion);
 		System.out.println("Bienvenido "+nombre+"!");
 		while(true){
-			System.out.println("Dinos que deseas hacer" +
+			System.out.print("Dinos que deseas hacer" +
 					"\n1. Lista de supermercados" +
 					"\n2. Salir");
+			sc.nextLine();
 			String respuesta =  sc.next();
 			while(!respuesta.equals("1") && !respuesta.equals("2")){
-				System.out.println("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
+				System.out.print("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
 						"\nIngresala nuevamente");
 				respuesta = Main.sc.next();
 			}

@@ -2,14 +2,14 @@ package gestorAplicacion;
 import java.io.Serializable;
 public class Carne extends Alimentos implements Serializable{
 	private String tipo;
-	private float lbs;
-	private float $libra;
+	private float pesoLibra;
+	private float costoLibra;
 
-	public Carne(String nombre, int precio, int numcomi, Supermercado supermercado , String tipo, float lbs, float $libra) {
-		super(nombre, precio, numcomi, supermercado);
+	public Carne(String nombre, int precio, Supermercado supermercado , String tipo, float pesoLibra, float costoLibra) {
+		super(nombre, precio, supermercado);
 		this.tipo = tipo;
-		this.lbs = lbs;
-		this.$libra = $libra;
+		this.pesoLibra= pesoLibra;
+		this.costoLibra = costoLibra;
 	}
 
 	public String getTipo() {
@@ -20,20 +20,19 @@ public class Carne extends Alimentos implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public float getLbs() {
-		return lbs;
+	public float getPesoLibra() {
+		return pesoLibra;
 	}
 
-	public void setLbs(float lbs) {
-		this.lbs = lbs;
+	public void setLbs(float pesoLibra) {
+		this.pesoLibra = pesoLibra;
 	}
 
-	public float get$libra() {
-		return $libra;
+	public float getCostoLibra() {
+		return costoLibra;
 	}
 
-	public void set$libra(float $libra) {
-		this.$libra = $libra;
+	public void setCostoLibra(float costoLibra) {
+		this.costoLibra = costoLibra;
 	}
-
 }
