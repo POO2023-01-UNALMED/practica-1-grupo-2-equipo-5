@@ -79,6 +79,53 @@ public class Deserializar {
             return  new ArrayList<Libro>();
         }
     }
+    
+    public static ArrayList<Carne> deserializarCarne() {
+        try {
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
+                    "\\src\\baseDatos\\temp\\Carne.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Carne> lista_carnicos = (ArrayList) o.readObject();
+
+            file.close();
+            o.close();
+            return lista_carnicos;
+
+        }catch(FileNotFoundException e){
+            return new ArrayList<Carne>();
+        }
+        catch(IOException e){
+            return  new ArrayList<Carne>();
+        }
+        catch(ClassNotFoundException e) {
+            return  new ArrayList<Carne>();
+        }
+    }
+    
+    public static ArrayList<noCarnicos> deserializarnoCarnicos(){
+        try {
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
+                    "\\src\\baseDatos\\temp\\noCarnicos.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<noCarnicos> lista_no_carnicos = (ArrayList) o.readObject();
+
+            file.close();
+            o.close();
+            return lista_no_carnicos;
+
+        }catch(FileNotFoundException e){
+            return new ArrayList<noCarnicos>();
+        }
+        catch(IOException e){
+            return new ArrayList<noCarnicos>();
+        }
+        catch(ClassNotFoundException e) {
+            return new ArrayList<noCarnicos>();
+        }
+    }
+    
     public static ArrayList<Supermercado> deserializarSupermercados(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
@@ -103,9 +150,9 @@ public class Deserializar {
             }
             if(respuesta.equals("1")){
                 ArrayList<Supermercado> lista_supermercados = new ArrayList<Supermercado>();
-                System.out.print("Ingresa el nombre del supermercado nuevo: ");
+                System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
                 Supermercado supermercado = new Supermercado(Main.sc.next());
-                //Aqui se ejecutaria la opcion para añadir productos
+                //Aqui se ejecutaria la opcion para aï¿½adir productos
                 Main.anadirProducto(supermercado);
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;
@@ -131,7 +178,7 @@ public class Deserializar {
             }
             if(respuesta.equals("1")){
                 ArrayList<Supermercado> lista_supermercados = new ArrayList<Supermercado>();
-                System.out.print("Ingresa el nombre del supermercado nuevo: ");
+                System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
                 Supermercado supermercado = new Supermercado(Main.sc.next());
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;

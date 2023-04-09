@@ -10,6 +10,46 @@ import src.gestorAplicacion.*;
 
 public class Serializar {
     static File archivo = new File("");
+    
+    public static void serializarnoCarnicos(ArrayList<noCarnicos> lista) {
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
+                    "\\src\\baseDatos\\temp\\noCarnicos.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(lista);
+
+            o.close();
+            f.close();
+
+        }catch(FileNotFoundException e){
+            System.out.println("No se encuentra el archivo"+e.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println("No se encuentra en archivo");
+        }
+
+    }
+    
+    public static void serializarCarne(ArrayList<Carne> lista) {
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
+                    "\\src\\baseDatos\\temp\\Carne.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(lista);
+
+            o.close();
+            f.close();
+
+        }catch(FileNotFoundException e){
+            System.out.println("No se encuentra el archivo"+e.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println("No se encuentra en archivo");
+        }
+
+    }
 
     public static void serializarLibros(ArrayList<Libro> lista) {
         try {

@@ -4,29 +4,30 @@ import java.io.Serializable;
 
 public class noCarnicos extends Alimentos implements Serializable{
 
-	private String nombreAli;
-	private int precioUnidad;
+	//private String nombreAli;
+	private int cantidad;
+	private static int cantidadTotal;
 
-	public noCarnicos(String nombre, int precio, Supermercado supermercado, String nombreAli, int precioUnidad) {
+	public noCarnicos(String nombre, int precio, Supermercado supermercado, int cantidad) {
 		super(nombre, precio, supermercado);
-		this.nombreAli = nombreAli;
-		this.precioUnidad = precioUnidad;
+		this.cantidad = cantidad;
 	}
 
-	public String getNombreAli() {
-		return nombreAli;
+	public int getCantidad() {
+		return cantidad;
 	}
 
-	public void setNombreAli(String nombreAli) {
-		this.nombreAli = nombreAli;
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
-	public int getPrecioUnidad() {
-		return precioUnidad;
+	public static int getCantidadTotal() {
+		return cantidadTotal;
 	}
 
-	public void setPrecioUnidad(int precioUnidad) {
-		this.precioUnidad = precioUnidad;
+	public static void setCantidadTotal(int cantidadTotal) {
+		noCarnicos.cantidadTotal = cantidadTotal;
 	}
+
 
 }

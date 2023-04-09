@@ -24,6 +24,9 @@ public class Main {
 		
 		lista_celulares = Deserializar.deserializarCelulares();
 		lista_tvs = Deserializar.deserializarTvs();
+		lista_libros = Deserializar.deserializarLibros();
+		lista_no_carnicos = Deserializar.deserializarnoCarnicos();
+		lista_carnicos = Deserializar.deserializarCarne();
 		
 		//Si no hay supermercados se ejecuta un flujo para crear el supermercado dentro de deserializarSupermercados()
 		lista_super =  Deserializar.deserializarSupermercados();
@@ -46,16 +49,19 @@ public class Main {
 			// los while se ejecutan hasta que se ingrese una respuesta valida
 			while(!respuesta.equals("1") && !respuesta.equals("2")){
 				System.out.print("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
-						"\nIngresala nuevamente");
+						"\nIngresala nuevamente\n");
 				respuesta = Main.sc.next();
+				
 			}
 			
 			if(respuesta.equals("1")){
 				seleccionarSupermercado();
 			}
-			
+						
 			// Termina la ejecucion del programa
 			else{
+				System.out.print("Gracias por visitar nuestro gestor de tiendas"+
+						", siempre será bienvenido\n");
 				break;
 			}
 		}
@@ -77,7 +83,7 @@ public class Main {
 
 		String respuesta;
 		Supermercado super_seleccionado;
-		//System.out.println(lista_super.size()); por que?
+		//System.out.println(lista_super.size()); //por que?
 		
 		if(lista_super.size() == 0){
 			//Si el usuario no crea ningun supermercado salimos del metodo para volver al menu anterior
@@ -97,10 +103,10 @@ public class Main {
 					respuesta = null; //Buscamos saltar el error ya que el intervalo solo contempla numeros positivos
 				}
 				if(Integer.parseInt(respuesta) == lista_super.size()+1 ){
-					System.out.print("Ingresa el nombre del supermercado nuevo: ");
+					System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
 					Supermercado supermercado = new Supermercado(Main.sc.next());
 					
-					//Aqui se ejecutaria la opcion para a�adir productos
+					//Aqui se ejecutaria la opcion para añadir productos
 					anadirProducto(supermercado);
 					
 					lista_super.add(supermercado);
@@ -134,7 +140,7 @@ public class Main {
 				"\n2. Celulares" +
 				"\n3. Libros"+
 				"\n4. Carne"+
-				"\n5. NoCarne"+
+				"\n5. NoCarnicos"+
 				"\n6. Ropa"+
 				"\n7. Volver al menu anterior");
 		
@@ -191,13 +197,40 @@ public class Main {
 				break;
 				
 			case "3":
+				
 				//Libros
 				break;
 			case "4":
 				//Carne
+				System.out.println("Ingrese el nombre del producto carnico: ");
+				String nombreCarne = sc.next();
+				System.out.println("Ingrese el precio por libra del producto "+nombreCarne.toUpperCase()+": ");
+				int precioCarne = sc.nextInt();
+				System.out.println("Ingrese que tipo de producto es "+nombreCarne.toUpperCase()+": ");
+				String tipoCarne = sc.next();
+				System.out.println("Ingrese el peso en libras del producto "+nombreCarne.toUpperCase()+": ");
+				float pesoCarne = sc.nextFloat();
+				System.out.println("Ingrese cuantas unidades de "+nombreCarne.toUpperCase()+" desea añadir:");
+				int cantidadCarne = sc.nextInt();
+				Carne nuevaCarne =new Carne(nombreCarne,precioCarne, mercado, tipoCarne, pesoCarne, cantidadCarne);
+				mercado.ofercomi.add(nuevaCarne);
+				lista_carnicos.add(nuevaCarne);
+				
+				cuandoSeAgrega(mercado);
 				break;
 			case "5":
 				//No Carne
+				System.out.println("Ingrese el nombre del producto: ");
+				String nombreAli = sc.next();
+				System.out.println("Ingrese el precio por unidad del "+nombreAli.toUpperCase()+": ");
+				int precioAli = sc.nextInt();
+				System.out.println("Ingrese la cantidad de unidades de "+nombreAli.toUpperCase()+" que desea añadir:");
+				int cantidadAli = sc.nextInt();
+				noCarnicos nuevoAli = new noCarnicos(nombreAli, precioAli, mercado, cantidadAli);
+				mercado.ofercomi.add(nuevoAli);
+				lista_no_carnicos.add(nuevoAli);
+				
+				cuandoSeAgrega(mercado);
 				break;
 			case "6":
 				//Ropa
@@ -214,7 +247,8 @@ public class Main {
 		System.out.println("\nProducto agregado con exito!");
 		
 		System.out.println("\nDeseas agregar otro producto?"+
-		                   "\n1. Si 2. No");
+		                   "\n1. Si "
+		                  +"\n2. No");
 		respuesta=Main.sc.next();
 		switch(respuesta) {
 		case "1":
