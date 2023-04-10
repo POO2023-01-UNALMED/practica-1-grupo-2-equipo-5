@@ -8,12 +8,14 @@ public abstract class Alimentos implements Serializable {
 	private Supermercado supermercado;
 	private String nombre;
 	private int precio;
+	private int cantidad;
 	private static int cantidadAlimentos;
 
-	protected Alimentos (String nombre, int precio, Supermercado supermercado) {
+	protected Alimentos (String nombre, int precio, Supermercado supermercado, int cantidad) {
 		this.nombre = nombre;
 		this.precio = precio;
 		this.supermercado = supermercado;
+		this.cantidad = cantidad;
 	}
 
 
@@ -51,6 +53,16 @@ public abstract class Alimentos implements Serializable {
 
 	public static void setCantidadAlimentos(int cantidadAlimentos) {
 		Alimentos.cantidadAlimentos = cantidadAlimentos;
+	}
+
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 	
 }

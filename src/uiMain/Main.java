@@ -154,40 +154,50 @@ public class Main {
 		switch (respuesta){
 		
 			case "1":
-				System.out.print("Ingrese el nombre del Tv:");
+				
+				System.out.print("Ingrese el nombre del Tv: ");
 				String nombre = sc.next();
-				System.out.print("Ingresa el precio del Tv:");
+				sc.nextLine();
+				System.out.print("Ingresa el precio del Tv "+nombre.toUpperCase()+": ");
 				int precio = sc.nextInt();
-				System.out.print("Ingresa la marca del Tv:");
+				System.out.print("Ingresa la marca del Tv "+nombre.toUpperCase()+": ");
 				String marca = sc.next();
-				System.out.print("Ingresa el numero de pulgadas del Tv:");
+				System.out.print("Ingresa el numero de pulgadas del Tv "+nombre.toUpperCase()+": ");	
 				int pulgadas = sc.nextInt();
-				System.out.print("Ingresa la resolucion del Tv:");
+				System.out.print("Ingresa la resolucion del Tv "+nombre.toUpperCase()+": ");
 				String resolucion = sc.next();
-				Tv nuevotv = new Tv(nombre, precio, marca, mercado, pulgadas, resolucion);
+				System.out.print("Ingresa la cantidad de Tvs "+nombre.toUpperCase()+" desea añadir: ");
+				int cantidadtv = sc.nextInt();
+				Tv nuevotv = new Tv(nombre, precio, marca, mercado, cantidadtv, pulgadas, resolucion);
 				mercado.oferelectro.add(nuevotv);
 				lista_tvs.add(nuevotv);
 				cuandoSeAgrega(mercado);
 				break;
 				
 			case "2":
-				System.out.print("Ingrese el nombre del celular:");
+				System.out.print("Ingrese el nombre del celular: ");
 				String nombrecel = sc.next();
-				System.out.print("Ingresa el precio del celular:");
+				sc.nextLine();
+				System.out.print("Ingresa el precio del celular "+nombrecel.toUpperCase()+": ");
 				int preciocel = sc.nextInt();
-				System.out.print("Ingresa la marca del celular:");
+				System.out.print("Ingresa la marca del celular "+nombrecel.toUpperCase()+": ");
 				String marcacel = sc.next();
-				System.out.println("Ingresa la cantidad de almacenamiento del celular:");
+				sc.nextLine();
+				System.out.println("Ingresa la cantidad de almacenamiento del celular "+
+				nombrecel.toUpperCase()+": ");
 				int almacenamiento = sc.nextInt();
-				System.out.print("Ingresa el numero de camaras del celular:");
+				System.out.print("Ingresa el numero de camaras del celular "+nombrecel.toUpperCase()+": ");
 				int camaras = sc.nextInt();
-				System.out.print("Ingresa la bateria del celular:");
+				System.out.print("Ingresa la bateria del celular "+nombrecel.toUpperCase()+": ");
 				int bateria = sc.nextInt();
-				System.out.println("Ingresa el color del celular:");
+				System.out.println("Ingresa el color del celular "+nombrecel.toUpperCase()+": ");
 				String color = sc.next();
-				System.out.println("Ingresa el numero de megas de ram");
+				sc.nextLine();
+				System.out.println("Ingresa el numero de megas de ram "+nombrecel.toUpperCase()+": ");
 				int ram = sc.nextInt();
-				Celular nuevocel = new Celular(nombrecel, preciocel, marcacel, mercado,almacenamiento, camaras, bateria, color, ram);
+				System.out.print("Ingresa la cantidad de celulares "+nombrecel.toUpperCase()+" desea añadir: ");
+				int cantidadcel = sc.nextInt();
+				Celular nuevocel = new Celular(nombrecel, preciocel, marcacel, mercado, cantidadcel, almacenamiento, camaras, bateria, color, ram);
 				mercado.oferelectro.add(nuevocel);
 				lista_celulares.add(nuevocel);
 				
@@ -204,6 +214,7 @@ public class Main {
 				//Carne
 				System.out.println("Ingrese el nombre del producto carnico: ");
 				String nombreCarne = sc.next();
+				sc.nextLine();
 				System.out.println("Ingrese el precio por libra del producto "+nombreCarne.toUpperCase()+": ");
 				int precioCarne = sc.nextInt();
 				System.out.println("Ingrese que tipo de producto es "+nombreCarne.toUpperCase()+": ");
@@ -212,7 +223,7 @@ public class Main {
 				float pesoCarne = sc.nextFloat();
 				System.out.println("Ingrese cuantas unidades de "+nombreCarne.toUpperCase()+" desea añadir:");
 				int cantidadCarne = sc.nextInt();
-				Carne nuevaCarne =new Carne(nombreCarne,precioCarne, mercado, tipoCarne, pesoCarne, cantidadCarne);
+				Carne nuevaCarne =new Carne(nombreCarne,precioCarne, mercado, cantidadCarne, tipoCarne, pesoCarne);
 				mercado.ofercomi.add(nuevaCarne);
 				lista_carnicos.add(nuevaCarne);
 				
@@ -222,6 +233,7 @@ public class Main {
 				//No Carne
 				System.out.println("Ingrese el nombre del producto: ");
 				String nombreAli = sc.next();
+				sc.nextLine();
 				System.out.println("Ingrese el precio por unidad del "+nombreAli.toUpperCase()+": ");
 				int precioAli = sc.nextInt();
 				System.out.println("Ingrese la cantidad de unidades de "+nombreAli.toUpperCase()+" que desea añadir:");
@@ -267,9 +279,11 @@ public class Main {
 			System.out.println("Estos son los productos electronicos que tenemos disponibles en "+mercado.getNombre());
 			for(int i = 0; i<mercado.oferelectro.size(); i++) {
 				producto_seleccionado = mercado.oferelectro.get(i);
-				System.out.println((i+1)+". Nombre:"+producto_seleccionado.getNombre()+" " +
-						"\n Marca: "+producto_seleccionado.getMarca()+"" +
-						"\n Precio: "+producto_seleccionado.getPrecio());
+				System.out.println((i+1)+". "+
+						"\nNombre:"+producto_seleccionado.getNombre()+" " +
+						"\n Marca: "+producto_seleccionado.getMarca()+" " +
+						"\n Precio: "+producto_seleccionado.getPrecio()+" "+
+						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
 			}
 			System.out.println("Selecciona uno de nuestros productos a comprar: ");
 			String respuesta = sc.next();

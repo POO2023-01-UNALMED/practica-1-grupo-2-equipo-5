@@ -7,14 +7,16 @@ public abstract class Electronico implements Serializable {
     private Supermercado supermercado;
     private String nombre;
     private int precio;
+    private  int cantidad;
 
     private String marca;
 
-    protected Electronico (String nombre, int precio, String marca, Supermercado supermercado){
+    protected Electronico (String nombre, int precio, String marca, Supermercado supermercado, int cantidad){
         this.nombre = nombre;
         this.precio = precio;
         this.marca = marca;
         this.supermercado = supermercado;
+        this.cantidad = cantidad;
     }
 
     public String getNombre() {
@@ -46,4 +48,14 @@ public abstract class Electronico implements Serializable {
     public void setSupermercado(Supermercado supermercado){
         this.supermercado = supermercado;
     }
+
+	public  int getCantidad() {
+		return cantidad;
+	}
+
+	public  void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+    
+    
 }
