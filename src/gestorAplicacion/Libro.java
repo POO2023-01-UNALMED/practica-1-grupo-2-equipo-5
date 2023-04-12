@@ -54,5 +54,8 @@ public class Libro implements Serializable{
 	public static void setNumlibros(int numlibros) {
 		Libro.numlibros = numlibros;
 	}
-
+	
+	public String toString() {
+		return this.titulo+" Libro "+this.supermercado.getNombre()+" "+this.precio;
+	}
 }

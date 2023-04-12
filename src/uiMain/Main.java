@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static Scanner sc = new Scanner(System.in);
+	public static Cliente cliente;
 	
 	//Se crean las listas donde va cada tipo de producto
 	public static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
@@ -37,6 +38,7 @@ public class Main {
 		System.out.print("Ingresa tu direccion: ");
 		String direccion = sc.next();
 		Cliente cliente = new Cliente(nombre, direccion);
+		Main.cliente=cliente;
 		System.out.println("\nBienvenido "+nombre+"!\n");
 		
 		menuQueDeseas();
@@ -54,6 +56,7 @@ public class Main {
 
 	}
 	//Volvi este codigo un metodo para aplicar el boton de volver al menu anterior
+	
 	public static void menuQueDeseas() {
 		while(true){
 			System.out.print("Que deseas hacer?\n" +
@@ -83,6 +86,18 @@ public class Main {
 		}
 	}
 	
+	// Se muestra el carrito de compras al finalizar la compra
+	public static void finalizarCompra() {
+		System.out.println("\nCarrito de compras:");
+		System.out.println("Nombre  Tipo de producto  Supermercado  Precio");
+		for(Object producto:cliente.getCarrito()) {
+			System.out.println(producto);
+		}
+		// Terminar
+		
+	}
+	
+	//Hay que generalizar algunas cosas en este metodo
 	public static void seleccionarSupermercado() {
 
 		String respuesta;
@@ -132,9 +147,11 @@ public class Main {
 		}
 		
 		Serializar.serializarSupermercados(lista_super);
-		if (super_seleccionado.oferelectro.size() == 0) {
-			System.out.println("Supermercado vacio");
-			anadirProducto(super_seleccionado);}
+		
+		//Esto hay que cambiarlo de modo que aplique para todos los productos
+		//if (super_seleccionado.oferelectro.size() == 0) {
+			//System.out.println("Supermercado vacio");
+			//anadirProducto(super_seleccionado);}
 	}
 
 	// Aqui entran todas las clases de la capa logica
@@ -347,19 +364,59 @@ public class Main {
 		}
 
 	}
+	
 	public static void comprarLibro(Supermercado mercado) {
 		if(mercado.oferlibros.size() > 0){
-			int respuesta,i=0;
+			String libroselect,respuesta;
+			int i=1;
 			System.out.println("Estos son los libros que tenemos disponiblies en "+mercado.getNombre());
 			for(Libro libro:mercado.oferlibros) {
-				System.out.println("\nNombre: "+libro.getTitulo());
+				System.out.println("\n"+i+".");
+				System.out.println("Titulo: "+libro.getTitulo());
 				System.out.println("Autor: "+libro.getAutor());
 				System.out.println("Precio: "+libro.getPrecio());
+				++i;
 			}
-			System.out.println("Que producto deseas comprar?");
-			respuesta=sc.nextInt();
-			//Terminar
+			System.out.println("\nQue producto deseas comprar?");
+			System.out.println("Ingresa "+i+" para volver al menu anterior");
+			libroselect=sc.next();
 			
+			if(Integer.parseInt(libroselect)==i) ofertaProductos(mercado);
+			else {
+				System.out.println("Titulo: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getTitulo());
+				System.out.println("Autor: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getAutor());
+				System.out.println("Descripcion: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getAutor());
+				System.out.println("Precio: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getPrecio());
+				
+				System.out.println("1. Agregar al carrito");
+				System.out.println("2. Volver al menu anterior");
+				respuesta=sc.next();
+				
+				switch(respuesta) {
+				case "1":
+					cliente.getCarrito().add(mercado.oferlibros.get(Integer.parseInt(libroselect)-1));
+					mercado.oferlibros.remove(Integer.parseInt(libroselect)-1);
+					System.out.println("Producto agregado con exito!");
+					
+					System.out.println("\n1. Seguir comprando");
+					System.out.println("\n2. Finalizar compra ");
+					respuesta=sc.next();
+					
+					switch(respuesta) {
+					case "1":
+						ofertaProductos(mercado);
+						break;
+					case "2":
+						//Aqui iria el metodo finalizarCompra()
+						finalizarCompra();
+						break;
+					}
+					break;
+				case "2":
+					comprarLibro(mercado);
+					break;
+				}
+			}
 		}
 	}
 	
