@@ -1,6 +1,9 @@
 package src.gestorAplicacion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import src.uiMain.Main;
 
 public class Libro implements Serializable{
@@ -57,5 +60,36 @@ public class Libro implements Serializable{
 	
 	public String toString() {
 		return this.titulo+" Libro "+this.supermercado.getNombre()+" "+this.precio;
+	}
+	
+	public static ArrayList<Libro> filtrarPorAutor(ArrayList<Libro> Libros,String filtro) {
+		ArrayList<Libro> libros = new ArrayList<Libro>();
+		for(Libro libro:Libros) {
+			if(libro.getAutor().equals(filtro)) {
+				libros.add(libro);
+			}
+		}
+		return libros;
+
+	}
+	
+	public static ArrayList<Libro> filtrarPorPrecio(ArrayList<Libro> Libros,int premin,int premax){
+		ArrayList<Libro> libros = new ArrayList<Libro>();
+		for(Libro libro:Libros) {
+			if(libro.getPrecio()>=premin && libro.getPrecio()<=premax) {
+				libros.add(libro);
+			}
+		}
+		return libros;
+	}
+	
+	public static Object[] listaAutores(ArrayList<Libro> Libros) {
+		HashSet<String> Autores = new HashSet<>();
+		Object[] lstautores;
+		for(Libro libro:Libros) {
+			Autores.add(libro.getAutor());
+		}
+		lstautores=Autores.toArray();
+		return lstautores;
 	}
 }

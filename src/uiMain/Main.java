@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Main {
 	public static Scanner sc = new Scanner(System.in);
 	public static Cliente cliente;
+	public static int filtrolibro=0;
 	
 	//Se crean las listas donde va cada tipo de producto
 	public static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
@@ -43,6 +44,7 @@ public class Main {
 		
 		menuQueDeseas();
 		
+		
 		//Falta hacer esto con las demas listas
 		if(lista_super.size() >0) {
 			Serializar.serializarSupermercados(lista_super);
@@ -53,13 +55,16 @@ public class Main {
 		if(lista_tvs.size() >0) {
 			Serializar.serializarTvs(lista_tvs);
 		}
+		if(lista_libros.size() >0) {
+			Serializar.serializarLibros(lista_libros);
+		}
 
 	}
 	//Volvi este codigo un metodo para aplicar el boton de volver al menu anterior
 	
 	public static void menuQueDeseas() {
 		while(true){
-			System.out.print("Que deseas hacer?\n" +
+			System.out.print("\nQue deseas hacer?\n" +
 					"1. Ver lista de supermercados" +
 					"\n2. Salir\n");
 			sc.nextLine();
@@ -80,7 +85,7 @@ public class Main {
 			// Termina la ejecucion del programa
 			else{
 				System.out.print("Gracias por visitar nuestro gestor de tiendas"+
-						", siempre sera� bienvenido\n");
+						", siempre seras bienvenido\n");
 				break;
 			}
 		}
@@ -333,7 +338,6 @@ public class Main {
 			//comprarRopa()
 			break;
 		case "5":
-			menuQueDeseas();
 			break;
 		}
 	}
@@ -365,60 +369,145 @@ public class Main {
 
 	}
 	
-	public static void comprarLibro(Supermercado mercado) {
+	public static void comprarLibro(Supermercado mercado,String...filtros ) {
 		if(mercado.oferlibros.size() > 0){
+			
 			String libroselect,respuesta;
+			ArrayList<Libro> lstfiltrada= new ArrayList<Libro>();
+			
 			int i=1;
-			System.out.println("Estos son los libros que tenemos disponiblies en "+mercado.getNombre());
+			System.out.println("Estos son los libros que tenemos disponibles en "+mercado.getNombre());
+			//Recordad poner false el filtrolibro y todos los boleanos que utilice al final del flujo
+			if(filtrolibro==1) {
+				lstfiltrada=Libro.filtrarPorAutor(mercado.oferlibros, filtros[0]);
+				for(Libro libro:lstfiltrada) {
+					System.out.println("\n"+i+".");
+					System.out.println("Titulo: "+libro.getTitulo());
+					System.out.println("Autor: "+libro.getAutor());
+					System.out.println("Precio: "+libro.getPrecio());
+					++i;
+				}
+				}
+			else if(filtrolibro==2) {
+				lstfiltrada=Libro.filtrarPorPrecio(mercado.oferlibros,Integer.parseInt(filtros[0]),Integer.parseInt(filtros[1]));
+				for(Libro libro:lstfiltrada) {
+					System.out.println("\n"+i+".");
+					System.out.println("Titulo: "+libro.getTitulo());
+					System.out.println("Autor: "+libro.getAutor());
+					System.out.println("Precio: "+libro.getPrecio());
+					++i;
+				}
+			}
+			else {
+				
 			for(Libro libro:mercado.oferlibros) {
+				lstfiltrada=mercado.oferlibros;
 				System.out.println("\n"+i+".");
 				System.out.println("Titulo: "+libro.getTitulo());
 				System.out.println("Autor: "+libro.getAutor());
 				System.out.println("Precio: "+libro.getPrecio());
 				++i;
 			}
-			System.out.println("\nQue producto deseas comprar?");
-			System.out.println("Ingresa "+i+" para volver al menu anterior");
+			
+			}
+			
+			System.out.println("\nQue producto deseas comprar?\n");
+			System.out.println("Ingresa "+i+" para filtrar");
+			System.out.println("Ingresa "+(i+1)+" para organizar");
+			System.out.println("Ingresa "+(i+2)+" para buscar por isbn");
+			System.out.println("Ingresa "+(i+3)+" para volver al menu anterior");
+			if(filtrolibro==1||filtrolibro==2) System.out.println("Ingresa 0 para eliminar filtros");
 			libroselect=sc.next();
 			
-			if(Integer.parseInt(libroselect)==i) ofertaProductos(mercado);
-			else {
-				System.out.println("Titulo: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getTitulo());
-				System.out.println("Autor: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getAutor());
-				System.out.println("Descripcion: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getAutor());
-				System.out.println("Precio: "+mercado.oferlibros.get(Integer.parseInt(libroselect)-1).getPrecio());
+			//Caso volver al menu anterior
+			if(Integer.parseInt(libroselect)==(i+3)) ofertaProductos(mercado);
+			
+			//Caso de que este filtrado
+			else if(Integer.parseInt(libroselect)==0) {
+				filtrolibro=0;
+				comprarLibro(mercado);
+			} 
+			//Flujo para filtrar
+			else if(Integer.parseInt(libroselect)==i) {
+				String filtro;
+				System.out.println("Filtrar por:"+
+						"\n1.Autor"+
+						"\n2.Precio"+
+						"\n3.Volver al menu anterior");
 				
-				System.out.println("1. Agregar al carrito");
-				System.out.println("2. Volver al menu anterior");
+				filtro=sc.next();
+				
+				switch(filtro) {
+				case "1":
+					int numautor=1;
+					String autorSelect;
+					Object[] lstautores=Libro.listaAutores(mercado.oferlibros);
+					System.out.println("Cual de estos autores estas buscando?\n");
+					
+					for(Object nombreAutor:lstautores) {
+						System.out.println(numautor+"."+nombreAutor);
+						++numautor;
+					}
+					autorSelect=sc.next();
+					filtrolibro=1;
+					comprarLibro(mercado,autorSelect);
+					break;
+					
+				case "2":
+					String premin,premax;
+					System.out.println("\nIngrese el precio minimo:");
+					premin=sc.next();
+					System.out.println("\nIngrese el precio maximo:");
+					premax=sc.next();
+					filtrolibro=2;
+					comprarLibro(mercado,premin,premax);
+					break;
+					
+				case "3":
+					comprarLibro(mercado);
+					break;
+				}
+			}//Termina el flujo de filtrado 
+			
+			System.out.println("Titulo: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getTitulo());
+			System.out.println("Autor: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getAutor());
+			System.out.println("Descripcion: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getAutor());
+			System.out.println("Precio: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getPrecio());
+			
+			System.out.println("1. Agregar al carrito");
+			System.out.println("2. Volver al menu anterior");
+			respuesta=sc.next();
+			
+			switch(respuesta) {
+			case "1":
+				//Las dos siguientes lineas hay que cambiarlas para que coordinen con el filtrado
+				//Tener en cuenta indexOf
+				
+				cliente.getCarrito().add(lstfiltrada.get(Integer.parseInt(libroselect)-1));
+				mercado.oferlibros.remove(lstfiltrada.get(Integer.parseInt(libroselect)-1));
+				System.out.println("Producto agregado con exito!");
+				
+				System.out.println("\n1. Seguir comprando");
+				System.out.println("\n2. Finalizar compra ");
 				respuesta=sc.next();
 				
 				switch(respuesta) {
 				case "1":
-					cliente.getCarrito().add(mercado.oferlibros.get(Integer.parseInt(libroselect)-1));
-					mercado.oferlibros.remove(Integer.parseInt(libroselect)-1);
-					System.out.println("Producto agregado con exito!");
-					
-					System.out.println("\n1. Seguir comprando");
-					System.out.println("\n2. Finalizar compra ");
-					respuesta=sc.next();
-					
-					switch(respuesta) {
-					case "1":
-						ofertaProductos(mercado);
-						break;
-					case "2":
-						//Aqui iria el metodo finalizarCompra()
-						finalizarCompra();
-						break;
-					}
+					ofertaProductos(mercado);
 					break;
 				case "2":
-					comprarLibro(mercado);
+					//Aqui iria el metodo finalizarCompra()
+					finalizarCompra();
 					break;
+				}
+				break;
+			case "2":
+				comprarLibro(mercado);
+				break;
 				}
 			}
 		}
-	}
+	
 	
 	public static void comprarAlimentos(Supermercado mercado) {
 		
