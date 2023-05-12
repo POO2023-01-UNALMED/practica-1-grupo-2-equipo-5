@@ -35,9 +35,9 @@ public class Main {
 		
 		System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
 		System.out.print("Ingresa tu nombre: ");
-		String nombre = sc.next();
+		String nombre = sc.nextLine();
 		System.out.print("Ingresa tu direccion: ");
-		String direccion = sc.next();
+		String direccion = sc.nextLine();
 		Cliente cliente = new Cliente(nombre, direccion);
 		Main.cliente=cliente;
 		System.out.println("\nBienvenido "+nombre+"!\n");
@@ -67,14 +67,13 @@ public class Main {
 			System.out.print("\nQue deseas hacer?\n" +
 					"1. Ver lista de supermercados" +
 					"\n2. Salir\n");
-			sc.nextLine();
-			String respuesta =  sc.next();
+			String respuesta = sc.nextLine();
 			
 			// los while se ejecutan hasta que se ingrese una respuesta valida
 			while(!respuesta.equals("1") && !respuesta.equals("2")){
 				System.out.print("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
 						"\nIngresala nuevamente\n");
-				respuesta = Main.sc.next();
+				respuesta = Main.sc.nextLine();
 				
 			}
 			
@@ -118,7 +117,7 @@ public class Main {
 			System.out.println((i+1)+". "+lista_super.get(i).nombre);
 		}
 		System.out.println((lista_super.size()+1)+". Crear un nuevo supermercado");
-		respuesta = sc.next();
+		respuesta = sc.nextLine();
 		
 
 		while(true){
@@ -128,7 +127,7 @@ public class Main {
 				}
 				if(Integer.parseInt(respuesta) == lista_super.size()+1 ){
 					System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
-					Supermercado supermercado = new Supermercado(Main.sc.next());
+					Supermercado supermercado = new Supermercado(Main.sc.nextLine());
 					
 					//Aqui se ejecutaria la opcion para anadir productos
 					anadirProducto(supermercado);
@@ -147,7 +146,7 @@ public class Main {
 			
 			catch(Exception e){
 				System.out.println("La opcion seleccionada no esta permitida, recapacita XD, intentalo nuevamente");
-				respuesta = sc.next();
+				respuesta = sc.nextLine();
 			}
 		}
 		
@@ -172,11 +171,11 @@ public class Main {
 				"\n6. Ropa"+
 				"\n7. Volver al menu anterior");
 		
-		respuesta=Main.sc.next();
+		respuesta=Main.sc.nextLine();
 		// este while es para capturar errores de input
 		while (Integer.parseInt(respuesta)<= 0 || Integer.parseInt(respuesta)> 7  ){
 			System.out.println("El numero ingresado no es correcto, rectificar por favor");
-			respuesta = sc.next();
+			respuesta = sc.nextLine();
 		}
 		
 		switch (respuesta){
@@ -235,16 +234,16 @@ public class Main {
 			case "3":
 				//Libros
 				System.out.print("Ingrese el nombre del libro:");
-				String nombrelib = sc.next();
+				String nombrelib = sc.nextLine();
 				System.out.print("Ingresa el autor del libro:");
-				String autorlib = sc.next();
+				String autorlib = sc.nextLine();
 				System.out.print("Ingresa la descripcion del libro:");
-				String descriplib = sc.next();
+				String descriplib = sc.nextLine();
 				System.out.println("Ingrese el codigo ISBN del libro:");
-				String isbn = sc.next();
+				String isbn = sc.nextLine();
 				System.out.print("Ingresa el precio del libro:");
-				int preciolib = sc.nextInt();
-				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,preciolib,mercado);
+				String preciolib = sc.nextLine();
+				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,Integer.parseInt(preciolib),mercado);
 				mercado.oferlibros.add(nuevolibro);
 				lista_libros.add(nuevolibro);
 				cuandoSeAgrega(mercado);
@@ -301,7 +300,7 @@ public class Main {
 		System.out.println("\nDeseas agregar otro producto?"+
 		                   "\n1. Si "
 		                  +"\n2. No");
-		respuesta=Main.sc.next();
+		respuesta=Main.sc.nextLine();
 		switch(respuesta) {
 		case "1":
 			anadirProducto(mercado);
@@ -319,7 +318,7 @@ public class Main {
 				"\n3. Alimentos"+
 				"\n4. Ropa"+
 				"\n5. Volver al menu anterior");
-		respuesta=sc.next();
+		respuesta=sc.nextLine();
 		switch(respuesta) {
 		case "1":
 			//comprarElectro()
@@ -372,6 +371,7 @@ public class Main {
 	public static void comprarLibro(Supermercado mercado,String...filtros ) {
 		if(mercado.oferlibros.size() > 0){
 			
+			//Hay que pensar en poner algunos return de acuerdo a la logic del metodo
 			String libroselect,respuesta;
 			ArrayList<Libro> lstfiltrada= new ArrayList<Libro>();
 			
@@ -413,19 +413,44 @@ public class Main {
 			
 			System.out.println("\nQue producto deseas comprar?\n");
 			System.out.println("Ingresa "+i+" para filtrar");
-			System.out.println("Ingresa "+(i+1)+" para organizar");
-			System.out.println("Ingresa "+(i+2)+" para buscar por isbn");
-			System.out.println("Ingresa "+(i+3)+" para volver al menu anterior");
+			System.out.println("Ingresa "+(i+1)+" para buscar por isbn");
+			System.out.println("Ingresa "+(i+2)+" para volver al menu anterior");
 			if(filtrolibro==1||filtrolibro==2) System.out.println("Ingresa 0 para eliminar filtros");
-			libroselect=sc.next();
+			libroselect=sc.nextLine();
 			
 			//Caso volver al menu anterior
-			if(Integer.parseInt(libroselect)==(i+3)) ofertaProductos(mercado);
+			if(Integer.parseInt(libroselect)==(i+2)) {
+				ofertaProductos(mercado);
+				return;
+			}
+			//Falta testear la busqueda por isbn
+			else if(Integer.parseInt(libroselect)==(i+1)) {
+				String isbn;
+				Boolean hay=false;
+				System.out.println("\nIngrese el codigo isbn del libro:");
+				isbn=sc.nextLine();
+				System.out.println("\nBuscando...\n");
+				for(Libro libro:lstfiltrada) {
+					if(libro.getIsbn().equals(isbn)) {
+						hay=true;
+						libroselect=Integer.toString(lstfiltrada.indexOf(libro)+1);
+						break;
+					}
+				}
+				if(!hay) {
+					System.out.println("\nLibro no encontrado");
+					comprarLibro(mercado);
+					return;
+				}
+				
+			}
 			
 			//Caso de que este filtrado
 			else if(Integer.parseInt(libroselect)==0) {
 				filtrolibro=0;
 				comprarLibro(mercado);
+				return;
+				
 			} 
 			//Flujo para filtrar
 			else if(Integer.parseInt(libroselect)==i) {
@@ -450,38 +475,37 @@ public class Main {
 					}
 					autorSelect=sc.next();
 					filtrolibro=1;
-					comprarLibro(mercado,autorSelect);
-					break;
+					comprarLibro(mercado,(String) lstautores[Integer.parseInt(autorSelect)-1]);
+					return;
 					
 				case "2":
 					String premin,premax;
 					System.out.println("\nIngrese el precio minimo:");
-					premin=sc.next();
+					premin=sc.nextLine();
 					System.out.println("\nIngrese el precio maximo:");
-					premax=sc.next();
+					premax=sc.nextLine();
 					filtrolibro=2;
 					comprarLibro(mercado,premin,premax);
-					break;
+					return;
 					
 				case "3":
 					comprarLibro(mercado);
-					break;
+					return;
 				}
 			}//Termina el flujo de filtrado 
 			
 			System.out.println("Titulo: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getTitulo());
 			System.out.println("Autor: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getAutor());
-			System.out.println("Descripcion: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getAutor());
+			System.out.println("Descripcion: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getDescripcion());
 			System.out.println("Precio: "+lstfiltrada.get(Integer.parseInt(libroselect)-1).getPrecio());
 			
 			System.out.println("1. Agregar al carrito");
 			System.out.println("2. Volver al menu anterior");
-			respuesta=sc.next();
+			respuesta=sc.nextLine();
 			
 			switch(respuesta) {
 			case "1":
-				//Las dos siguientes lineas hay que cambiarlas para que coordinen con el filtrado
-				//Tener en cuenta indexOf
+
 				
 				cliente.getCarrito().add(lstfiltrada.get(Integer.parseInt(libroselect)-1));
 				mercado.oferlibros.remove(lstfiltrada.get(Integer.parseInt(libroselect)-1));
@@ -489,7 +513,7 @@ public class Main {
 				
 				System.out.println("\n1. Seguir comprando");
 				System.out.println("\n2. Finalizar compra ");
-				respuesta=sc.next();
+				respuesta=sc.nextLine();
 				
 				switch(respuesta) {
 				case "1":
