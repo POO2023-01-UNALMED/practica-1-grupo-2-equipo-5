@@ -18,8 +18,8 @@ public class Main {
 	public static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
 	public static ArrayList<Carne> lista_carnicos = new ArrayList<Carne>();
 	public static ArrayList<noCarnicos> lista_no_carnicos = new ArrayList<noCarnicos>();
-	public static ArrayList<Tv> lista_tvs = new ArrayList<Tv>();
-	public static ArrayList<Celular> lista_celulares = new ArrayList<Celular>();
+	public static ArrayList<Tv> lista_tvs = new ArrayList<>();
+	public static ArrayList<Celular> lista_celulares = new ArrayList<>();
 	public static ArrayList<Supermercado> lista_super = new ArrayList<Supermercado>();
 	
 	//Aqui empieza el main
@@ -65,7 +65,7 @@ public class Main {
 	
 	public static void menuQueDeseas() {
 		while(true){
-			System.out.print("\nQue deseas hacer?\n" +
+			System.out.print("\n¿Qué deseas hacer?\n" +
 					"1. Ver lista de supermercados" +
 					"\n2. Salir\n");
 			String respuesta = sc.nextLine();
@@ -84,8 +84,8 @@ public class Main {
 						
 			// Termina la ejecucion del programa
 			else{
-				System.out.print("Gracias por visitar nuestro gestor de tiendas"+
-						", siempre seras bienvenido\n");
+				System.out.print("¡Gracias por visitar nuestro gestor de tiendas!"+
+						", siempre seras bienvenido :D\n");
 				break;
 			}
 		}
@@ -94,10 +94,24 @@ public class Main {
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
 		System.out.println("\nCarrito de compras:");
-		System.out.println("Nombre  Tipo de producto  Supermercado  Precio");
+		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Precio");
+		int precio_total = 0;
+		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
+			/*
 			System.out.println(producto);
+			Voy a modificar esta línea ya que al imprimir producto solo nos da una referencia en memoria (creo)
+			*/
+			//Debemos realizar esto con cada instancia de clase para que funcione correctamente
+			if(producto instanceof Tv){
+				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getPrecio());
+				precio_total += ((Tv)producto).getPrecio();
+			}
+			//else if(producto instanceof OtraClase)
+			//Terminar con el resto de tipos de productos
+			cont++;
 		}
+		System.out.println("TOTAL :"+precio_total);
 		// Terminar
 		
 	}
@@ -157,6 +171,7 @@ public class Main {
 		//if (super_seleccionado.oferelectro.size() == 0) {
 			//System.out.println("Supermercado vacio");
 			//anadirProducto(super_seleccionado);}
+		// Santi says(Creo que este codigo lo podemos eliminar)
 	}
 
 	// Aqui entran todas las clases de la capa logica
@@ -195,7 +210,7 @@ public class Main {
 				System.out.print("Ingresa la cantidad de Tvs "+nombre.toUpperCase()+" que desea añadir: ");
 				int cantidadtv = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				Tv nuevotv = new Tv(nombre, precio, marca, mercado, cantidadtv, pulgadas, resolucion);
-				mercado.oferelectro.add(nuevotv);
+				mercado.ofertv.add(nuevotv);
 				lista_tvs.add(nuevotv);
 				cuandoSeAgrega(mercado);
 				break;
@@ -204,23 +219,23 @@ public class Main {
 				System.out.print("Ingrese el nombre del celular: ");
 				String nombrecel = sc.nextLine();
 				System.out.print("Ingresa el precio del celular: ");
-				int preciocel = sc.nextInt();
+				int preciocel = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa la marca del celular: ");
 				String marcacel = sc.nextLine();
 				System.out.print("Ingresa la cantidad de almacenamiento del celular: ");
-				int almacenamiento = sc.nextInt();
+				int almacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa el numero de camaras del celular: ");
-				int camaras = sc.nextInt();
+				int camaras = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa la bateria del celular: ");
-				int bateria = sc.nextInt();
+				int bateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa el color del celular: ");
 				String color = sc.nextLine();
 				System.out.print("Ingresa el numero de megas de ram: ");
-				int ram = sc.nextInt();
+				int ram = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa la cantidad de celulares "+nombrecel.toUpperCase()+" que desea añadir: ");
-				int cantidadcel = sc.nextInt();
+				int cantidadcel = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				Celular nuevocel = new Celular(nombrecel, preciocel, marcacel, mercado, cantidadcel, almacenamiento, camaras, bateria, color, ram);
-				mercado.oferelectro.add(nuevocel);
+				mercado.ofercelular.add(nuevocel);
 				lista_celulares.add(nuevocel);
 				
 				//Posibilidad de agregar otro producto cuando se acaba de crear uno
@@ -325,6 +340,22 @@ public class Main {
 		switch(respuesta) {
 		case "1":
 			//comprarElectro()
+			System.out.println("¿Deseas ver la lista de Televisores o de Celulares?\n" +
+					"1.Televisores\n" +
+					"2.Celulares\n" +
+					"3.Volver al menú anterior");
+			String input_electro = sc.nextLine();
+			while(!input_electro.equals("1") && !input_electro.equals("2") && !input_electro.equals("3")){
+				System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
+				input_electro = Main.sc.nextLine();
+			}
+			if (input_electro.equals("1")){
+				comprarTelevisor(mercado);
+			}else if(input_electro.equals("2")){
+				comprarCelular(mercado);
+			}else{
+				break;
+			}
 			break;
 		case "2":
 			//comprarLibro()
@@ -342,33 +373,6 @@ public class Main {
 		case "5":
 			break;
 		}
-	}
-	
-	//Esta seria la funcionalidad comprarElectro()
-	public static void seleccionarProducto(Supermercado mercado){
-
-		if(mercado.oferelectro.size() > 0){
-			Electronico producto_seleccionado = null;
-			System.out.println("Estos son los productos electronicos que tenemos disponibles en "+mercado.getNombre());
-			for(int i = 0; i<mercado.oferelectro.size(); i++) {
-				producto_seleccionado = mercado.oferelectro.get(i);
-				System.out.println((i+1)+". "+
-						"\nNombre:"+producto_seleccionado.getNombre()+" " +
-						"\n Marca: "+producto_seleccionado.getMarca()+" " +
-						"\n Precio: "+producto_seleccionado.getPrecio()+" "+
-						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
-			}
-			System.out.println("Selecciona uno de nuestros productos a comprar: ");
-			String respuesta = sc.next();
-			while(Integer.parseInt(respuesta) > mercado.oferelectro.size() || Integer.parseInt(respuesta)<= 0){
-				System.out.println("Respuesta erronea, intentalo nuevamente");
-				respuesta = sc.next();
-			}
-			producto_seleccionado = mercado.oferelectro.get(Integer.parseInt(respuesta)-1);
-			System.out.println("Info del producto\n Nombre"+producto_seleccionado.getNombre()+
-					"\nCOMPLETAR DESPUES");
-		}
-
 	}
 	
 	public static void comprarLibro(Supermercado mercado,String...filtros ) {
@@ -509,7 +513,11 @@ public class Main {
 			switch(respuesta) {
 			case "1":
 
-				
+				//Santi says(Aquí no habría un error?)
+				/*Si decimos que hay mas de un libro en el supermercado (ejemplo, digamos que hay 10). Al comprar un libro se borra la instancia del objeto
+				* En la lista del supermercado, por lo que es como si los otros 9 libros se desaparecieran, creo que se tendría que cambiar un poco la logica
+				* De esta parte del código. Yo recomiendo que eso de "eliminar" los productos cuando se compren, se haga mejor en la parte de finalizarCompra()
+				* */
 				cliente.getCarrito().add(lstfiltrada.get(Integer.parseInt(libroselect)-1));
 				mercado.oferlibros.remove(lstfiltrada.get(Integer.parseInt(libroselect)-1));
 				System.out.println("Producto agregado con exito!");
@@ -541,7 +549,7 @@ public class Main {
 		//Alimentos productoA = null;
 		if(mercado.ofercomi.size() > 0){
 			int elegir,i=1;
-			System.out.println("Los productos disponibles para "+mercado.getNombre()+" son los sgiuientes: \n");
+			System.out.println("Los productos disponibles para "+mercado.getNombre()+" son los sguientes: \n");
 			System.out.print("*** !OFERTA ALIEMENTOS¡***\n");
 			for(Alimentos productoA:mercado.ofercomi) {
 				System.out.println(i++ +")"+
@@ -556,6 +564,154 @@ public class Main {
 		}
 	}
 
+	public static void comprarTelevisor(Supermercado mercado){
+		if(mercado.ofertv.size() > 0){
+			Electronico producto_seleccionado = null;
+			System.out.println("Estos son los televisores que tenemos disponibles en "+mercado.getNombre());
+			for(int i = 0; i<mercado.ofertv.size(); i++) {
+				producto_seleccionado = mercado.ofertv.get(i);
+				System.out.println((i+1)+". "+
+						"\nNombre:"+producto_seleccionado.getNombre()+" " +
+						"\n Marca: "+producto_seleccionado.getMarca()+" " +
+						"\n Precio: "+producto_seleccionado.getPrecio()+" "+
+						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
+			}
+			System.out.println("Selecciona uno de nuestros productos a comprar o escribe '"+(mercado.ofertv.size()+1)+"' para salir: ");
+			String respuesta = sc.nextLine();
+			while(Integer.parseInt(respuesta) > mercado.ofertv.size()+1 || Integer.parseInt(respuesta)<= 0){
+				System.out.println("Respuesta erronea, intentalo nuevamente");
+				respuesta = sc.nextLine();
+			}
+			if(respuesta.equals(mercado.ofertv.size()+1+"")){
+				return;
+			}
+			producto_seleccionado = mercado.ofertv.get(Integer.parseInt(respuesta)-1);
+			System.out.println("Has seleccionado el televisor: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
+
+			System.out.println("Ingresa: " +
+					"\n1. Añadir al carrito" +
+					"\n2. Volver al menú anterior");
+			String respuesta2 = sc.nextLine();
+			while(!respuesta2.equals("1") && !respuesta2.equals("2")){
+				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				 respuesta2 = sc.nextLine();
+			}
+			switch (respuesta2){
+				case "1":
+					cliente.getCarrito().add(mercado.ofertv.get(Integer.parseInt(respuesta)-1));
+					System.out.println("Producto agregado con exito!");
+					System.out.println("\n1. Seguir comprando");
+					System.out.println("\n2. Finalizar compra ");
+					while (true) {
+						respuesta2 = sc.nextLine();
+						if (respuesta2.equals("1")) {
+							ofertaProductos(mercado);
+							break;
+						}else if (respuesta2.equals("2")){
+							finalizarCompra();
+							break;
+						}
+						System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
+						}
+
+					break;
+				case "2":
+					comprarTelevisor(mercado);
+					break;
+			}
+		}else{
+			System.out.println("Este supermercado no cuenta con televisores D: ¿Deseas añadir uno?: " +
+					"\n1. SI" +
+					"\n2. NO");
+			String respuesta = sc.nextLine();
+			while(!respuesta.equals("1") && !respuesta.equals("2")){
+				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				respuesta = sc.nextLine();
+			}
+			switch (respuesta){
+				case "1":
+					anadirProducto(mercado);
+					break;
+				case "2":
+					break;
+			}
+		}
+	}
+
+
+	public static void comprarCelular(Supermercado mercado){
+		if(mercado.ofercelular.size() > 0){
+			Electronico producto_seleccionado = null;
+			System.out.println("Estos son los celulares que tenemos disponibles en "+mercado.getNombre());
+			for(int i = 0; i<mercado.ofercelular.size(); i++) {
+				producto_seleccionado = mercado.ofercelular.get(i);
+				System.out.println((i+1)+". "+
+						"\nNombre:"+producto_seleccionado.getNombre()+" " +
+						"\n Marca: "+producto_seleccionado.getMarca()+" " +
+						"\n Precio: "+producto_seleccionado.getPrecio()+" "+
+						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
+			}
+			System.out.println("Selecciona uno de nuestros productos a comprar o escribe '"+(mercado.ofercelular.size()+1)+"' para salir: ");
+			String respuesta = sc.nextLine();
+			while(Integer.parseInt(respuesta) > mercado.ofercelular.size()+1 || Integer.parseInt(respuesta)<= 0){
+				System.out.println("Respuesta erronea, intentalo nuevamente");
+				respuesta = sc.nextLine();
+			}
+			if(respuesta.equals(mercado.ofercelular.size()+1+"")){
+				return;
+			}
+			producto_seleccionado = mercado.ofercelular.get(Integer.parseInt(respuesta)-1);
+			System.out.println("Has seleccionado el celular: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
+
+			System.out.println("Ingresa: " +
+					"\n1. Añadir al carrito" +
+					"\n2. Volver al menú anterior");
+			String respuesta2 = sc.nextLine();
+			while(!respuesta2.equals("1") && !respuesta2.equals("2")){
+				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				respuesta2 = sc.nextLine();
+			}
+			switch (respuesta2){
+				case "1":
+					cliente.getCarrito().add(mercado.ofercelular.get(Integer.parseInt(respuesta)-1));
+					System.out.println("Producto agregado con exito!");
+					System.out.println("\n1. Seguir comprando");
+					System.out.println("\n2. Finalizar compra ");
+					while (true) {
+						respuesta2 = sc.nextLine();
+						if (respuesta2.equals("1")) {
+							ofertaProductos(mercado);
+							break;
+						}else if (respuesta2.equals("2")){
+							finalizarCompra();
+							break;
+						}
+						System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
+					}
+
+					break;
+				case "2":
+					comprarCelular(mercado);
+					break;
+			}
+		}else{
+			System.out.println("Este supermercado no cuenta con celulares D: ¿Deseas añadir uno?: " +
+					"\n1. SI" +
+					"\n2. NO");
+			String respuesta = sc.nextLine();
+			while(!respuesta.equals("1") && !respuesta.equals("2")){
+				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				respuesta = sc.nextLine();
+			}
+			switch (respuesta){
+				case "1":
+					anadirProducto(mercado);
+					break;
+				case "2":
+					break;
+			}
+		}
+	}
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){

@@ -9,7 +9,7 @@ public class Cliente {
 		this.nombre = nombre;
 		this.direccion = direccion;
 	}
-	private ArrayList<Object> carrito = new ArrayList<Object> ();
+	private ArrayList<Object> carrito = new ArrayList<> ();
 
 	public String getNombre() {
 		return nombre;

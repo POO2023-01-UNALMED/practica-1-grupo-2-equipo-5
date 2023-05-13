@@ -10,7 +10,8 @@ public class Supermercado  implements Serializable{
 	
 	public ArrayList<Libro> oferlibros = new ArrayList<Libro>();
 	public ArrayList<Alimentos> ofercomi = new ArrayList<Alimentos>();
-	public ArrayList<Electronico> oferelectro = new ArrayList<Electronico>();
+	public ArrayList<Tv> ofertv = new ArrayList<>();
+	public ArrayList<Celular> ofercelular = new ArrayList<>();
 	
 	public Supermercado(String nombre){
 		this.nombre = nombre;
@@ -34,11 +35,18 @@ public class Supermercado  implements Serializable{
 	public void setOfercomi(ArrayList<Alimentos> ofercomi) {
 		this.ofercomi = ofercomi;
 	}
-	public ArrayList<Electronico> getOferelectro() {
-		return oferelectro;
+	public ArrayList<Tv> getOfertv() {
+		return ofertv;
 	}
-	public void setOferelectro(ArrayList<Electronico> oferelectro) {
-		this.oferelectro = oferelectro;
+	public void setOfertv(ArrayList<Tv> ofertv) {
+		this.ofertv = ofertv;
+	}
+
+	public ArrayList<Celular> getOfercelular() {
+		return ofercelular;
+	}
+	public void setOfercelular(ArrayList<Celular> ofercelular) {
+		this.ofercelular = ofercelular;
 	}
 	
 	@Override
