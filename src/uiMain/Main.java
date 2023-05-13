@@ -7,6 +7,7 @@ import src.gestorAplicacion.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.*;
 
 public class Main {
 	public static Scanner sc = new Scanner(System.in);
@@ -182,18 +183,17 @@ public class Main {
 		
 			case "1":
 				System.out.print("Ingrese el nombre del Tv: ");
-				String nombre = sc.next();
-				sc.nextLine();
+				String nombre = sc.nextLine();
 				System.out.print("Ingresa el precio del Tv: ");
-				int precio = sc.nextInt();
+				int precio = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa la marca del Tv: ");
-				String marca = sc.next();
+				String marca = sc.nextLine();
 				System.out.print("Ingresa el numero de pulgadas del Tv: ");	
-				int pulgadas = sc.nextInt();
+				int pulgadas = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa la resolucion del Tv: ");
-				String resolucion = sc.next();
+				String resolucion = sc.nextLine();
 				System.out.print("Ingresa la cantidad de Tvs "+nombre.toUpperCase()+" que desea añadir: ");
-				int cantidadtv = sc.nextInt();
+				int cantidadtv = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				Tv nuevotv = new Tv(nombre, precio, marca, mercado, cantidadtv, pulgadas, resolucion);
 				mercado.oferelectro.add(nuevotv);
 				lista_tvs.add(nuevotv);
@@ -202,13 +202,11 @@ public class Main {
 				
 			case "2":
 				System.out.print("Ingrese el nombre del celular: ");
-				String nombrecel = sc.next();
-				sc.nextLine();
+				String nombrecel = sc.nextLine();
 				System.out.print("Ingresa el precio del celular: ");
 				int preciocel = sc.nextInt();
 				System.out.print("Ingresa la marca del celular: ");
-				String marcacel = sc.next();
-				sc.nextLine();
+				String marcacel = sc.nextLine();
 				System.out.print("Ingresa la cantidad de almacenamiento del celular: ");
 				int almacenamiento = sc.nextInt();
 				System.out.print("Ingresa el numero de camaras del celular: ");
@@ -216,8 +214,7 @@ public class Main {
 				System.out.print("Ingresa la bateria del celular: ");
 				int bateria = sc.nextInt();
 				System.out.print("Ingresa el color del celular: ");
-				String color = sc.next();
-				sc.nextLine();
+				String color = sc.nextLine();
 				System.out.print("Ingresa el numero de megas de ram: ");
 				int ram = sc.nextInt();
 				System.out.print("Ingresa la cantidad de celulares "+nombrecel.toUpperCase()+" que desea añadir: ");
@@ -301,6 +298,12 @@ public class Main {
 		                   "\n1. Si "
 		                  +"\n2. No");
 		respuesta=Main.sc.nextLine();
+
+		while(!respuesta.equals("1") && !respuesta.equals("2")){
+			System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
+			respuesta = Main.sc.nextLine();
+		}
+
 		switch(respuesta) {
 		case "1":
 			anadirProducto(mercado);
@@ -551,6 +554,16 @@ public class Main {
 			//Terminar
 			
 		}
+	}
+
+
+	//Confirmar si la entrada es un número o no.
+	private static String confirmarNumero(String numero){
+		while(!numero.matches("\\d+")){
+			System.out.println("El número ingresado anteriormente no es válido, por favor intenalo nuevamente (Numero entero): ");
+			numero = sc.nextLine();
+		}
+		return numero;
 	}
 	
 }
