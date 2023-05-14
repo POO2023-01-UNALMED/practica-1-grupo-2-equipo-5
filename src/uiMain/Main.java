@@ -255,7 +255,9 @@ public class Main {
 				String isbn = sc.nextLine();
 				System.out.print("Ingresa el precio del libro:");
 				String preciolib = sc.nextLine();
-				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,Integer.parseInt(preciolib),mercado);
+				System.out.println("Ingresa la cantidad de libros");
+				String cantidad = sc.nextLine();;
+				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,Integer.parseInt(preciolib),Integer.parseInt(cantidad),mercado);
 				mercado.oferlibros.add(nuevolibro);
 				lista_libros.add(nuevolibro);
 				cuandoSeAgrega(mercado);
@@ -378,13 +380,13 @@ public class Main {
 	public static void comprarLibro(Supermercado mercado,String...filtros ) {
 		if(mercado.oferlibros.size() > 0){
 			
-			//Hay que pensar en poner algunos return de acuerdo a la logic del metodo
+			
 			String libroselect,respuesta;
 			ArrayList<Libro> lstfiltrada= new ArrayList<Libro>();
 			
 			int i=1;
 			System.out.println("Estos son los libros que tenemos disponibles en "+mercado.getNombre());
-			//Recordad poner false el filtrolibro y todos los boleanos que utilice al final del flujo
+			
 			if(filtrolibro==1) {
 				lstfiltrada=Libro.filtrarPorAutor(mercado.oferlibros, filtros[0]);
 				for(Libro libro:lstfiltrada) {
@@ -395,6 +397,7 @@ public class Main {
 					++i;
 				}
 				}
+			
 			else if(filtrolibro==2) {
 				lstfiltrada=Libro.filtrarPorPrecio(mercado.oferlibros,Integer.parseInt(filtros[0]),Integer.parseInt(filtros[1]));
 				for(Libro libro:lstfiltrada) {
@@ -430,7 +433,7 @@ public class Main {
 				ofertaProductos(mercado);
 				return;
 			}
-			//Falta testear la busqueda por isbn
+			
 			else if(Integer.parseInt(libroselect)==(i+1)) {
 				String isbn;
 				Boolean hay=false;
@@ -512,14 +515,33 @@ public class Main {
 			
 			switch(respuesta) {
 			case "1":
-
+				boolean libroencarrito=false;
 				//Santi says(Aquí no habría un error?)
 				/*Si decimos que hay mas de un libro en el supermercado (ejemplo, digamos que hay 10). Al comprar un libro se borra la instancia del objeto
 				* En la lista del supermercado, por lo que es como si los otros 9 libros se desaparecieran, creo que se tendría que cambiar un poco la logica
 				* De esta parte del código. Yo recomiendo que eso de "eliminar" los productos cuando se compren, se haga mejor en la parte de finalizarCompra()
 				* */
-				cliente.getCarrito().add(lstfiltrada.get(Integer.parseInt(libroselect)-1));
-				mercado.oferlibros.remove(lstfiltrada.get(Integer.parseInt(libroselect)-1));
+				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
+				for(Object producto:cliente.getCarrito()) {
+					if (producto instanceof Libro) {
+						if(Libro.samebook(compra,(Libro)producto)) {
+							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
+							libroencarrito=true;
+							if(((Libro) producto).getCantidad()==compra.getCantidad()) {
+								mercado.oferlibros.remove(compra);
+							}
+							break;
+						}
+					}
+				}
+				
+				if(!libroencarrito) {
+					cliente.getCarrito().add(new Libro(compra));
+				}
+				
+				//Luego, al finalizar compra, hay que hacer un proceso especial por si el cliente se arrepiente y devolver el stock de libros.
+				// De pronto podemos crear un metodo que se llame devolver libros.
+				
 				System.out.println("Producto agregado con exito!");
 				
 				System.out.println("\n1. Seguir comprando");
