@@ -68,15 +68,10 @@ public class Main {
 			System.out.print("\n¿Qué deseas hacer?\n" +
 					"1. Ver lista de supermercados" +
 					"\n2. Salir\n");
-			String respuesta = sc.nextLine();
 			
-			// los while se ejecutan hasta que se ingrese una respuesta valida
-			while(!respuesta.equals("1") && !respuesta.equals("2")){
-				System.out.print("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
-						"\nIngresala nuevamente\n");
-				respuesta = Main.sc.nextLine();
-				
-			}
+			//validarRespuesta se ejecutan hasta que se ingrese una respuesta valida
+			String respuesta = validarRespuesta(1, 2, sc.nextLine());
+			
 			
 			if(respuesta.equals("1")){
 				seleccionarSupermercado();
@@ -178,7 +173,7 @@ public class Main {
 	public static void anadirProducto(Supermercado mercado){
 		String respuesta;
 		
-		System.out.println("\nAgregar productos al supermercado"+
+		System.out.println("\nAgregar productos al "+mercado+
 				"\n1. Tevelisores" +
 				"\n2. Celulares" +
 				"\n3. Libros"+
@@ -187,12 +182,9 @@ public class Main {
 				"\n6. Ropa"+
 				"\n7. Volver al menu anterior");
 		
-		respuesta=Main.sc.nextLine();
-		// este while es para capturar errores de input
-		while (Integer.parseInt(respuesta)<= 0 || Integer.parseInt(respuesta)> 7  ){
-			System.out.println("El numero ingresado no es correcto, rectificar por favor");
-			respuesta = sc.nextLine();
-		}
+		// validarRepuesta es para capturar errores de input
+		respuesta = validarRespuesta(1, 7, Main.sc.nextLine());
+		
 		
 		switch (respuesta){
 		
@@ -266,18 +258,17 @@ public class Main {
 			case "4":
 				//Carne
 				System.out.print("Ingrese el nombre del producto carnico: ");
-				String nombreCarne = sc.next();
-				sc.nextLine();
+				String nombreCarne = sc.nextLine();
 				System.out.print("Ingrese el precio por libra del producto: ");
-				int precioCarne = sc.nextInt();
+				int precioCarne = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingrese que tipo de producto es "+nombreCarne.toUpperCase()+": ");
-				String tipoCarne = sc.next();
+				String tipoCarne = sc.nextLine();
 				System.out.print("Ingrese el peso en libras del producto "+nombreCarne.toUpperCase()+": ");
-				float pesoCarne = sc.nextFloat();
+				float pesoCarne = Float.parseFloat(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingrese cuantas unidades de "+nombreCarne.toUpperCase()+" que desea añadir:");
-				int cantidadCarne = sc.nextInt();
+				int cantidadCarne = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				Carne nuevaCarne =new Carne(nombreCarne,precioCarne, mercado, cantidadCarne, tipoCarne, pesoCarne);
-				mercado.ofercomi.add(nuevaCarne);
+				mercado.ofercarne.add(nuevaCarne);
 				lista_carnicos.add(nuevaCarne);
 				
 				cuandoSeAgrega(mercado);
@@ -285,14 +276,13 @@ public class Main {
 			case "5":
 				//No Carne
 				System.out.print("Ingrese el nombre del producto: ");
-				String nombreAli = sc.next();
-				sc.nextLine();
+				String nombreAli = sc.nextLine();
 				System.out.print("Ingrese el precio por unidad del "+nombreAli.toUpperCase()+": ");
-				int precioAli = sc.nextInt();
+				int precioAli = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingrese la cantidad de unidades de "+nombreAli.toUpperCase()+" que desea añadir:");
-				int cantidadAli = sc.nextInt();
+				int cantidadAli = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				noCarnicos nuevoAli = new noCarnicos(nombreAli, precioAli, mercado, cantidadAli);
-				mercado.ofercomi.add(nuevoAli);
+				mercado.ofernocarnicos.add(nuevoAli);
 				lista_no_carnicos.add(nuevoAli);
 				
 				cuandoSeAgrega(mercado);
@@ -302,6 +292,7 @@ public class Main {
 				break;
 			case "7":
 				//volver al menu anterior
+				lista_super =  Deserializar.deserializarSupermercados();
 				break;
 		}
 	}
@@ -314,12 +305,8 @@ public class Main {
 		System.out.println("\nDeseas agregar otro producto?"+
 		                   "\n1. Si "
 		                  +"\n2. No");
-		respuesta=Main.sc.nextLine();
-
-		while(!respuesta.equals("1") && !respuesta.equals("2")){
-			System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
-			respuesta = Main.sc.nextLine();
-		}
+		
+		respuesta = validarRespuesta(1,2,Main.sc.nextLine());
 
 		switch(respuesta) {
 		case "1":
@@ -338,7 +325,9 @@ public class Main {
 				"\n3. Alimentos"+
 				"\n4. Ropa"+
 				"\n5. Volver al menu anterior");
-		respuesta=sc.nextLine();
+		
+		respuesta=validarRespuesta(1, 5, sc.nextLine());
+		
 		switch(respuesta) {
 		case "1":
 			//comprarElectro()
@@ -365,9 +354,22 @@ public class Main {
 			break;
 		case "3":
 			//comprarAlim()
-			//System.out.println("¿Cual es el alimento que busca en "+mercado.getNombre()+"\n");
-			comprarAlimentos(mercado);
+			System.out.println("Bienvenido a la seccion de Alimentos del "+mercado.getNombre()+"\n");
+			System.out.println(" ¿En que producto esta interesado de nuestra seccion?\n"
+			+"1. Alimentos Carnicos\n"
+			+"2. Alimentos noCarnicos\n"
+			+"3. Elegir otra seccion");
 			
+			String eleccion = validarRespuesta(1, 3, sc.nextLine());
+			
+			if (eleccion.equals("1")){
+				//comprarTelevisor(mercado);
+			}else if(eleccion.equals("2")){
+				//comprarCelular(mercado);
+			}else{
+				ofertaProductos(mercado);
+				break;
+			}
 			break;
 		case "4":
 			//comprarRopa()
@@ -566,8 +568,7 @@ public class Main {
 		}
 	
 	
-	public static void comprarAlimentos(Supermercado mercado) {
-		
+	/*public static void comprarAlimentos(Supermercado mercado) {
 		//Alimentos productoA = null;
 		if(mercado.ofercomi.size() > 0){
 			int elegir,i=1;
@@ -584,8 +585,12 @@ public class Main {
 			//Terminar
 			
 		}
-	}
+	}*/
 
+	
+	
+	
+	
 	public static void comprarTelevisor(Supermercado mercado){
 		if(mercado.ofertv.size() > 0){
 			Electronico producto_seleccionado = null;
@@ -737,11 +742,25 @@ public class Main {
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
-		while(!numero.matches("\\d+")){
-			System.out.println("El número ingresado anteriormente no es válido, por favor intenalo nuevamente (Numero entero): ");
+		while(!numero.matches("\\d+(\\.\\d+)?")){
+			System.out.println("El número ingresado anteriormente no es válido, por favor intenalo "
+		            +"nuevamente solo se acepta"
+			        + "\n* Número entero"
+					+ "\n* Número decimal con punto");
 			numero = sc.nextLine();
 		}
 		return numero;
 	}
+	
+	//Confirma si la respuesta esta entre las opciones presentadas
+	private static String validarRespuesta(int lower, int upper, String respuesta) {
+		
+		while (Integer.parseInt(respuesta)< lower || Integer.parseInt(respuesta)> upper  ){
+			System.out.println("El numero ingresado no esta entre las opciones, rectificar por favor");
+			respuesta = sc.nextLine();
+		}
+		 return respuesta;
+	}
+	
 	
 }

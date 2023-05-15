@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class noCarnicos extends Alimentos implements Serializable{
 
-	private static int cantidadTotal;
+	private static int cantidadTotal; 
 
 	public noCarnicos(String nombre, int precio, Supermercado supermercado, int cantidad) {
 		super(nombre, precio, supermercado, cantidad);

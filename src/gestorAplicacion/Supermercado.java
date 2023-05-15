@@ -9,7 +9,8 @@ public class Supermercado  implements Serializable{
 	public String nombre;
 	
 	public ArrayList<Libro> oferlibros = new ArrayList<Libro>();
-	public ArrayList<Alimentos> ofercomi = new ArrayList<Alimentos>();
+	public ArrayList<Carne> ofercarne = new ArrayList<>();
+	public ArrayList<noCarnicos> ofernocarnicos = new ArrayList<>();
 	public ArrayList<Tv> ofertv = new ArrayList<>();
 	public ArrayList<Celular> ofercelular = new ArrayList<>();
 	
@@ -29,12 +30,6 @@ public class Supermercado  implements Serializable{
 		this.oferlibros = oferlibros;
 	}
 	
-	public ArrayList<Alimentos> getOfercomi() {
-		return ofercomi;
-	}
-	public void setOfercomi(ArrayList<Alimentos> ofercomi) {
-		this.ofercomi = ofercomi;
-	}
 	public ArrayList<Tv> getOfertv() {
 		return ofertv;
 	}
@@ -49,8 +44,20 @@ public class Supermercado  implements Serializable{
 		this.ofercelular = ofercelular;
 	}
 	
+	public ArrayList<Carne> getOfercarne() {
+		return ofercarne;
+	}
+	public void setOfercarne(ArrayList<Carne> ofercarne) {
+		this.ofercarne = ofercarne;
+	}
+	public ArrayList<noCarnicos> getOfernocarnicos() {
+		return ofernocarnicos;
+	}
+	public void setOfernocarnicos(ArrayList<noCarnicos> ofernocarnicos) {
+		this.ofernocarnicos = ofernocarnicos;
+	}
 	@Override
 	public String toString() {
-		return "Supermercado de nombre: "+this.nombre;
+		return "Supermercado "+this.nombre.toUpperCase();
 	}
 }
