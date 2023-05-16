@@ -10,6 +10,7 @@ public class Supermercado  implements Serializable{
 	
 	public ArrayList<Libro> oferlibros = new ArrayList<Libro>();
 	public ArrayList<Carne> ofercarne = new ArrayList<>();
+	public ArrayList<Alimentos> ofercomi = new ArrayList<Alimentos>();
 	public ArrayList<noCarnicos> ofernocarnicos = new ArrayList<>();
 	public ArrayList<Tv> ofertv = new ArrayList<>();
 	public ArrayList<Celular> ofercelular = new ArrayList<>();

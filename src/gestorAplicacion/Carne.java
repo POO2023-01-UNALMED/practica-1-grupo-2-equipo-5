@@ -38,7 +38,14 @@ public class Carne extends Alimentos implements Serializable{
 		Carne.cantidadTotal = cantidadTotal;
 	}
 
-	
-	
+	@Override
+	public void oferta() {
+		System.out.println(
+	             "\nNombre: "+getNombre()
+	            +"\nPrecio por libra: "+getPrecio()
+	            +"\nTipo de carne: "+getTipo()
+	            +"\nLibras por unidad: "+getPesoLibra()
+	            +"\nUnidades en stock: "+getCantidad());
+	}
 	
 }

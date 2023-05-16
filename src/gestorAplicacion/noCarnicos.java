@@ -19,5 +19,12 @@ public class noCarnicos extends Alimentos implements Serializable{
 		noCarnicos.cantidadTotal = cantidadTotal;
 	}
 
+	@Override
+	public void oferta() {
+		System.out.println(
+	             "\nNombre: "+getNombre()
+	            +"\nPrecio por libra: "+getPrecio()
+	            +"\nUnidades en stock: "+getCantidad());
+	}
 
 }
