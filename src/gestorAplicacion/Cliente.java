@@ -5,9 +5,17 @@ import java.util.ArrayList;
 
 public class Cliente {
 	private String nombre,direccion;
-	public Cliente(String nombre, String direccion){
+	private int saldo;
+	public Cliente(String nombre, String direccion,int saldo){
 		this.nombre = nombre;
 		this.direccion = direccion;
+		this.saldo=saldo;
+	}
+	public int getSaldo() {
+		return saldo;
+	}
+	public void setSaldo(int saldo) {
+		this.saldo = saldo;
 	}
 	private ArrayList<Object> carrito = new ArrayList<> ();
 

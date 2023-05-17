@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 import src.uiMain.Main;
 
-public class Libro implements Serializable,Cloneable{
+public class Libro implements Serializable,Comparable<Libro>{
 	private Supermercado supermercado;
 	private String titulo,autor,descripcion,isbn;
 	private int precio,cantidad;
@@ -22,13 +22,8 @@ public class Libro implements Serializable,Cloneable{
 		Main.lista_libros.add(this);
 	}
 	public Libro(Libro libro) {
-		this.cantidad=1;
-		this.titulo=libro.getTitulo();
-		this.autor=libro.getAutor();
-		this.descripcion= libro.getDescripcion();
-		this.isbn=libro.getIsbn();
-		this.precio=libro.getPrecio();
-		this.supermercado = libro.getSupermercado();
+		//Un uso de this()
+		this(libro.getTitulo(),libro.getAutor(),libro.getDescripcion(),libro.getIsbn(),libro.getPrecio(),1,libro.getSupermercado());
 	}
 	public Supermercado getSupermercado() {
 		return supermercado;
@@ -114,10 +109,12 @@ public class Libro implements Serializable,Cloneable{
 		return lstautores;
 	}
 	
-	public static boolean samebook(Libro libro1, Libro libro2) {
-		if (libro1.getTitulo().equals(libro2.getTitulo())) {
-			return true;
+	 @Override
+	public int compareTo(Libro o) {
+		if (this.getTitulo().equals(o.getTitulo())) {
+			return 1;
 		}
-		else return false;
+		else return 0;
 	}
+
 }

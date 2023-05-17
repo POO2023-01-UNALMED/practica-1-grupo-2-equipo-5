@@ -39,7 +39,9 @@ public class Main {
 		String nombre = sc.nextLine();
 		System.out.print("Ingresa tu direccion: ");
 		String direccion = sc.nextLine();
-		Cliente cliente = new Cliente(nombre, direccion);
+		System.out.println("Ingresa tu saldo disponible");
+		String saldo =sc.nextLine();
+		Cliente cliente = new Cliente(nombre, direccion,Integer.parseInt(saldo));
 		Main.cliente=cliente;
 		System.out.println("\nBienvenido "+nombre+"!\n");
 		
@@ -89,7 +91,7 @@ public class Main {
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
 		System.out.println("\nCarrito de compras:");
-		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Precio");
+		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio");
 		int precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
@@ -101,6 +103,11 @@ public class Main {
 			if(producto instanceof Tv){
 				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getPrecio());
 				precio_total += ((Tv)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Libro) {
+				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio());
+				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
 			}
 			//else if(producto instanceof OtraClase)
 			//Terminar con el resto de tipos de productos
@@ -246,7 +253,7 @@ public class Main {
 				System.out.println("Ingrese el codigo ISBN del libro:");
 				String isbn = sc.nextLine();
 				System.out.print("Ingresa el precio del libro:");
-				String preciolib = sc.nextLine();
+				String preciolib = confirmarNumero(sc.nextLine());
 				System.out.println("Ingresa la cantidad de libros");
 				String cantidad = sc.nextLine();;
 				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,Integer.parseInt(preciolib),Integer.parseInt(cantidad),mercado);
@@ -524,15 +531,11 @@ public class Main {
 			switch(respuesta) {
 			case "1":
 				boolean libroencarrito=false;
-				//Santi says(Aquí no habría un error?)
-				/*Si decimos que hay mas de un libro en el supermercado (ejemplo, digamos que hay 10). Al comprar un libro se borra la instancia del objeto
-				* En la lista del supermercado, por lo que es como si los otros 9 libros se desaparecieran, creo que se tendría que cambiar un poco la logica
-				* De esta parte del código. Yo recomiendo que eso de "eliminar" los productos cuando se compren, se haga mejor en la parte de finalizarCompra()
-				* */
+				//Este flujo permite eliminar los objetos de la lista y poderlos recuperar posteriormente si se necesita
 				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
 				for(Object producto:cliente.getCarrito()) {
 					if (producto instanceof Libro) {
-						if(Libro.samebook(compra,(Libro)producto)) {
+						if(compra.compareTo((Libro)producto)==1) {
 							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
 							libroencarrito=true;
 							if(((Libro) producto).getCantidad()==compra.getCantidad()) {
@@ -562,6 +565,7 @@ public class Main {
 					break;
 				case "2":
 					//Aqui iria el metodo finalizarCompra()
+					filtrolibro=0;
 					finalizarCompra();
 					break;
 				}
@@ -571,6 +575,10 @@ public class Main {
 				break;
 				}
 			}
+		else {
+			System.out.println("Ya no quedan Libros en este supermercado...");
+			ofertaProductos(mercado);
+		}
 		}
 	
 	

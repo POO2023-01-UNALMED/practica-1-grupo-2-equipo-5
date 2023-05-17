@@ -152,7 +152,7 @@ public class Deserializar {
                 ArrayList<Supermercado> lista_supermercados = new ArrayList<Supermercado>();
                 System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
                 Supermercado supermercado = new Supermercado(Main.sc.nextLine());
-                //Aqui se ejecutaria la opcion para a�adir productos
+                //Aqui se ejecutaria la opcion para anadir productos
                 Main.anadirProducto(supermercado);
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;
