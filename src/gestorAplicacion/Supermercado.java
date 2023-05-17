@@ -14,6 +14,7 @@ public class Supermercado  implements Serializable{
 	public ArrayList<noCarnicos> ofernocarnicos = new ArrayList<>();
 	public ArrayList<Tv> ofertv = new ArrayList<>();
 	public ArrayList<Celular> ofercelular = new ArrayList<>();
+	public ArrayList<Ropa> oferropa = new ArrayList<>();
 	
 	public Supermercado(String nombre){
 		this.nombre = nombre;
@@ -29,6 +30,14 @@ public class Supermercado  implements Serializable{
 	}
 	public void setOferlibros(ArrayList<Libro> oferlibros) {
 		this.oferlibros = oferlibros;
+	}
+	
+	public ArrayList<Ropa> getOferropa() {
+	    return oferropa;
+	}
+
+	public void setOferropa(ArrayList<Ropa> oferropa) {
+	    this.oferropa = oferropa;
 	}
 	
 	public ArrayList<Tv> getOfertv() {
