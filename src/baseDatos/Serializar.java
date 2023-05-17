@@ -125,4 +125,24 @@ public class Serializar {
         }
     }
 
+    public static void serializarRopa(ArrayList<Ropa> lista) {
+        try {
+            String rutaArchivo = "src/baseDatos/temp/Ropa.txt";
+            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(lista);
+
+            o.close();
+            f.close();
+
+            System.out.println("La serialización se ha completado correctamente.");
+
+        } catch (FileNotFoundException e) {
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
 }
+
