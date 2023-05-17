@@ -4,130 +4,100 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Ropa implements Serializable {
-    private String talla;
-    private String color;
-    private double precio;
-    private String nombre;
-    private int numPrendas;
-    private Supermercado supermercado;
-    private String genero;
-    private String tipo;
+    private String tallaRopa;
+    private String colorRopa;
+    private double precioRopa;
+    private String nombreRopa;
+    private int cantidadRopa;
+    private Supermercado mercado;
+    private String tipoRopa;
+    private String generoRopa;
 
-    public Ropa(String talla, String color, double precio, String nombre, int numPrendas, Supermercado supermercado, String genero) {
-        this.talla = talla;
-        this.color = color;
-        this.precio = precio;
-        this.nombre = nombre;
-        this.numPrendas = numPrendas;
-        this.supermercado = supermercado;
-        this.genero = genero;
+    public Ropa(String tallaRopa, String colorRopa, double precioRopa, String nombreRopa, int cantidadRopa, Supermercado mercado, String generoRopa, String tipoRopa) {
+        this.tallaRopa = tallaRopa;
+        this.colorRopa = colorRopa;
+        this.precioRopa = precioRopa;
+        this.nombreRopa = nombreRopa;
+        this.cantidadRopa = cantidadRopa;
+        this.mercado = mercado;
+        this.generoRopa = generoRopa;
+        this.tipoRopa = tipoRopa;
     }
 
-
-    public String getTalla() {
-        return talla;
+    public String getTallaRopa() {
+        return tallaRopa;
     }
 
-    public void setTalla(String talla) {
-        this.talla = talla;
-    }
-    
-    public String getGenero() {
-        return genero;
+    public void setTallaRopa(String tallaRopa) {
+        this.tallaRopa = tallaRopa;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-    
-    public String getColor() {
-        return color;
+    public String getGeneroRopa() {
+        return generoRopa;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setGeneroRopa(String generoRopa) {
+        this.generoRopa = generoRopa;
     }
 
-    public double getPrecio() {
-        return precio;
+    public String getColorRopa() {
+        return colorRopa;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setColorRopa(String colorRopa) {
+        this.colorRopa = colorRopa;
     }
 
-    public String getNombre() {
-        return nombre;
+    public double getPrecioRopa() {
+        return precioRopa;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPrecioRopa(double precioRopa) {
+        this.precioRopa = precioRopa;
     }
 
-    public int getNumPrendas() {
-        return numPrendas;
+    public String getNombreRopa() {
+        return nombreRopa;
     }
 
-    public void setNumPrendas(int numPrendas) {
-        this.numPrendas = numPrendas;
+    public void setNombreRopa(String nombreRopa) {
+        this.nombreRopa = nombreRopa;
+    }
+
+    public int getCantidadRopa() {
+        return cantidadRopa;
+    }
+
+    public void setCantidadRopa(int cantidadRopa) {
+        this.cantidadRopa = cantidadRopa;
     }
 
     public Supermercado getSupermercado() {
-        return supermercado;
+        return mercado;
     }
 
     public void setSupermercado(Supermercado supermercado) {
-        this.supermercado = supermercado;
+        this.mercado = supermercado;
     }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public String getTipoRopa() {
+        return tipoRopa;
+    }
 
+    public void setTipoRopa(String tipoRopa) {
+        this.tipoRopa = tipoRopa;
+    }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-    public static ArrayList<Ropa> filtrarPorTalla(ArrayList<Ropa> prendas, String talla) {
+    public static ArrayList<Ropa> filtrarPrendas(ArrayList<Ropa> prendas, String talla, String color, String genero, String tipo) {
         ArrayList<Ropa> filtradas = new ArrayList<>();
-        for (Ropa ropa : prendas) {
-            if (ropa.getTalla().equalsIgnoreCase(talla)) {
-                filtradas.add(ropa);
+        for (Ropa prenda : prendas) {
+            if (prenda.getTallaRopa().equalsIgnoreCase(talla) &&
+                prenda.getColorRopa().equalsIgnoreCase(color) &&
+                prenda.getGeneroRopa().equalsIgnoreCase(genero) &&
+                prenda.getTipoRopa().equalsIgnoreCase(tipo)) {
+                filtradas.add(prenda);
             }
         }
         return filtradas;
     }
-
-    public static ArrayList<Ropa> filtrarPorColor(ArrayList<Ropa> prendas, String color) {
-        ArrayList<Ropa> filtradas = new ArrayList<>();
-        for (Ropa ropa : prendas) {
-            if (ropa.getColor().equalsIgnoreCase(color)) {
-                filtradas.add(ropa);
-            }
-        }
-        return filtradas;
-    }
-    
-    public static ArrayList<Ropa> filtrarPorGenero(ArrayList<Ropa> prendas, String genero) {
-        ArrayList<Ropa> filtradas = new ArrayList<>();
-        for (Ropa ropa : prendas) {
-            if (ropa.getGenero().equalsIgnoreCase(genero)) {
-                filtradas.add(ropa);
-            }
-        }
-        return filtradas;
-    }
-    
-    public static ArrayList<Ropa> filtrarPorTipo(ArrayList<Ropa> prendas, String tipo) {
-        ArrayList<Ropa> filtradas = new ArrayList<>();
-        for (Ropa ropa : prendas) {
-            if (ropa.getTipo().equalsIgnoreCase(tipo)) {
-                filtradas.add(ropa);
-            }
-        }
-        return filtradas;
-    }
-
-
 }
