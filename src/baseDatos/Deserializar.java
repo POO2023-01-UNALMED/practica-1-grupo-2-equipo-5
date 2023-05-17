@@ -170,16 +170,16 @@ public class Deserializar {
             System.out.println("No hay supermercados registrados. Deseas crear un supermercado? " +
                     "\n1 = Si" +
                     "\n2 = No");
-            String respuesta = Main.sc.next();
+            String respuesta = Main.sc.nextLine();
             while(!respuesta.equals("1") && !respuesta.equals("2")){
                 System.out.println("La respuesta ingresada no se encuentra entre las opciones (1 o 2)" +
                         "\nIngresala nuevamente");
-                respuesta = Main.sc.next();
+                respuesta = Main.sc.nextLine();
             }
             if(respuesta.equals("1")){
                 ArrayList<Supermercado> lista_supermercados = new ArrayList<Supermercado>();
                 System.out.print("Por favor, ingrese el nombre del nuevo supermercado: ");
-                Supermercado supermercado = new Supermercado(Main.sc.next());
+                Supermercado supermercado = new Supermercado(Main.sc.nextLine());
                 lista_supermercados.add(supermercado);
                 return lista_supermercados;
             }
