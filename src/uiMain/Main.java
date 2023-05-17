@@ -21,10 +21,12 @@ public class Main {
 	public static ArrayList<Tv> lista_tvs = new ArrayList<>();
 	public static ArrayList<Celular> lista_celulares = new ArrayList<>();
 	public static ArrayList<Supermercado> lista_super = new ArrayList<Supermercado>();
+	public static ArrayList<Ropa> lista_ropa = new ArrayList<Ropa>();
 	
 	//Aqui empieza el main
 	public static void main(String[] args) {
 		
+		lista_ropa = Deserializar.deserializarRopa();
 		lista_celulares = Deserializar.deserializarCelulares();
 		lista_tvs = Deserializar.deserializarTvs();
 		lista_libros = Deserializar.deserializarLibros();
@@ -32,7 +34,7 @@ public class Main {
 		lista_carnicos = Deserializar.deserializarCarne();
 		
 		//Si no hay supermercados se ejecuta un flujo para crear el supermercado dentro de deserializarSupermercados()
-		lista_super =  Deserializar.deserializarSupermercados();
+
 		
 		System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
 		System.out.print("Ingresa tu nombre: ");
@@ -60,6 +62,10 @@ public class Main {
 		}
 		if(lista_libros.size() >0) {
 			Serializar.serializarLibros(lista_libros);
+		}
+		//agregure la mia//
+		if(lista_ropa.size() >0) {
+			Serializar.serializarRopa(lista_ropa);
 		}
 
 	}
@@ -296,9 +302,34 @@ public class Main {
 				
 				cuandoSeAgrega(mercado);
 				break;
+				
+			//acabo de hacer esto//
 			case "6":
-				//Ropa
-				break;
+			    // Ropa
+			    System.out.print("Ingrese el nombre de la prenda de ropa: ");
+			    String nombreRopa = sc.nextLine();
+			    System.out.print("Ingresa el precio de la prenda de ropa: ");
+			    int precioRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
+			    System.out.print("Ingresa el color de la prenda de ropa: ");
+			    String colorRopa = sc.nextLine();
+			    System.out.print("Ingresa la talla de la prenda de ropa: ");
+			    String tallaRopa = sc.nextLine();
+			    System.out.print("Ingresa el género de la prenda de ropa: ");
+			    String generoRopa = sc.nextLine();
+			    System.out.print("Ingresa el tipo de prenda de ropa: ");
+			    String tipoRopa = sc.nextLine();
+			    System.out.print("Ingresa la cantidad de prendas de ropa " + nombreRopa.toUpperCase() + " que desea añadir: ");
+			    int cantidadRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
+			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa);
+			    mercado.getOferropa().add(nuevaRopa);
+			    lista_ropa.add(nuevaRopa);
+			    cuandoSeAgrega(mercado);
+			    break;
+
+				
+				
+			
+
 			case "7":
 				//volver al menu anterior
 				lista_super =  Deserializar.deserializarSupermercados();
@@ -796,6 +827,114 @@ public class Main {
 			}
 		}
 	}
+	
+	public static void comprarRopa(Supermercado mercado) {
+	    if (mercado.oferropa.size() > 0) {
+	        ArrayList<Ropa> prendasFiltradas = new ArrayList<>();
+	        System.out.println("Estas son las prendas de ropa disponibles en " + mercado.getNombre());
+	        // Mostrar las prendas de ropa disponibles
+	        for (int i = 0; i < mercado.oferropa.size(); i++) {
+	            Ropa prenda = mercado.oferropa.get(i);
+	            System.out.println((i + 1) + ". " +
+	                    "\nNombre: " + prenda.getNombreRopa() +
+	                    "\nColor: " + prenda.getColorRopa() +
+	                    "\nTalla: " + prenda.getTallaRopa() +
+	                    "\nPrecio: " + prenda.getPrecioRopa() +
+	                    "\nCantidad en stock: " + prenda.getCantidadRopa());
+	        }
+	        System.out.println("Selecciona los filtros de búsqueda:");
+	        System.out.print("Talla: ");
+	        String talla = sc.nextLine();
+	        System.out.print("Color: ");
+	        String color = sc.nextLine();
+	        System.out.print("Género: ");
+	        String genero = sc.nextLine();
+	        System.out.print("Tipo: ");
+	        String tipo = sc.nextLine();
+
+	        // Filtrar las prendas de ropa según los criterios de búsqueda
+	        prendasFiltradas = Ropa.filtrarPrendas(mercado.oferropa, talla, color, genero, tipo);
+
+	        if (prendasFiltradas.size() > 0) {
+	            System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");
+	            for (int i = 0; i < prendasFiltradas.size(); i++) {
+	                Ropa prenda = prendasFiltradas.get(i);
+	                System.out.println((i + 1) + ". " +
+	                        "\nNombre: " + prenda.getNombreRopa() +
+	                        "\nColor: " + prenda.getColorRopa() +
+	                        "\nTalla: " + prenda.getTallaRopa() +
+	                        "\nPrecio: " + prenda.getPrecioRopa() +
+	                        "\nCantidad en stock: " + prenda.getCantidadRopa());
+	            }
+	            System.out.println("Selecciona una prenda de ropa para comprar (escribe '0' para cancelar):");
+	            int seleccion = Integer.parseInt(sc.nextLine());
+	            if (seleccion == 0) {
+	                return;
+	            } else if (seleccion > 0 && seleccion <= prendasFiltradas.size()) {
+	                Ropa prendaSeleccionada = prendasFiltradas.get(seleccion - 1);
+	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
+
+	                System.out.println("Ingresa: " +
+	                        "\n1. Añadir al carrito" +
+	                        "\n2. Volver al menú anterior");
+	                String respuesta2 = sc.nextLine();
+	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
+	                    System.out.println("Número ingresado incorrecto, inténtalo nuevamente: ");
+	                    respuesta2 = sc.nextLine();
+	                }
+	                switch (respuesta2) {
+	                    case "1":
+	                        cliente.getCarrito().add(prendaSeleccionada);
+	                        System.out.println("Producto agregado con éxito!");
+	                        System.out.println("\n1. Seguir comprando");
+	                        System.out.println("\n2. Finalizar compra ");
+	                        while (true) {
+	                            respuesta2 = sc.nextLine();
+	                            if (respuesta2.equals("1")) {
+	                                ofertaProductos(mercado);
+	                                break;
+	                            } else if (respuesta2.equals("2")) {
+	                                finalizarCompra();
+	                                break;
+	                            }
+	                            System.out.println("Número ingresado incorrecto, ingresa nuevamente el número: ");
+	                        }
+	                        break;
+	                    case "2":
+	                        comprarRopa(mercado);
+	                        break;
+	                }
+	            }
+	        } else {
+	            System.out.println("No hay prendas de ropa disponibles según los filtros seleccionados. ¿Deseas volver a intentarlo?");
+	            System.out.println("1. SI");
+	            System.out.println("2. NO");
+	            String respuesta = sc.nextLine();
+	            while (!respuesta.equals("1") && !respuesta.equals("2")) {
+	                System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
+	                respuesta = sc.nextLine();
+	            }
+
+	            if (respuesta.equals("1")) {
+	                comprarRopa(mercado);
+	            }
+	        }
+	    } else {
+	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. ¿Deseas añadir alguna?");
+	        System.out.println("1. SI");
+	        System.out.println("2. NO");
+	        String respuesta = sc.nextLine();
+	        while (!respuesta.equals("1") && !respuesta.equals("2")) {
+	            System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
+	            respuesta = sc.nextLine();
+	        }
+
+	        if (respuesta.equals("1")) {
+	            anadirProducto(mercado);
+	        }
+	    }
+	}
+
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
