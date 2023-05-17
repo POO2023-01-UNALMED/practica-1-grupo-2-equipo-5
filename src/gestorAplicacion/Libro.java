@@ -21,9 +21,9 @@ public class Libro implements Serializable,Comparable<Libro>{
 		this.cantidad=cantidad;
 		Main.lista_libros.add(this);
 	}
-	public Libro(Libro libro) {
+	public Libro(Libro libro,int cantidad) {
 		//Un uso de this()
-		this(libro.getTitulo(),libro.getAutor(),libro.getDescripcion(),libro.getIsbn(),libro.getPrecio(),1,libro.getSupermercado());
+		this(libro.getTitulo(),libro.getAutor(),libro.getDescripcion(),libro.getIsbn(),libro.getPrecio(),cantidad,libro.getSupermercado());
 	}
 	public Supermercado getSupermercado() {
 		return supermercado;

@@ -97,7 +97,7 @@ public class Main {
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
 		System.out.println("\nCarrito de compras:");
-		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio");
+		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
 		int precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
@@ -112,15 +112,56 @@ public class Main {
 			}
 			
 			else if(producto instanceof Libro) {
-				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio());
+				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
 				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
 			}
 			//else if(producto instanceof OtraClase)
 			//Terminar con el resto de tipos de productos
 			cont++;
 		}
-		System.out.println("TOTAL :"+precio_total);
-		// Terminar
+		System.out.println("\nTOTAL :"+precio_total);
+		
+		if (cliente.getSaldo()<precio_total) {
+			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito. \n Cual producto deseas quitar?");
+			String select =sc.nextLine();
+			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
+			
+			//No pude encontrar una manera mas eficiente para saber la cantidad de diferentes objetos
+			if(producto instanceof Libro) {
+				boolean libroenmercado=false;
+				Libro libro = (Libro) producto;
+				int asumar=0, cantidad = libro.getCantidad();
+				
+				System.out.println("Cuantas unidades deseas quitar?");
+				for (int i=1;i<=cantidad;i++) {
+					System.out.println(i+". "+i);
+				}
+				asumar=Integer.parseInt(sc.nextLine());
+		
+				for(Libro libros:libro.getSupermercado().getOferlibros()) {
+					if (libro.compareTo(libros)==1) {
+						libros.setCantidad(libros.getCantidad()+asumar);
+						libroenmercado=true;
+						break;
+					}
+				}
+				
+				//((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+				if(!libroenmercado) {
+					libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
+					}
+				
+				((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+				if (((Libro) producto).getCantidad()==0) {
+					cliente.getCarrito().remove(producto);
+				}
+		
+			}
+			
+			//Aqui se pondrian los otros casos para las otras clases (Casi que lo mismo no se si halla una mejor logica)
+			
+			finalizarCompra();
+		}
 		
 	}
 	
@@ -440,6 +481,7 @@ public class Main {
 					System.out.println("Titulo: "+libro.getTitulo());
 					System.out.println("Autor: "+libro.getAutor());
 					System.out.println("Precio: "+libro.getPrecio());
+					System.out.println("Unidades Disponibles: "+libro.getCantidad());
 					++i;
 				}
 				}
@@ -451,6 +493,7 @@ public class Main {
 					System.out.println("Titulo: "+libro.getTitulo());
 					System.out.println("Autor: "+libro.getAutor());
 					System.out.println("Precio: "+libro.getPrecio());
+					System.out.println("Unidades Disponibles: "+libro.getCantidad());
 					++i;
 				}
 			}
@@ -462,6 +505,7 @@ public class Main {
 				System.out.println("Titulo: "+libro.getTitulo());
 				System.out.println("Autor: "+libro.getAutor());
 				System.out.println("Precio: "+libro.getPrecio());
+				System.out.println("Unidades Disponibles: "+libro.getCantidad());
 				++i;
 			}
 			
@@ -516,7 +560,7 @@ public class Main {
 						"\n2.Precio"+
 						"\n3.Volver al menu anterior");
 				
-				filtro=sc.next();
+				filtro=sc.nextLine();
 				
 				switch(filtro) {
 				case "1":
@@ -529,7 +573,7 @@ public class Main {
 						System.out.println(numautor+"."+nombreAutor);
 						++numautor;
 					}
-					autorSelect=sc.next();
+					autorSelect=sc.nextLine();
 					filtrolibro=1;
 					comprarLibro(mercado,(String) lstautores[Integer.parseInt(autorSelect)-1]);
 					return;
@@ -564,12 +608,14 @@ public class Main {
 				boolean libroencarrito=false;
 				//Este flujo permite eliminar los objetos de la lista y poderlos recuperar posteriormente si se necesita
 				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
+				compra.setCantidad(compra.getCantidad()-1);
 				for(Object producto:cliente.getCarrito()) {
 					if (producto instanceof Libro) {
 						if(compra.compareTo((Libro)producto)==1) {
 							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
 							libroencarrito=true;
-							if(((Libro) producto).getCantidad()==compra.getCantidad()) {
+							if(compra.getCantidad()==0) {
+								//No se esta borrando de la lista
 								mercado.oferlibros.remove(compra);
 							}
 							break;
@@ -578,7 +624,7 @@ public class Main {
 				}
 				
 				if(!libroencarrito) {
-					cliente.getCarrito().add(new Libro(compra));
+					cliente.getCarrito().add(new Libro(compra,1));
 				}
 				
 				//Luego, al finalizar compra, hay que hacer un proceso especial por si el cliente se arrepiente y devolver el stock de libros.
