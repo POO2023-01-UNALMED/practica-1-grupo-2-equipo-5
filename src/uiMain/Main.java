@@ -17,6 +17,7 @@ public class Main {
 	public static Scanner sc = new Scanner(System.in);
 	public static Cliente cliente;
 	public static int filtrolibro=0;
+	public static int Alimentos = 0;
 	
 	//Se crean las listas donde va cada tipo de producto
 	public static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
@@ -71,6 +72,12 @@ public class Main {
 		if(lista_ropa.size() >0) {
 			Serializar.serializarRopa(lista_ropa);
 		}
+		if(lista_carnicos.size() >0) {
+			Serializar.serializarCarne(lista_carnicos);
+		}if(lista_no_carnicos.size() >0) {
+			Serializar.serializarnoCarnicos(lista_no_carnicos);
+		}
+		
 
 	}
 	//Volvi este codigo un metodo para aplicar el boton de volver al menu anterior
@@ -337,13 +344,16 @@ public class Main {
 				break;
 			case "5":
 				//No Carne
+				
 				System.out.print("Ingrese el nombre del producto: ");
 				String nombreAli = sc.nextLine();
+				System.out.print("Ingrese su clasificacion:"+"\n1.Granos"+"\n2.Lacteos"+"\n3.Vegetales"+"\n4.Otros\n");
+				String grupo =  noCarnicos.validarGrupo(validarRespuesta(1, 4, sc.nextLine()));
 				System.out.print("Ingrese el precio por unidad del "+nombreAli.toUpperCase()+": ");
 				int precioAli = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingrese la cantidad de unidades de "+nombreAli.toUpperCase()+" que desea añadir:");
 				int cantidadAli = Integer.parseInt(confirmarNumero(sc.nextLine()));
-				noCarnicos nuevoAli = new noCarnicos(nombreAli, precioAli, mercado, cantidadAli);
+				noCarnicos nuevoAli = new noCarnicos(nombreAli, precioAli, mercado, cantidadAli, grupo);
 				mercado.ofernocarnicos.add(nuevoAli);
 				mercado.ofercomi.add(nuevoAli);
 				lista_no_carnicos.add(nuevoAli);
@@ -437,26 +447,8 @@ public class Main {
 			break;
 		case "3":
 			//comprarAlim()
-			System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
-			System.out.println(" ¿En que producto esta interesado de nuestra seccion?");
-			System.out.println(	"\n"+
-		    "1. Solo Alimentos Carnicos\n"
-			+"2. Solo Alimentos noCarnicos\n"
-			+"3. Alimentos Carnicos y noCarnicos\n"
-			+"4. Elegir otra seccion");
+			menuAlimentos(mercado);
 			
-			String eleccion = validarRespuesta(1, 4, sc.nextLine());
-			
-			if (eleccion.equals("1")){
-				comprarAlimento(mercado, eleccion);
-			}else if(eleccion.equals("2")){
-				comprarAlimento(mercado, eleccion);
-			}else if(eleccion.equals("3")){
-				comprarAlimento(mercado, eleccion);
-			}else{
-				ofertaProductos(mercado);
-				break;
-			}
 			break;
 		case "4":
 			//comprarRopa()
@@ -659,71 +651,181 @@ public class Main {
 		}
 	
 	
+	public static void menuAlimentos(Supermercado mercado) {
+		
+		System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
+		System.out.println(" ¿En que producto esta interesado de nuestra seccion?");
+		System.out.println(	"\n"+
+	    "1. Solo Alimentos Carnicos\n"
+		+"2. Solo Alimentos noCarnicos\n"
+		+"3. Alimentos Carnicos y noCarnicos\n"
+		+"4. Elegir otra seccion");
+		
+		String eleccion = validarRespuesta(1, 4, sc.nextLine());
+		
+		if (eleccion.equals("1")){
+			comprarAlimento(mercado, eleccion);
+		}else if(eleccion.equals("2")){
+			comprarAlimento(mercado, eleccion);
+		}else if(eleccion.equals("3")){
+			comprarAlimento(mercado, eleccion);
+		}else{
+			ofertaProductos(mercado);
+		}	
+	}
+	
 	public static void comprarAlimento(Supermercado mercado, String eleccion) {
+		
 		//Carne carnico = null;
 		if (eleccion.equals("1")){//Opcion Carnicos
+			ArrayList<Carne> meat2 = new ArrayList<Carne>();
 			
 			if(mercado.ofercarne.size() > 0){
 				int elegir,i=1;
-				System.out.println("Bienvenido al Area de Carnes del "+mercado+"\n");
+				System.out.print("Bienvenido al Area de Carnes del "+mercado+"\n");
+				System.out.print("       *** !CARNES EN OFERTA¡***\n");
 				System.out.print("Acontinuacion nuestros productos disponibles: \n");
-				System.out.println("       *** !CARNES EN OFERTA¡***\n");
 				for(Carne productoC:mercado.ofercarne) {
-					System.out.println(i++ +")"
+					System.out.println(i++ +"."
 				            +"\nNombre: "+productoC.getNombre()
 				            +"\nPrecio por libra: "+productoC.getPrecio()
 				            +"\nTipo de carne: "+productoC.getTipo()
 				            +"\nLibras por unidad: "+productoC.getPesoLibra()
 				            +"\nUnidades en stock: "+productoC.getCantidad());
+					         System.out.print("\n");
 				}
-				System.out.println("\n¿Que Oferta esta interesado en comprar?");
-	            String validado = validarRespuesta(1,mercado.ofercarne.size()+1, String.valueOf(elegir= sc.nextInt()));
-				//Terminar
+				int cont = mercado.ofercarne.size();
+				System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+				System.out.print("\n         **Opciones Adicionales**");
+				System.out.print("\nIngrese "+(cont+1)+" para Filtrar por Tipo de Carne");
+				System.out.print("\nIngrese "+(mercado.ofercarne.size()+2)+" Volver al Menu de Alimentos");
+				System.out.println("\nIngrese "+(mercado.ofercarne.size()+3)+" para Escoger otra Seccion");
+				elegir = Integer.parseInt(validarRespuesta(1,mercado.ofercarne.size()+3, String.valueOf(sc.nextInt())));
 				
-			}
+				if(elegir==mercado.ofercarne.size()+1){
+	
+				    System.out.println("\nLos Tipo de Carnes Disponibles Son:");
+					Object[] listaTipo = Carne.listaTipos(mercado.ofercarne);//
+					for(int c=0; c<listaTipo.length; c++) {
+						System.out.println((c+1)+". Tipo de Carne:"+listaTipo[c]);
+					}
+					System.out.println("\n¿Que Tipo de Carne Desea filtrar?");
+					System.out.print("\n         **Opciones Adicionales**");
+					System.out.print("\nIngrese "+(listaTipo.length+1)+" Volver al Menu de Alimentos");
+					System.out.println("\nIngrese "+(listaTipo.length+2)+" para Escoger otra Seccion");
+					int elegirtipo = Integer.parseInt(validarRespuesta(1,listaTipo.length+2, String.valueOf(sc.nextInt())));
+					
+					if(elegirtipo==listaTipo.length+1) {
+						menuAlimentos(mercado);
+						return;
+					}else if(elegirtipo==listaTipo.length+2){
+						ofertaProductos(mercado);
+						return;
+					}else if(elegirtipo<listaTipo.length) {
+						System.out.println("\nOfertas Disponibles para el filtro de "+listaTipo[elegirtipo-1].toString());
+						meat2 = Carne.filtroTipo(mercado.ofercarne,listaTipo[elegirtipo-1].toString());
+						int y =1, oferSelec;
+						for(Carne productoF:meat2) {
+							System.out.println(y++ +"."
+						            +"\nNombre: "+productoF.getNombre()
+						            +"\nPrecio por libra: "+productoF.getPrecio()
+						            +"\nTipo de carne: "+productoF.getTipo()
+						            +"\nLibras por unidad: "+productoF.getPesoLibra()
+						            +"\nUnidades en stock: "+productoF.getCantidad());
+							         System.out.print("\n");
+						}
+						System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+						System.out.print("\n         **Opciones Adicionales**");
+						System.out.print("\nIngrese "+(y+1)+" Volver al Menu de Alimentos");
+						System.out.println("\nIngrese "+(y+2)+" para Escoger otra Seccion");
+						oferSelec = Integer.parseInt(validarRespuesta(1,meat2.size()+2, String.valueOf(sc.nextInt())));
+						
+						if(oferSelec == (y+1)) {
+							menuAlimentos(mercado);
+							return;
+						}else if(oferSelec == (y+2)) {
+							ofertaProductos(mercado);
+							return;
+						}else {
+							comprarAlimentos(mercado,meat2,oferSelec,eleccion);
+						}
+					}
+		               return;
+					}else if(elegir==mercado.ofercarne.size()+2) {
+						menuAlimentos(mercado);
+						return;
+					}else if(elegir==mercado.ofercarne.size()+3) {
+						ofertaProductos(mercado);
+						return;
+					}
+
 		}else if(eleccion.equals("2")){// Opcion noCarnicos
 			
 			if(mercado.ofernocarnicos.size() > 0){
-				int elegir,i=1;
-				System.out.println("Bienvenido al Area de noCarnicos del "+mercado+"\n");
-				System.out.println("       *** !NOCARNICOS EN OFERTA¡***\n");
+				int elegir1,i=1;
+				System.out.print("Bienvenido al Area de noCarnicos del "+mercado+"\n");
+				System.out.print("       *** !NOCARNICOS EN OFERTA¡***\n");
 				System.out.print("Acontinuacion nuestros productos disponibles: \n");
-				for(Alimentos productoN:mercado.ofernocarnicos) {
-					System.out.println(i++ +")"
+				for(noCarnicos productoN:mercado.ofernocarnicos) {
+					System.out.println(i++ +"."
 				            +"\nNombre: "+productoN.getNombre()
+				            +"\nClasificacion: "+productoN.getGrupo()
 				            +"\nLibras por unidad: "+productoN.getPrecio()
 				            +"\nUnidades en stock: "+productoN.getCantidad());
+					         System.out.print("\n");
 				}
-				System.out.println("\n¿Que Oferta esta interesado en comprar?");
-	            String validado = validarRespuesta(1,mercado.ofercarne.size()+1, String.valueOf(elegir= sc.nextInt()));
-				//Terminar
-				
+					
 			}
 		}else if(eleccion.equals("3")){// Opcion Carnicos y noCarnicos
 			
 			if(mercado.ofernocarnicos.size() > 0){
-				System.out.println("Bienvenido al Area de Carnicos & noCarnicos del "+mercado+"\n");
+				System.out.print("Bienvenido al Area de Carnicos & noCarnicos del "+mercado+"\n");
 				System.out.print("*** !TODAS LAS OFERTAS DE ALIMENTOS EN UN SOLO LUGAR¡***\n");
-				System.out.println("    Acontinuacion nuestros productos disponibles: \n");
+				System.out.print("    Acontinuacion nuestros productos disponibles: \n");
 				for(int i = 0; i<mercado.ofercomi.size(); i++) {
 					System.out.print((i+1)+". ");
-					mercado.ofercomi.get(i).oferta();//Ligadura dinamica
+					System.out.println(mercado.ofercomi.get(i).oferta());//Ligadura dinamica
 					System.out.print("\n");
 				}
 				System.out.println("\n¿Que Oferta esta interesado en comprar?");
 	            String validado = validarRespuesta(1,mercado.ofercarne.size()+1, String.valueOf(sc.nextInt()));
 				//Terminar
-				
-			}
+		    }
 			
-		}
-	
-		
+	    }
 	}
+	
+}
+	
+	public static void comprarAlimentos(Supermercado mercado, ArrayList<Carne> meat2, int oferSelec, String eleccion) {
+		Carne p = null;
+		
+		switch (eleccion){
+		case "1":
+			 p= meat2.get(oferSelec-1);
+			 System.out.println("Has Selecionado la "+p.getNombre());
+				cliente.getCarrito().add(meat2.get(oferSelec-1));
+				System.out.println("Producto agregado con exito!");
+				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
+				System.out.println("\n3. Finalizar compra ");
+				String validado = validarRespuesta(1, 2 , sc.nextLine());
+				if(validado.equals("1")) {
+					menuAlimentos(mercado);
+	                break;
+				}else if(validado.equals("2")) {
+					ofertaProductos(mercado);
+					break;
+				}else if(validado.equals("3")) {
+					finalizarCompra();
+					break;
+				}
+				 
+			break;
+		case "2":
+			break;
+		}
 
-	
-	
-	
+	}
 	
 	public static void comprarTelevisor(Supermercado mercado){
 		if(mercado.ofertv.size() > 0){

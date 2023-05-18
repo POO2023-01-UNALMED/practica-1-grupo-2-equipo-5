@@ -65,5 +65,8 @@ public abstract class Alimentos implements Serializable {
 		this.cantidad = cantidad;
 	}
 	
-	public abstract void oferta();//Metodo abstracto
+	public abstract String oferta();//Metodo abstracto
+	
+	
+	
 }
