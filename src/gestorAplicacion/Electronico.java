@@ -1,6 +1,7 @@
 package src.gestorAplicacion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 //Definimos la clase abstracta
 public abstract class Electronico implements Serializable {
@@ -56,6 +57,8 @@ public abstract class Electronico implements Serializable {
 	public  void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+
+
     
     
 }

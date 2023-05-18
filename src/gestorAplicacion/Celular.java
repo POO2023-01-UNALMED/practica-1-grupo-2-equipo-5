@@ -1,6 +1,9 @@
 package src.gestorAplicacion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Celular extends Electronico implements Serializable {
     private int almacenamiento;
@@ -56,5 +59,185 @@ public class Celular extends Electronico implements Serializable {
 
     public void setRam(int ram) {
         this.ram = ram;
+    }
+
+    public static ArrayList<Celular> filtroNombre(Supermercado mercado, String nombre){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        for(Celular celular : celulares_mercado){
+            if(nombre.matches(celular.getNombre().toLowerCase())){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroNombreSimilar(Supermercado mercado, String nombre){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+
+        // Dividir el filtro en palabras individuales
+        String[] palabrasFiltro = nombre.split("\\s+");
+
+        // Construir el patrón de búsqueda
+        StringBuilder patronBuilder = new StringBuilder();
+        patronBuilder.append(".*");
+        for (String palabra : palabrasFiltro) {
+            patronBuilder.append(".*").append(Pattern.quote(palabra));
+        }
+        patronBuilder.append(".*");
+        Pattern pattern = Pattern.compile(patronBuilder.toString(), Pattern.CASE_INSENSITIVE);
+        for (Celular celular : celulares_mercado) {
+            Matcher matcher = pattern.matcher(celular.getNombre());
+            if (matcher.matches()) {
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+
+    public static ArrayList<Celular> filtroMarca(Supermercado mercado, String nombre){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        for(Celular celular : celulares_mercado){
+            if(nombre.matches(celular.getMarca().toLowerCase())){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroMarcaSimilar(Supermercado mercado, String nombre){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+
+        // Dividir el filtro en palabras individuales
+        String[] palabrasFiltro = nombre.split("\\s+");
+
+        // Construir el patrón de búsqueda
+        StringBuilder patronBuilder = new StringBuilder();
+        patronBuilder.append(".*");
+        for (String palabra : palabrasFiltro) {
+            patronBuilder.append(".*").append(Pattern.quote(palabra));
+        }
+        patronBuilder.append(".*");
+        Pattern pattern = Pattern.compile(patronBuilder.toString(), Pattern.CASE_INSENSITIVE);
+        for (Celular celular : celulares_mercado) {
+            Matcher matcher = pattern.matcher(celular.getMarca());
+            if (matcher.matches()) {
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroColor(Supermercado mercado, String nombre){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+
+        // Dividir el filtro en palabras individuales
+        String[] palabrasFiltro = nombre.split("\\s+");
+
+        // Construir el patrón de búsqueda
+        StringBuilder patronBuilder = new StringBuilder();
+        patronBuilder.append(".*");
+        for (String palabra : palabrasFiltro) {
+            patronBuilder.append(".*").append(Pattern.quote(palabra));
+        }
+        patronBuilder.append(".*");
+        Pattern pattern = Pattern.compile(patronBuilder.toString(), Pattern.CASE_INSENSITIVE);
+        for (Celular tv : celulares_mercado) {
+            Matcher matcher = pattern.matcher(tv.getColor());
+            if (matcher.matches()) {
+                celulares_filtrados.add(tv);
+            }
+        }
+        return celulares_filtrados;
+    }
+
+    public static ArrayList<Celular> filtroCamaras(Supermercado mercado, int min, int max){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Celular celular: celulares_mercado){
+            if(celular.getCamaras()>= min && celular.getCamaras()<= max){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+
+    public static ArrayList<Celular> filtroPrecio(Supermercado mercado, int min, int max){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Celular celular: celulares_mercado){
+            if(celular.getPrecio()>= min && celular.getPrecio()<= max){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroAlmacenamiento(Supermercado mercado, int min, int max){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Celular celular: celulares_mercado){
+            if(celular.getAlmacenamiento()>= min && celular.getAlmacenamiento()<= max){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroBateria(Supermercado mercado, int min, int max){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Celular celular: celulares_mercado){
+            if(celular.getBateria()>= min && celular.getBateria()<= max){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    public static ArrayList<Celular> filtroRam(Supermercado mercado, int min, int max){
+        ArrayList<Celular> celulares_mercado = mercado.getOfercelular();
+        ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Celular celular: celulares_mercado){
+            if(celular.getRam()>= min && celular.getRam()<= max){
+                celulares_filtrados.add(celular);
+            }
+        }
+        return celulares_filtrados;
+    }
+    @Override
+    public String toString() {
+        return "Nombre: " +this.getNombre()+
+                "\nMarca: " +this.getMarca()+
+                "\nColor: " +this.getColor()+
+                "\nNumero de cámaras: " +this.getCamaras()+
+                "\nAlmacenamiento: " +this.getAlmacenamiento()+
+                "\nBateria: " +this.getBateria()+
+                "\nMemoria RAM: "+this.getRam()+
+                "\nCantidad en stock: " +this.getCantidad()+
+                "\nPrecio: "+this.getPrecio();
     }
 }

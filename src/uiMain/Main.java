@@ -5,9 +5,13 @@ import src.baseDatos.Deserializar;
 import src.baseDatos.Serializar;
 import src.gestorAplicacion.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.*;
+
+import static src.gestorAplicacion.Tv.filtroPrecio;
+import static src.gestorAplicacion.Tv.filtroPulgadas;
 
 public class Main {
 	public static Scanner sc = new Scanner(System.in);
@@ -650,6 +654,7 @@ public class Main {
 	
 	public static void comprarTelevisor(Supermercado mercado){
 		if(mercado.ofertv.size() > 0){
+			ArrayList<String> filtros = new ArrayList<>(List.of("Nombre","Marca", "Pulgadas", "Resolucion", "Precio"));
 			Electronico producto_seleccionado = null;
 			System.out.println("Estos son los televisores que tenemos disponibles en "+mercado.getNombre());
 			for(int i = 0; i<mercado.ofertv.size(); i++) {
@@ -661,47 +666,184 @@ public class Main {
 						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
 			}
 			System.out.println("Selecciona uno de nuestros productos a comprar o escribe '"+(mercado.ofertv.size()+1)+"' para salir: ");
+			System.out.println("Puedes escribir: "+(mercado.ofertv.size()+2)+" para realizar una busqueda con filtros: ");
 			String respuesta = sc.nextLine();
-			while(Integer.parseInt(respuesta) > mercado.ofertv.size()+1 || Integer.parseInt(respuesta)<= 0){
+			while(Integer.parseInt(respuesta) > mercado.ofertv.size()+2 || Integer.parseInt(respuesta)<= 0){
 				System.out.println("Respuesta erronea, intentalo nuevamente");
 				respuesta = sc.nextLine();
 			}
 			if(respuesta.equals(mercado.ofertv.size()+1+"")){
 				return;
-			}
-			producto_seleccionado = mercado.ofertv.get(Integer.parseInt(respuesta)-1);
-			System.out.println("Has seleccionado el televisor: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
 
-			System.out.println("Ingresa: " +
-					"\n1. Añadir al carrito" +
-					"\n2. Volver al menú anterior");
-			String respuesta2 = sc.nextLine();
-			while(!respuesta2.equals("1") && !respuesta2.equals("2")){
-				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
-				 respuesta2 = sc.nextLine();
-			}
-			switch (respuesta2){
-				case "1":
-					cliente.getCarrito().add(mercado.ofertv.get(Integer.parseInt(respuesta)-1));
-					System.out.println("Producto agregado con exito!");
-					System.out.println("\n1. Seguir comprando");
-					System.out.println("\n2. Finalizar compra ");
-					while (true) {
-						respuesta2 = sc.nextLine();
-						if (respuesta2.equals("1")) {
-							ofertaProductos(mercado);
-							break;
-						}else if (respuesta2.equals("2")){
-							finalizarCompra();
-							break;
-						}
-						System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
-						}
+			}else if(respuesta.equals(mercado.ofertv.size()+2+"")){
+				//MI VERSION DE LOS FILTROS :D
 
-					break;
-				case "2":
-					comprarTelevisor(mercado);
-					break;
+				System.out.println("Dinos por cuál tipo de caracteristica deseas filtrar: ");
+				int indiceFiltros = 1;
+				for (String filtro: filtros){
+					System.out.println(indiceFiltros+". "+filtro+"\n");
+					indiceFiltros++;
+				}
+				System.out.println("Escribe un número para seleccionar su filtro correspondiente: ");
+				int inputFiltros = Integer.parseInt(validarRespuesta(1, filtros.size(), sc.nextLine()));
+				System.out.println("El filtro seleccionado fue: "+filtros.get(inputFiltros-1));
+				ArrayList<Tv> tvsFiltrados = new ArrayList<>();
+				switch (inputFiltros) {
+					case 1:
+
+						System.out.println("Ingresa el nombre del televisor que estás buscando: ");
+						String nombre = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						tvsFiltrados = Tv.filtroNombre(mercado, nombre);
+
+						if(tvsFiltrados.size() == 0){
+							tvsFiltrados = Tv.filtroNombreSimilar(mercado, nombre);
+						}
+						if(tvsFiltrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							tvsFiltrados = mercado.getOfertv();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Tv televisor: tvsFiltrados) {
+							System.out.println(indiceFiltros+". "+televisor);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
+						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarTelevisor(mercado, respuesta, tvsFiltrados);
+
+						}
+						break;
+					case 2:
+						//Filtrar por marca
+						System.out.println("Ingresa la marca del televisor que estás buscando: ");
+						String marca = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						tvsFiltrados = Tv.filtroMarca(mercado, marca);
+
+						if(tvsFiltrados.size() == 0){
+							tvsFiltrados = Tv.filtroMarcaSimilar(mercado, marca);
+						}
+						if(tvsFiltrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							tvsFiltrados = mercado.getOfertv();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Tv televisor: tvsFiltrados) {
+							System.out.println(indiceFiltros+". "+televisor);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
+						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarTelevisor(mercado, respuesta, tvsFiltrados);
+
+						}
+						break;
+					case 3:
+
+						//Filtramos por pulgadas
+						System.out.println("Ingrese el número minimo de pulgadas que desea en su televisor: ");
+						int minPulgadas = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el número máximo de pulgadas que desea en su televisor: ");
+						int maxPulgadas = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						tvsFiltrados = filtroPulgadas(mercado, minPulgadas,maxPulgadas);
+						if(tvsFiltrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							tvsFiltrados = mercado.getOfertv();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Tv televisor: tvsFiltrados) {
+							System.out.println(indiceFiltros+". "+televisor);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
+						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarTelevisor(mercado, respuesta, tvsFiltrados);
+
+						}
+						break;
+					case 4:
+						//Filtrar por resolucion
+						System.out.println("Ingresa la resolucion del televisor que estás buscando: ");
+						String resolucion = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						tvsFiltrados = Tv.filtroResolucion(mercado, resolucion);
+
+						if(tvsFiltrados.size() == 0){
+							tvsFiltrados = Tv.filtroResolucionSimilar(mercado, resolucion);
+						}
+						if(tvsFiltrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							tvsFiltrados = mercado.getOfertv();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Tv televisor: tvsFiltrados) {
+							System.out.println(indiceFiltros+". "+televisor);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
+						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarTelevisor(mercado, respuesta, tvsFiltrados);
+
+						}
+						break;
+					case 5:
+						//Filtrar por precios
+						System.out.println("Ingrese el precio minimo que desea en su televisor: ");
+						int minPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el precio máximo que desea en su televisor: ");
+						int maxPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						tvsFiltrados = filtroPrecio(mercado, minPrecio,maxPrecio);
+						if(tvsFiltrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							tvsFiltrados = mercado.getOfertv();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Tv televisor: tvsFiltrados) {
+							System.out.println(indiceFiltros+". "+televisor);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
+						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarTelevisor(mercado, respuesta, tvsFiltrados);
+
+						}
+						break;
+				}
+			}else{
+				comprarTelevisor(mercado, respuesta, mercado.getOfertv());
 			}
 		}else{
 			System.out.println("Este supermercado no cuenta con televisores D: ¿Deseas añadir uno?: " +
@@ -721,65 +863,294 @@ public class Main {
 			}
 		}
 	}
+	public static void comprarTelevisor(Supermercado mercado, String respuesta, ArrayList<Tv> televisores){
+		Electronico producto_seleccionado = null;
+		producto_seleccionado = televisores.get(Integer.parseInt(respuesta)-1);
+		System.out.println("Has seleccionado el televisor: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
 
+		System.out.println("Ingresa: " +
+				"\n1. Añadir al carrito" +
+				"\n2. Volver al menú anterior");
+		String respuesta2 = sc.nextLine();
+		while(!respuesta2.equals("1") && !respuesta2.equals("2")){
+			System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+			respuesta2 = sc.nextLine();
+		}
+		switch (respuesta2){
+			case "1":
+				cliente.getCarrito().add(televisores.get(Integer.parseInt(respuesta)-1));
+				System.out.println("Producto agregado con exito!");
+				System.out.println("\n1. Seguir comprando");
+				System.out.println("\n2. Finalizar compra ");
+				while (true) {
+					respuesta2 = sc.nextLine();
+					if (respuesta2.equals("1")) {
+						ofertaProductos(mercado);
+						break;
+					}else if (respuesta2.equals("2")){
+						finalizarCompra();
+						break;
+					}
+					System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
+				}
+
+				break;
+			case "2":
+				comprarTelevisor(mercado);
+				break;
+		}
+	}
 
 	public static void comprarCelular(Supermercado mercado){
+		ArrayList<String> filtros = new ArrayList<>(List.of("Nombre","Marca", "Color", "Almacenamiento","Bateria", "Ram", "Precio"));
 		if(mercado.ofercelular.size() > 0){
 			Electronico producto_seleccionado = null;
 			System.out.println("Estos son los celulares que tenemos disponibles en "+mercado.getNombre());
-			for(int i = 0; i<mercado.ofercelular.size(); i++) {
-				producto_seleccionado = mercado.ofercelular.get(i);
-				System.out.println((i+1)+". "+
-						"\nNombre:"+producto_seleccionado.getNombre()+" " +
-						"\n Marca: "+producto_seleccionado.getMarca()+" " +
-						"\n Precio: "+producto_seleccionado.getPrecio()+" "+
-						"\n Cantidad en stock: "+producto_seleccionado.getCantidad());
+			for(int i = 0; i<mercado.getOfercelular().size(); i++) {
+				producto_seleccionado = mercado.getOfercelular().get(i);
+				System.out.println((i+1)+". "+producto_seleccionado);
 			}
 			System.out.println("Selecciona uno de nuestros productos a comprar o escribe '"+(mercado.ofercelular.size()+1)+"' para salir: ");
+			System.out.println("Puedes escribir: "+(mercado.ofercelular.size()+2)+" para realizar una busqueda con filtros: ");
 			String respuesta = sc.nextLine();
-			while(Integer.parseInt(respuesta) > mercado.ofercelular.size()+1 || Integer.parseInt(respuesta)<= 0){
+			while(Integer.parseInt(respuesta) > mercado.ofercelular.size()+2 || Integer.parseInt(respuesta)<= 0){
 				System.out.println("Respuesta erronea, intentalo nuevamente");
 				respuesta = sc.nextLine();
 			}
 			if(respuesta.equals(mercado.ofercelular.size()+1+"")){
 				return;
-			}
-			producto_seleccionado = mercado.ofercelular.get(Integer.parseInt(respuesta)-1);
-			System.out.println("Has seleccionado el celular: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
 
-			System.out.println("Ingresa: " +
-					"\n1. Añadir al carrito" +
-					"\n2. Volver al menú anterior");
-			String respuesta2 = sc.nextLine();
-			while(!respuesta2.equals("1") && !respuesta2.equals("2")){
-				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
-				respuesta2 = sc.nextLine();
-			}
-			switch (respuesta2){
-				case "1":
-					cliente.getCarrito().add(mercado.ofercelular.get(Integer.parseInt(respuesta)-1));
-					System.out.println("Producto agregado con exito!");
-					System.out.println("\n1. Seguir comprando");
-					System.out.println("\n2. Finalizar compra ");
-					while (true) {
-						respuesta2 = sc.nextLine();
-						if (respuesta2.equals("1")) {
-							ofertaProductos(mercado);
-							break;
-						}else if (respuesta2.equals("2")){
-							finalizarCompra();
-							break;
+			}else if(respuesta.equals(mercado.ofercelular.size()+2+"")){
+				//MI VERSION DE LOS FILTROS :D
+
+				System.out.println("Dinos por cuál tipo de caracteristica deseas filtrar: ");
+				int indiceFiltros = 1;
+				for (String filtro: filtros){
+					System.out.println(indiceFiltros+". "+filtro+"\n");
+					indiceFiltros++;
+				}
+				System.out.println("Escribe un número para seleccionar su filtro correspondiente: ");
+				int inputFiltros = Integer.parseInt(validarRespuesta(1, filtros.size(), sc.nextLine()));
+				System.out.println("El filtro seleccionado fue: "+filtros.get(inputFiltros-1));
+				ArrayList<Celular> celulares_filtrados = new ArrayList<>();
+				switch (inputFiltros) {
+					case 1:
+
+						System.out.println("Ingresa el nombre del celular que estás buscando: ");
+						String nombre = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						celulares_filtrados = Celular.filtroNombre(mercado, nombre);
+
+						if(celulares_filtrados.size() == 0){
+							celulares_filtrados = Celular.filtroNombreSimilar(mercado, nombre);
 						}
-						System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
-					}
+						if(celulares_filtrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarCelular(mercado);
 
-					break;
-				case "2":
-					comprarCelular(mercado);
-					break;
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+					case 2:
+						//Filtrar por marca
+						System.out.println("Ingresa la marca del celular que estás buscando: ");
+						String marca = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						celulares_filtrados = Celular.filtroMarca(mercado, marca);
+
+						if(celulares_filtrados.size() == 0){
+							celulares_filtrados = Celular.filtroMarcaSimilar(mercado, marca);
+						}
+						if(celulares_filtrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarCelular(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+					case 3:
+						//Filtrar por Color
+						System.out.println("Ingresa el color del celular que estás buscando: ");
+						String color = sc.nextLine().toLowerCase();
+						System.out.println("Buscando...");
+						celulares_filtrados = Celular.filtroColor(mercado, color);
+
+						if(celulares_filtrados.size()!=0) {
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+					case 4:
+
+						//Filtramos por almacenamiento
+						System.out.println("Ingrese el número minimo de almacenamiento que desea en su celular: ");
+						int minAlmacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el número máximo de almacenamiento que desea en su celular: ");
+						int maxAlmacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						celulares_filtrados = Celular.filtroAlmacenamiento(mercado, minAlmacenamiento,maxAlmacenamiento);
+						if(celulares_filtrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+
+					case 5:
+
+						//Filtramos por bateria
+						System.out.println("Ingrese el número minimo de bateria que desea en su celular: ");
+						int minBateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el número máximo de bateria que desea en su celular: ");
+						int maxBateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						celulares_filtrados = Celular.filtroBateria(mercado, minBateria,maxBateria);
+						if(celulares_filtrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+					case 6:
+
+						//Filtramos por Ram
+						System.out.println("Ingrese el número minimo de ram que desea en su celular: ");
+						int minRam = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el número máximo de ram que desea en su celular: ");
+						int maxRam = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						celulares_filtrados = Celular.filtroRam(mercado, minRam,maxRam);
+						if(celulares_filtrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+					case 7:
+
+						//Filtramos por precio
+						System.out.println("Ingrese el número minimo de precio que desea en su celular: ");
+						int minPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Ingrese el número máximo de precio que desea en su celular: ");
+						int maxPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
+						System.out.println("Buscando... jejeje");
+						celulares_filtrados = Celular.filtroPrecio(mercado, minPrecio,maxPrecio);
+						if(celulares_filtrados.size() != 0){
+							System.out.println("Estos son los resultados de tu busqueda: ");
+						}else{
+							celulares_filtrados = mercado.getOfercelular();
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+						}
+						indiceFiltros = 1;
+						for (Celular celular: celulares_filtrados) {
+							System.out.println(indiceFiltros+". "+celular);
+							indiceFiltros++;
+						}
+						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
+						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
+							comprarTelevisor(mercado);
+
+						}else{
+							comprarCelular(mercado, respuesta, celulares_filtrados);
+
+						}
+						break;
+				}
+			}else{
+				comprarTelevisor(mercado, respuesta, mercado.getOfertv());
 			}
 		}else{
-			System.out.println("Este supermercado no cuenta con celulares D: ¿Deseas añadir uno?: " +
+			System.out.println("Este supermercado no cuenta con televisores D: ¿Deseas añadir uno?: " +
 					"\n1. SI" +
 					"\n2. NO");
 			String respuesta = sc.nextLine();
@@ -794,6 +1165,43 @@ public class Main {
 				case "2":
 					break;
 			}
+		}
+	}
+	public static void comprarCelular(Supermercado mercado, String respuesta, ArrayList<Celular> celulares){
+		Electronico producto_seleccionado = null;
+		producto_seleccionado = celulares.get(Integer.parseInt(respuesta)-1);
+		System.out.println("Has seleccionado el celular: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
+
+		System.out.println("Ingresa: " +
+				"\n1. Añadir al carrito" +
+				"\n2. Volver al menú anterior");
+		String respuesta2 = sc.nextLine();
+		while(!respuesta2.equals("1") && !respuesta2.equals("2")){
+			System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+			respuesta2 = sc.nextLine();
+		}
+		switch (respuesta2){
+			case "1":
+				cliente.getCarrito().add(celulares.get(Integer.parseInt(respuesta)-1));
+				System.out.println("Producto agregado con exito!");
+				System.out.println("\n1. Seguir comprando");
+				System.out.println("\n2. Finalizar compra ");
+				while (true) {
+					respuesta2 = sc.nextLine();
+					if (respuesta2.equals("1")) {
+						ofertaProductos(mercado);
+						break;
+					}else if (respuesta2.equals("2")){
+						finalizarCompra();
+						break;
+					}
+					System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
+				}
+
+				break;
+			case "2":
+				comprarCelular(mercado);
+				break;
 		}
 	}
 
