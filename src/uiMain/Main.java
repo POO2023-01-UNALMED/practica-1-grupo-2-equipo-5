@@ -1120,7 +1120,7 @@ public class Main {
 						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
-							comprarTelevisor(mercado);
+							comprarCelular(mercado);
 
 						}else{
 							comprarCelular(mercado, respuesta, celulares_filtrados);
@@ -1151,7 +1151,7 @@ public class Main {
 						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
-							comprarTelevisor(mercado);
+							comprarCelular(mercado);
 
 						}else{
 							comprarCelular(mercado, respuesta, celulares_filtrados);
@@ -1181,7 +1181,7 @@ public class Main {
 						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
-							comprarTelevisor(mercado);
+							comprarCelular(mercado);
 
 						}else{
 							comprarCelular(mercado, respuesta, celulares_filtrados);
@@ -1211,7 +1211,7 @@ public class Main {
 						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
-							comprarTelevisor(mercado);
+							comprarCelular(mercado);
 
 						}else{
 							comprarCelular(mercado, respuesta, celulares_filtrados);
