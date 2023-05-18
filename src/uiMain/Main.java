@@ -34,7 +34,7 @@ public class Main {
 		lista_carnicos = Deserializar.deserializarCarne();
 		
 		//Si no hay supermercados se ejecuta un flujo para crear el supermercado dentro de deserializarSupermercados()
-
+		lista_super =  Deserializar.deserializarSupermercados();
 		
 		System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
 		System.out.print("Ingresa tu nombre: ");
@@ -122,7 +122,7 @@ public class Main {
 		System.out.println("\nTOTAL :"+precio_total);
 		
 		if (cliente.getSaldo()<precio_total) {
-			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito. \n Cual producto deseas quitar?");
+			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\n Cual producto deseas quitar?");
 			String select =sc.nextLine();
 			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
 			
@@ -161,6 +161,9 @@ public class Main {
 			//Aqui se pondrian los otros casos para las otras clases (Casi que lo mismo no se si halla una mejor logica)
 			
 			finalizarCompra();
+		}
+		else {
+			
 		}
 		
 	}
@@ -366,11 +369,6 @@ public class Main {
 			    lista_ropa.add(nuevaRopa);
 			    cuandoSeAgrega(mercado);
 			    break;
-
-				
-				
-			
-
 			case "7":
 				//volver al menu anterior
 				lista_super =  Deserializar.deserializarSupermercados();
@@ -458,6 +456,7 @@ public class Main {
 			break;
 		case "4":
 			//comprarRopa()
+			comprarRopa(mercado);
 			break;
 		case "5":
 			break;
@@ -609,15 +608,12 @@ public class Main {
 				//Este flujo permite eliminar los objetos de la lista y poderlos recuperar posteriormente si se necesita
 				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
 				compra.setCantidad(compra.getCantidad()-1);
+				if(compra.getCantidad()==0) mercado.oferlibros.remove(compra);
 				for(Object producto:cliente.getCarrito()) {
 					if (producto instanceof Libro) {
 						if(compra.compareTo((Libro)producto)==1) {
 							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
 							libroencarrito=true;
-							if(compra.getCantidad()==0) {
-								//No se esta borrando de la lista
-								mercado.oferlibros.remove(compra);
-							}
 							break;
 						}
 					}
@@ -888,17 +884,17 @@ public class Main {
 	                    "\nPrecio: " + prenda.getPrecioRopa() +
 	                    "\nCantidad en stock: " + prenda.getCantidadRopa());
 	        }
-	        System.out.println("Selecciona los filtros de búsqueda:");
-	        System.out.print("Talla: ");
+	        System.out.println("\nSelecciona los filtros de busqueda:");
+	        System.out.println("Talla: ");
 	        String talla = sc.nextLine();
-	        System.out.print("Color: ");
+	        System.out.println("Color: ");
 	        String color = sc.nextLine();
-	        System.out.print("Género: ");
+	        System.out.println("Genero: ");
 	        String genero = sc.nextLine();
-	        System.out.print("Tipo: ");
+	        System.out.println("Tipo: ");
 	        String tipo = sc.nextLine();
 
-	        // Filtrar las prendas de ropa según los criterios de búsqueda
+	        // Filtrar las prendas de ropa segun los criterios de busqueda
 	        prendasFiltradas = Ropa.filtrarPrendas(mercado.oferropa, talla, color, genero, tipo);
 
 	        if (prendasFiltradas.size() > 0) {
@@ -921,17 +917,17 @@ public class Main {
 	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 
 	                System.out.println("Ingresa: " +
-	                        "\n1. Añadir al carrito" +
-	                        "\n2. Volver al menú anterior");
+	                        "\n1. A�adir al carrito" +
+	                        "\n2. Volver al menu anterior");
 	                String respuesta2 = sc.nextLine();
 	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
-	                    System.out.println("Número ingresado incorrecto, inténtalo nuevamente: ");
+	                    System.out.println("Numero ingresado incorrecto, inténtalo nuevamente: ");
 	                    respuesta2 = sc.nextLine();
 	                }
 	                switch (respuesta2) {
 	                    case "1":
 	                        cliente.getCarrito().add(prendaSeleccionada);
-	                        System.out.println("Producto agregado con éxito!");
+	                        System.out.println("Producto agregado con exito!");
 	                        System.out.println("\n1. Seguir comprando");
 	                        System.out.println("\n2. Finalizar compra ");
 	                        while (true) {
@@ -943,7 +939,7 @@ public class Main {
 	                                finalizarCompra();
 	                                break;
 	                            }
-	                            System.out.println("Número ingresado incorrecto, ingresa nuevamente el número: ");
+	                            System.out.println("Numero ingresado incorrecto, ingresa nuevamente el numero: ");
 	                        }
 	                        break;
 	                    case "2":
@@ -952,7 +948,7 @@ public class Main {
 	                }
 	            }
 	        } else {
-	            System.out.println("No hay prendas de ropa disponibles según los filtros seleccionados. ¿Deseas volver a intentarlo?");
+	            System.out.println("No hay prendas de ropa disponibles segun los filtros seleccionados. Deseas volver a intentarlo?");
 	            System.out.println("1. SI");
 	            System.out.println("2. NO");
 	            String respuesta = sc.nextLine();
@@ -966,7 +962,7 @@ public class Main {
 	            }
 	        }
 	    } else {
-	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. ¿Deseas añadir alguna?");
+	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. Deseas anadir alguna?");
 	        System.out.println("1. SI");
 	        System.out.println("2. NO");
 	        String respuesta = sc.nextLine();

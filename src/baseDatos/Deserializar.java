@@ -126,26 +126,25 @@ public class Deserializar {
         }
     }
     
-    public static ArrayList<Ropa> deserializarRopa() {
+    public static ArrayList<Ropa> deserializarRopa(){
         try {
-            String rutaArchivo = "src/baseDatos/temp/Ropa.txt";
-            FileInputStream file = new FileInputStream(new File(rutaArchivo));
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
+                    "\\src\\baseDatos\\temp\\Ropa.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
-            ArrayList<Ropa> listaRopa = (ArrayList<Ropa>) o.readObject();
+            ArrayList<Ropa> lista_Ropa = (ArrayList) o.readObject();
 
             file.close();
             o.close();
-            return listaRopa;
+            return lista_Ropa;
 
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }catch(FileNotFoundException e){
             return new ArrayList<Ropa>();
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+        catch(IOException e){
             return new ArrayList<Ropa>();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error al deserializar el objeto: " + e.getMessage());
+        }
+        catch(ClassNotFoundException e) {
             return new ArrayList<Ropa>();
         }
     }
