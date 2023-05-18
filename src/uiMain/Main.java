@@ -25,10 +25,12 @@ public class Main {
 	public static ArrayList<Tv> lista_tvs = new ArrayList<>();
 	public static ArrayList<Celular> lista_celulares = new ArrayList<>();
 	public static ArrayList<Supermercado> lista_super = new ArrayList<Supermercado>();
+	public static ArrayList<Ropa> lista_ropa = new ArrayList<Ropa>();
 	
 	//Aqui empieza el main
 	public static void main(String[] args) {
 		
+		lista_ropa = Deserializar.deserializarRopa();
 		lista_celulares = Deserializar.deserializarCelulares();
 		lista_tvs = Deserializar.deserializarTvs();
 		lista_libros = Deserializar.deserializarLibros();
@@ -65,6 +67,10 @@ public class Main {
 		if(lista_libros.size() >0) {
 			Serializar.serializarLibros(lista_libros);
 		}
+		//agregure la mia//
+		if(lista_ropa.size() >0) {
+			Serializar.serializarRopa(lista_ropa);
+		}
 
 	}
 	//Volvi este codigo un metodo para aplicar el boton de volver al menu anterior
@@ -95,7 +101,7 @@ public class Main {
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
 		System.out.println("\nCarrito de compras:");
-		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio");
+		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
 		int precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
@@ -110,15 +116,59 @@ public class Main {
 			}
 			
 			else if(producto instanceof Libro) {
-				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio());
+				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
 				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
 			}
 			//else if(producto instanceof OtraClase)
 			//Terminar con el resto de tipos de productos
 			cont++;
 		}
-		System.out.println("TOTAL :"+precio_total);
-		// Terminar
+		System.out.println("\nTOTAL :"+precio_total);
+		
+		if (cliente.getSaldo()<precio_total) {
+			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\n Cual producto deseas quitar?");
+			String select =sc.nextLine();
+			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
+			
+			//No pude encontrar una manera mas eficiente para saber la cantidad de diferentes objetos
+			if(producto instanceof Libro) {
+				boolean libroenmercado=false;
+				Libro libro = (Libro) producto;
+				int asumar=0, cantidad = libro.getCantidad();
+				
+				System.out.println("Cuantas unidades deseas quitar?");
+				for (int i=1;i<=cantidad;i++) {
+					System.out.println(i+". "+i);
+				}
+				asumar=Integer.parseInt(sc.nextLine());
+		
+				for(Libro libros:libro.getSupermercado().getOferlibros()) {
+					if (libro.compareTo(libros)==1) {
+						libros.setCantidad(libros.getCantidad()+asumar);
+						libroenmercado=true;
+						break;
+					}
+				}
+				
+				//((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+				if(!libroenmercado) {
+					libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
+					}
+				
+				((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+				if (((Libro) producto).getCantidad()==0) {
+					cliente.getCarrito().remove(producto);
+				}
+		
+			}
+			
+			//Aqui se pondrian los otros casos para las otras clases (Casi que lo mismo no se si halla una mejor logica)
+			
+			finalizarCompra();
+		}
+		else {
+			
+		}
 		
 	}
 	
@@ -300,9 +350,29 @@ public class Main {
 				
 				cuandoSeAgrega(mercado);
 				break;
+				
+			//acabo de hacer esto//
 			case "6":
-				//Ropa
-				break;
+			    // Ropa
+			    System.out.print("Ingrese el nombre de la prenda de ropa: ");
+			    String nombreRopa = sc.nextLine();
+			    System.out.print("Ingresa el precio de la prenda de ropa: ");
+			    int precioRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
+			    System.out.print("Ingresa el color de la prenda de ropa: ");
+			    String colorRopa = sc.nextLine();
+			    System.out.print("Ingresa la talla de la prenda de ropa: ");
+			    String tallaRopa = sc.nextLine();
+			    System.out.print("Ingresa el género de la prenda de ropa: ");
+			    String generoRopa = sc.nextLine();
+			    System.out.print("Ingresa el tipo de prenda de ropa: ");
+			    String tipoRopa = sc.nextLine();
+			    System.out.print("Ingresa la cantidad de prendas de ropa " + nombreRopa.toUpperCase() + " que desea añadir: ");
+			    int cantidadRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
+			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa);
+			    mercado.getOferropa().add(nuevaRopa);
+			    lista_ropa.add(nuevaRopa);
+			    cuandoSeAgrega(mercado);
+			    break;
 			case "7":
 				//volver al menu anterior
 				lista_super =  Deserializar.deserializarSupermercados();
@@ -390,6 +460,7 @@ public class Main {
 			break;
 		case "4":
 			//comprarRopa()
+			comprarRopa(mercado);
 			break;
 		case "5":
 			break;
@@ -413,6 +484,7 @@ public class Main {
 					System.out.println("Titulo: "+libro.getTitulo());
 					System.out.println("Autor: "+libro.getAutor());
 					System.out.println("Precio: "+libro.getPrecio());
+					System.out.println("Unidades Disponibles: "+libro.getCantidad());
 					++i;
 				}
 				}
@@ -424,6 +496,7 @@ public class Main {
 					System.out.println("Titulo: "+libro.getTitulo());
 					System.out.println("Autor: "+libro.getAutor());
 					System.out.println("Precio: "+libro.getPrecio());
+					System.out.println("Unidades Disponibles: "+libro.getCantidad());
 					++i;
 				}
 			}
@@ -435,6 +508,7 @@ public class Main {
 				System.out.println("Titulo: "+libro.getTitulo());
 				System.out.println("Autor: "+libro.getAutor());
 				System.out.println("Precio: "+libro.getPrecio());
+				System.out.println("Unidades Disponibles: "+libro.getCantidad());
 				++i;
 			}
 			
@@ -489,7 +563,7 @@ public class Main {
 						"\n2.Precio"+
 						"\n3.Volver al menu anterior");
 				
-				filtro=sc.next();
+				filtro=sc.nextLine();
 				
 				switch(filtro) {
 				case "1":
@@ -502,7 +576,7 @@ public class Main {
 						System.out.println(numautor+"."+nombreAutor);
 						++numautor;
 					}
-					autorSelect=sc.next();
+					autorSelect=sc.nextLine();
 					filtrolibro=1;
 					comprarLibro(mercado,(String) lstautores[Integer.parseInt(autorSelect)-1]);
 					return;
@@ -537,21 +611,20 @@ public class Main {
 				boolean libroencarrito=false;
 				//Este flujo permite eliminar los objetos de la lista y poderlos recuperar posteriormente si se necesita
 				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
+				compra.setCantidad(compra.getCantidad()-1);
+				if(compra.getCantidad()==0) mercado.oferlibros.remove(compra);
 				for(Object producto:cliente.getCarrito()) {
 					if (producto instanceof Libro) {
 						if(compra.compareTo((Libro)producto)==1) {
 							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
 							libroencarrito=true;
-							if(((Libro) producto).getCantidad()==compra.getCantidad()) {
-								mercado.oferlibros.remove(compra);
-							}
 							break;
 						}
 					}
 				}
 				
 				if(!libroencarrito) {
-					cliente.getCarrito().add(new Libro(compra));
+					cliente.getCarrito().add(new Libro(compra,1));
 				}
 				
 				//Luego, al finalizar compra, hay que hacer un proceso especial por si el cliente se arrepiente y devolver el stock de libros.
@@ -1167,6 +1240,7 @@ public class Main {
 			}
 		}
 	}
+
 	public static void comprarCelular(Supermercado mercado, String respuesta, ArrayList<Celular> celulares){
 		Electronico producto_seleccionado = null;
 		producto_seleccionado = celulares.get(Integer.parseInt(respuesta)-1);
@@ -1204,6 +1278,115 @@ public class Main {
 				break;
 		}
 	}
+
+	
+	public static void comprarRopa(Supermercado mercado) {
+	    if (mercado.oferropa.size() > 0) {
+	        ArrayList<Ropa> prendasFiltradas = new ArrayList<>();
+	        System.out.println("Estas son las prendas de ropa disponibles en " + mercado.getNombre());
+	        // Mostrar las prendas de ropa disponibles
+	        for (int i = 0; i < mercado.oferropa.size(); i++) {
+	            Ropa prenda = mercado.oferropa.get(i);
+	            System.out.println((i + 1) + ". " +
+	                    "\nNombre: " + prenda.getNombreRopa() +
+	                    "\nColor: " + prenda.getColorRopa() +
+	                    "\nTalla: " + prenda.getTallaRopa() +
+	                    "\nPrecio: " + prenda.getPrecioRopa() +
+	                    "\nCantidad en stock: " + prenda.getCantidadRopa());
+	        }
+	        System.out.println("\nSelecciona los filtros de busqueda:");
+	        System.out.println("Talla: ");
+	        String talla = sc.nextLine();
+	        System.out.println("Color: ");
+	        String color = sc.nextLine();
+	        System.out.println("Genero: ");
+	        String genero = sc.nextLine();
+	        System.out.println("Tipo: ");
+	        String tipo = sc.nextLine();
+
+	        // Filtrar las prendas de ropa segun los criterios de busqueda
+	        prendasFiltradas = Ropa.filtrarPrendas(mercado.oferropa, talla, color, genero, tipo);
+
+	        if (prendasFiltradas.size() > 0) {
+	            System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");
+	            for (int i = 0; i < prendasFiltradas.size(); i++) {
+	                Ropa prenda = prendasFiltradas.get(i);
+	                System.out.println((i + 1) + ". " +
+	                        "\nNombre: " + prenda.getNombreRopa() +
+	                        "\nColor: " + prenda.getColorRopa() +
+	                        "\nTalla: " + prenda.getTallaRopa() +
+	                        "\nPrecio: " + prenda.getPrecioRopa() +
+	                        "\nCantidad en stock: " + prenda.getCantidadRopa());
+	            }
+	            System.out.println("Selecciona una prenda de ropa para comprar (escribe '0' para cancelar):");
+	            int seleccion = Integer.parseInt(sc.nextLine());
+	            if (seleccion == 0) {
+	                return;
+	            } else if (seleccion > 0 && seleccion <= prendasFiltradas.size()) {
+	                Ropa prendaSeleccionada = prendasFiltradas.get(seleccion - 1);
+	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
+
+	                System.out.println("Ingresa: " +
+	                        "\n1. A�adir al carrito" +
+	                        "\n2. Volver al menu anterior");
+	                String respuesta2 = sc.nextLine();
+	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
+	                    System.out.println("Numero ingresado incorrecto, inténtalo nuevamente: ");
+	                    respuesta2 = sc.nextLine();
+	                }
+	                switch (respuesta2) {
+	                    case "1":
+	                        cliente.getCarrito().add(prendaSeleccionada);
+	                        System.out.println("Producto agregado con exito!");
+	                        System.out.println("\n1. Seguir comprando");
+	                        System.out.println("\n2. Finalizar compra ");
+	                        while (true) {
+	                            respuesta2 = sc.nextLine();
+	                            if (respuesta2.equals("1")) {
+	                                ofertaProductos(mercado);
+	                                break;
+	                            } else if (respuesta2.equals("2")) {
+	                                finalizarCompra();
+	                                break;
+	                            }
+	                            System.out.println("Numero ingresado incorrecto, ingresa nuevamente el numero: ");
+	                        }
+	                        break;
+	                    case "2":
+	                        comprarRopa(mercado);
+	                        break;
+	                }
+	            }
+	        } else {
+	            System.out.println("No hay prendas de ropa disponibles segun los filtros seleccionados. Deseas volver a intentarlo?");
+	            System.out.println("1. SI");
+	            System.out.println("2. NO");
+	            String respuesta = sc.nextLine();
+	            while (!respuesta.equals("1") && !respuesta.equals("2")) {
+	                System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
+	                respuesta = sc.nextLine();
+	            }
+
+	            if (respuesta.equals("1")) {
+	                comprarRopa(mercado);
+	            }
+	        }
+	    } else {
+	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. Deseas anadir alguna?");
+	        System.out.println("1. SI");
+	        System.out.println("2. NO");
+	        String respuesta = sc.nextLine();
+	        while (!respuesta.equals("1") && !respuesta.equals("2")) {
+	            System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
+	            respuesta = sc.nextLine();
+	        }
+
+	        if (respuesta.equals("1")) {
+	            anadirProducto(mercado);
+	        }
+	    }
+	}
+
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
