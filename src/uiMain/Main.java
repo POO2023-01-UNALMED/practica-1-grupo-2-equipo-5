@@ -1750,10 +1750,10 @@ public class Main {
 						break;
 				}
 			}else{
-				comprarTelevisor(mercado, respuesta, mercado.getOfertv());
+				comprarCelular(mercado, respuesta, mercado.getOfercelular());
 			}
 		}else{
-			System.out.println("Este supermercado no cuenta con televisores D: ¿Deseas añadir uno?: " +
+			System.out.println("Este supermercado no cuenta con Celulares D: ¿Deseas añadir uno?: " +
 					"\n1. SI" +
 					"\n2. NO");
 			String respuesta = sc.nextLine();
