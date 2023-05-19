@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Carne extends Alimentos implements Serializable{
+public class Carne extends Alimentos implements Serializable,Comparable<Carne>{
 	private String tipo;
 	private float pesoLibra;
 	private static int cantidadTotal;
@@ -13,6 +13,11 @@ public class Carne extends Alimentos implements Serializable{
 		super(nombre, precio, supermercado, cantidad);
 		this.tipo = tipo;
 		this.pesoLibra= pesoLibra;
+	}
+	
+	public Carne(Carne carne,int cantidad) {
+		this(carne.getNombre(),carne.getPrecio(),carne.getSupermercado(),
+				cantidad,carne.getTipo(),carne.getPesoLibra());
 	}
 
 	public String getTipo() {
@@ -69,6 +74,14 @@ public class Carne extends Alimentos implements Serializable{
 		}
 		return meat;
 
+	}
+	
+	@Override
+	public int compareTo(Carne o) {
+		if (this.getNombre().equals(o.getNombre())) {
+			return 1;
+		}
+		else return 0;
 	}
 	
 }

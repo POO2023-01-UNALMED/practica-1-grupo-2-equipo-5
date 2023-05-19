@@ -3,7 +3,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class noCarnicos extends Alimentos implements Serializable{
+public class noCarnicos extends Alimentos implements Serializable,Comparable<noCarnicos>{
 
 	private static int cantidadTotal; 
 	private String grupo;
@@ -11,6 +11,10 @@ public class noCarnicos extends Alimentos implements Serializable{
 	public noCarnicos(String nombre, int precio, Supermercado supermercado, int cantidad, String grupo) {
 		super(nombre, precio, supermercado, cantidad);
 		this.grupo = grupo;
+	}
+	
+	public noCarnicos(noCarnicos nocarne,int cantidad) {
+		this(nocarne.getNombre(),nocarne.getPrecio(),nocarne.getSupermercado(),cantidad,nocarne.getGrupo());
 	}
 
 
@@ -55,6 +59,13 @@ public class noCarnicos extends Alimentos implements Serializable{
 		}
 		return grupo;
 	}
-
+	
+	@Override
+	public int compareTo(noCarnicos o) {
+		if (this.getNombre().equals(o.getNombre())) {
+			return 1;
+		}
+		else return 0;
+	}
 	
 }

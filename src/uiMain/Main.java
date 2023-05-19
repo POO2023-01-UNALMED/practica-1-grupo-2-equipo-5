@@ -112,19 +112,37 @@ public class Main {
 		int precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
-			/*
-			System.out.println(producto);
-			Voy a modificar esta línea ya que al imprimir producto solo nos da una referencia en memoria (creo)
-			*/
-			//Debemos realizar esto con cada instancia de clase para que funcione correctamente
+			//Ya agrege todas las impresiones para cada tipo de producto, puede que halla que hacer algunos cambios
+			//De acuerdo a la logica de compra de sus productos
 			if(producto instanceof Tv){
-				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getPrecio());
+				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
 				precio_total += ((Tv)producto).getPrecio();
 			}
 			
 			else if(producto instanceof Libro) {
 				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
 				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Celular) {
+				System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
+				precio_total += ((Celular)producto).getPrecio();
+			}
+			
+			else if(producto instanceof noCarnicos) {
+				System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| noCarnicos |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				precio_total += ((noCarnicos)producto).getCantidad()*((noCarnicos)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Carne) {
+				System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| Carne |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Ropa) {
+				System.out.println(cont+". "+((Ropa)producto).getNombreRopa()+ "| Ropa |"+((Ropa)producto).getSupermercado()+" | "+((Ropa)producto).getCantidadRopa()+" | "+((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
+				precio_total += ((Ropa)producto).getCantidadRopa()*((Ropa)producto).getPrecioRopa();
+			
 			}
 			//else if(producto instanceof OtraClase)
 			//Terminar con el resto de tipos de productos
@@ -179,6 +197,182 @@ public class Main {
 		
 	}
 	
+	public static void devolverProducto(Object producto) {
+		boolean productoenmercado=false;
+		
+		if(producto instanceof Libro) {
+			Libro libro = (Libro) producto;
+			int asumar=0, cantidad = libro.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Libro libros:libro.getSupermercado().getOferlibros()) {
+				if (libro.compareTo(libros)==1) {
+					libros.setCantidad(libros.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
+				}
+			
+			((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+			if (((Libro) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Celular) {
+			Celular celular = (Celular) producto;
+			int asumar=0, cantidad = celular.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Celular celulares:celular.getSupermercado().getOfercelular()) {
+				if (celular.compareTo(celulares)==1) {
+					celulares.setCantidad(celulares.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				celular.getSupermercado().getOfercelular().add(new Celular(celular,asumar));
+				}
+			
+			((Celular) producto).setCantidad(((Celular) producto).getCantidad()-asumar);
+			if (((Celular) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Tv) {
+			Tv tv = (Tv) producto;
+			int asumar=0, cantidad = tv.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Tv tvs:tv.getSupermercado().getOfertv()) {
+				if (tv.compareTo(tvs)==1) {
+					tvs.setCantidad(tvs.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				tv.getSupermercado().getOfertv().add(new Tv(tv,asumar));
+				}
+			
+			((Tv) producto).setCantidad(((Tv) producto).getCantidad()-asumar);
+			if (((Tv) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Carne) {
+			Carne carne = (Carne) producto;
+			int asumar=0, cantidad = carne.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Carne carnes:carne.getSupermercado().getOfercarne()) {
+				if (carne.compareTo(carnes)==1) {
+					carnes.setCantidad(carnes.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				carne.getSupermercado().getOfercarne().add(new Carne(carne,asumar));
+				}
+			
+			((Carne) producto).setCantidad(((Carne) producto).getCantidad()-asumar);
+			if (((Carne) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof noCarnicos) {
+			noCarnicos nocarne = (noCarnicos) producto;
+			int asumar=0, cantidad = nocarne.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(noCarnicos nocarnes:nocarne.getSupermercado().getOfernocarnicos()) {
+				if (nocarne.compareTo(nocarnes)==1) {
+					nocarnes.setCantidad(nocarnes.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				nocarne.getSupermercado().getOfernocarnicos().add(new noCarnicos(nocarne,asumar));
+				}
+			
+			((noCarnicos) producto).setCantidad(((noCarnicos) producto).getCantidad()-asumar);
+			if (((noCarnicos) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Ropa) {
+			Ropa ropa = (Ropa) producto;
+			int asumar=0, cantidad = ropa.getCantidadRopa();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Ropa ropas:ropa.getSupermercado().getOferropa()) {
+				if (ropa.compareTo(ropas)==1) {
+					ropas.setCantidadRopa(ropas.getCantidadRopa()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				ropa.getSupermercado().getOferropa().add(new Ropa(ropa,asumar));
+				}
+			
+			((Ropa) producto).setCantidadRopa(((Ropa) producto).getCantidadRopa()-asumar);
+			if (((Ropa) producto).getCantidadRopa()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		
+		
+		
+		
+	}
 	//Hay que generalizar algunas cosas en este metodo
 	public static void seleccionarSupermercado() {
 

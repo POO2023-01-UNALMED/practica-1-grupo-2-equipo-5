@@ -3,7 +3,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ropa implements Serializable {
+public class Ropa implements Serializable,Comparable<Ropa> {
     private String tallaRopa;
     private String colorRopa;
     private double precioRopa;
@@ -22,6 +22,11 @@ public class Ropa implements Serializable {
         this.mercado = mercado;
         this.generoRopa = generoRopa;
         this.tipoRopa = tipoRopa;
+    }
+    
+    public Ropa(Ropa ropa,int cantidad) {
+    	this(ropa.getTallaRopa(),ropa.getColorRopa(),ropa.getPrecioRopa(),ropa.getNombreRopa(),
+    			cantidad,ropa.getSupermercado(),ropa.getGeneroRopa(),ropa.getTipoRopa());
     }
 
     public String getTallaRopa() {
@@ -100,4 +105,12 @@ public class Ropa implements Serializable {
         }
         return filtradas;
     }
+    
+    @Override
+	public int compareTo(Ropa o) {
+		if (this.getNombreRopa().equals(o.getNombreRopa())) {
+			return 1;
+		}
+		else return 0;
+	}
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Celular extends Electronico implements Serializable {
+public class Celular extends Electronico implements Serializable,Comparable<Celular> {
     private int almacenamiento;
     private int camaras;
     private int bateria;
@@ -20,7 +20,14 @@ public class Celular extends Electronico implements Serializable {
         this.color = color;
         this.ram = ram;
     }
-
+    
+    public Celular(Celular celular,int cantidad) {
+		//Un uso de this()
+		this(celular.getNombre(),celular.getPrecio(),celular.getMarca(),celular.getSupermercado(),
+				cantidad,celular.getAlmacenamiento(),celular.getCamaras(),celular.getBateria(),
+				celular.getColor(),celular.getRam());
+    }
+				
     public int getAlmacenamiento() {
         return almacenamiento;
     }
@@ -240,4 +247,12 @@ public class Celular extends Electronico implements Serializable {
                 "\nCantidad en stock: " +this.getCantidad()+
                 "\nPrecio: "+this.getPrecio();
     }
+    
+    @Override
+	public int compareTo(Celular o) {
+		if (this.getNombre().equals(o.getNombre())) {
+			return 1;
+		}
+		else return 0;
+	}
 }

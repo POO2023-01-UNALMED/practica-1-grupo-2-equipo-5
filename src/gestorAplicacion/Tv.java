@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Tv extends Electronico implements Serializable{
+public class Tv extends Electronico implements Serializable,Comparable<Tv>{
     private int pulgadas;
     private String resolucion;
  
@@ -16,6 +16,11 @@ public class Tv extends Electronico implements Serializable{
         this.pulgadas = pulgadas;
         this.resolucion = resolucion;
         
+    }
+    
+    public Tv(Tv tv,int cantidad) {
+    	this(tv.getNombre(),tv.getPrecio(),tv.getMarca(),tv.getSupermercado(),
+    			cantidad,tv.getPulgadas(),tv.getResolucion());
     }
 
     public int getPulgadas() {
@@ -176,4 +181,12 @@ public class Tv extends Electronico implements Serializable{
                 "\nCantidad en stock: " +this.getCantidad()+
                 "\nPrecio: "+this.getPrecio();
      }
+    
+    @Override
+	public int compareTo(Tv o) {
+		if (this.getNombre().equals(o.getNombre())) {
+			return 1;
+		}
+		else return 0;
+	}
 }
