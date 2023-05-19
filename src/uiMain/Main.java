@@ -156,38 +156,7 @@ public class Main {
 			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
 			
 			//No pude encontrar una manera mas eficiente para saber la cantidad de diferentes objetos
-			if(producto instanceof Libro) {
-				boolean libroenmercado=false;
-				Libro libro = (Libro) producto;
-				int asumar=0, cantidad = libro.getCantidad();
-				
-				System.out.println("Cuantas unidades deseas quitar?");
-				for (int i=1;i<=cantidad;i++) {
-					System.out.println(i+". "+i);
-				}
-				asumar=Integer.parseInt(sc.nextLine());
-		
-				for(Libro libros:libro.getSupermercado().getOferlibros()) {
-					if (libro.compareTo(libros)==1) {
-						libros.setCantidad(libros.getCantidad()+asumar);
-						libroenmercado=true;
-						break;
-					}
-				}
-				
-				//((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
-				if(!libroenmercado) {
-					libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
-					}
-				
-				((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
-				if (((Libro) producto).getCantidad()==0) {
-					cliente.getCarrito().remove(producto);
-				}
-		
-			}
-			
-			//Aqui se pondrian los otros casos para las otras clases (Casi que lo mismo no se si halla una mejor logica)
+			devolverProducto(producto);
 			
 			finalizarCompra();
 		}
