@@ -76,6 +76,7 @@ public class Carne extends Alimentos implements Serializable,Comparable<Carne>{
 
 	}
 	
+//<<<<<<< Updated upstream
 	@Override
 	public int compareTo(Carne o) {
 		if (this.getNombre().equals(o.getNombre())) {
@@ -83,5 +84,33 @@ public class Carne extends Alimentos implements Serializable,Comparable<Carne>{
 		}
 		else return 0;
 	}
+//=======
+	public static ArrayList<Carne> convertirCarne(ArrayList<?> lista) {
+        ArrayList<Carne> listaC = new ArrayList<>();
+        for (Object elemento : lista) {
+            if (elemento instanceof Carne) {
+                Carne carnes = (Carne) elemento;
+                listaC.add(carnes);
+            }
+        }
+        return listaC;
+    }
+	
+	public static ArrayList<Alimentos> filPrecioAli(Supermercado mercado, int min, int max){
+        ArrayList<Alimentos> alimentos = mercado.getOfercomi();
+        ArrayList<Alimentos> AlimentosFil = new ArrayList<>();
+        if(min > max){
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        for(Alimentos Comi: alimentos){
+            if(Comi.getPrecio()>= min && Comi.getPrecio()<= max){
+            	AlimentosFil.add(Comi);
+            }
+        }
+        return AlimentosFil;
+    }
+//>>>>>>> Stashed changes
 	
 }

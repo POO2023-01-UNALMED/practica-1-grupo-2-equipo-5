@@ -1,6 +1,7 @@
 package src.gestorAplicacion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 // Se define la clase abstracta
 public abstract class Alimentos implements Serializable {
@@ -66,7 +67,5 @@ public abstract class Alimentos implements Serializable {
 	}
 	
 	public abstract String oferta();//Metodo abstracto
-	
-	
 	
 }

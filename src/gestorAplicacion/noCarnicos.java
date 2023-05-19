@@ -2,6 +2,7 @@ package src.gestorAplicacion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class noCarnicos extends Alimentos implements Serializable,Comparable<noCarnicos>{
 
@@ -59,6 +60,7 @@ public class noCarnicos extends Alimentos implements Serializable,Comparable<noC
 		}
 		return grupo;
 	}
+//<<<<<<< Updated upstream
 	
 	@Override
 	public int compareTo(noCarnicos o) {
@@ -67,5 +69,39 @@ public class noCarnicos extends Alimentos implements Serializable,Comparable<noC
 		}
 		else return 0;
 	}
+//=======
+//>>>>>>> Stashed changes
 	
+	
+	public static ArrayList<noCarnicos> listaCatergoria(ArrayList<noCarnicos> nocarnes,String filtro) {
+		ArrayList<noCarnicos> nomeat = new ArrayList<noCarnicos>();
+		for(noCarnicos X:nocarnes) {
+			if(X.getGrupo().equals(filtro)) {
+				nomeat.add(X);
+			}
+		}
+		return nomeat;
+	}
+	
+	public static ArrayList<noCarnicos> convertirnoCarne(ArrayList<?> lista) {
+        ArrayList<noCarnicos> listaN = new ArrayList<>();
+        for (Object elemento : lista) {
+            if (elemento instanceof noCarnicos) {
+            	noCarnicos nocarnes = (noCarnicos) elemento;
+                listaN.add(nocarnes);
+            }
+        }
+        return listaN;
+    }
+	
+	public static ArrayList<Alimentos> convertirAlimentos(ArrayList<?> lista) {
+        ArrayList<Alimentos> alimentos = new ArrayList<>();
+        for (Object elemento : lista) {
+            if (elemento instanceof Alimentos) {
+            	Alimentos Ali = (Alimentos) elemento;
+               alimentos.add(Ali);
+            }
+        }
+        return alimentos;
+    }
 }

@@ -66,8 +66,15 @@ public class Supermercado  implements Serializable{
 	public void setOfernocarnicos(ArrayList<noCarnicos> ofernocarnicos) {
 		this.ofernocarnicos = ofernocarnicos;
 	}
+	public ArrayList<Alimentos> getOfercomi() {
+		return ofercomi;
+	}
+	public void setOfercomi(ArrayList<Alimentos> ofercomi) {
+		this.ofercomi = ofercomi;
+	}
 	@Override
 	public String toString() {
 		return "Supermercado "+this.nombre.toUpperCase();
 	}
+	
 }
