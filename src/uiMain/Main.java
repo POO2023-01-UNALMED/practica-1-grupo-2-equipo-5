@@ -527,7 +527,7 @@ public class Main {
 		String respuesta;
 		
 		System.out.println("\nAgregar productos al "+mercado+
-				"\n1. Tevelisores" +
+				"\n1. Televisores" +
 				"\n2. Celulares" +
 				"\n3. Libros"+
 				"\n4. Carne"+
@@ -571,7 +571,7 @@ public class Main {
 				int almacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa el numero de camaras del celular: ");
 				int camaras = Integer.parseInt(confirmarNumero(sc.nextLine()));
-				System.out.print("Ingresa la bateria del celular: ");
+				System.out.print("Ingresa los mAH de bateria del celular: 	 \nEjemplo Los mAH son: 3000\n");
 				int bateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.print("Ingresa el color del celular: ");
 				String color = sc.nextLine();
