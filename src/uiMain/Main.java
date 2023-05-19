@@ -151,7 +151,7 @@ public class Main {
 		System.out.println("\nTOTAL :"+precio_total);
 		
 		if (cliente.getSaldo()<precio_total) {
-			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\n Cual producto deseas quitar?");
+			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\nCual producto deseas quitar?");
 			String select =sc.nextLine();
 			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
 			
@@ -159,9 +159,6 @@ public class Main {
 			devolverProducto(producto);
 			
 			finalizarCompra();
-		}
-		else {
-			
 		}
 		
 	}
@@ -342,6 +339,131 @@ public class Main {
 		
 		
 	}
+	
+	public static void disminuirStock(Object producto,Supermercado mercado) {
+		boolean prodencarrito=false;
+		//el producto el cual se desea rebajar el stock
+		if(producto instanceof Libro) {
+			
+			Libro libro= (Libro) producto;
+			
+			libro.setCantidad(libro.getCantidad()-1);
+			if(libro.getCantidad()==0) mercado.getOferlibros().remove(libro);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Libro) {
+					if(libro.compareTo((Libro)productos)==1) {
+						((Libro) productos).setCantidad(((Libro) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Libro(libro,1));
+			}
+		}
+		
+		else if(producto instanceof Celular) {
+			Celular celular= (Celular) producto;
+			celular.setCantidad(celular.getCantidad()-1);
+			if(celular.getCantidad()==0) mercado.getOfercelular().remove(celular);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Celular) {
+					if(celular.compareTo((Celular)productos)==1) {
+						((Celular) productos).setCantidad(((Celular) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Celular(celular,1));
+			}
+		}
+		
+		else if(producto instanceof Tv) {
+			Tv tv= (Tv) producto;
+			tv.setCantidad(tv.getCantidad()-1);
+			if(tv.getCantidad()==0) mercado.getOfertv().remove(tv);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Tv) {
+					if(tv.compareTo((Tv)productos)==1) {
+						((Tv) productos).setCantidad(((Tv) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Tv(tv,1));
+			}
+		}
+		
+		else if(producto instanceof Carne) {
+			Carne carne= (Carne) producto;
+			carne.setCantidad(carne.getCantidad()-1);
+			if(carne.getCantidad()==0) mercado.getOfercarne().remove(carne);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Carne) {
+					if(carne.compareTo((Carne)productos)==1) {
+						((Carne) productos).setCantidad(((Carne) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Carne(carne,1));
+			}
+		}
+		
+		else if(producto instanceof noCarnicos) {
+			noCarnicos nocarne= (noCarnicos) producto;
+			nocarne.setCantidad(nocarne.getCantidad()-1);
+			if(nocarne.getCantidad()==0) mercado.getOfernocarnicos().remove(nocarne);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof noCarnicos) {
+					if(nocarne.compareTo((noCarnicos)productos)==1) {
+						((noCarnicos) productos).setCantidad(((noCarnicos) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new noCarnicos(nocarne,1));
+			}
+		}
+		
+		else if(producto instanceof Ropa) {
+			Ropa ropa= (Ropa) producto;
+			ropa.setCantidadRopa(ropa.getCantidadRopa()-1);
+			if(ropa.getCantidadRopa()==0) mercado.getOferropa().remove(ropa);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Ropa) {
+					if(ropa.compareTo((Ropa)productos)==1) {
+						((Ropa) productos).setCantidadRopa(((Ropa) productos).getCantidadRopa()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Ropa(ropa,1));
+			}
+		}
+		
+		
+		
+	}
+	
+	
 	//Hay que generalizar algunas cosas en este metodo
 	public static void seleccionarSupermercado() {
 
@@ -763,30 +885,12 @@ public class Main {
 			
 			switch(respuesta) {
 			case "1":
-				boolean libroencarrito=false;
 				//Este flujo permite eliminar los objetos de la lista y poderlos recuperar posteriormente si se necesita
+				
 				Libro compra=mercado.oferlibros.get(mercado.oferlibros.indexOf(lstfiltrada.get(Integer.parseInt(libroselect)-1)));
-				compra.setCantidad(compra.getCantidad()-1);
-				if(compra.getCantidad()==0) mercado.oferlibros.remove(compra);
-				for(Object producto:cliente.getCarrito()) {
-					if (producto instanceof Libro) {
-						if(compra.compareTo((Libro)producto)==1) {
-							((Libro) producto).setCantidad(((Libro) producto).getCantidad()+1);
-							libroencarrito=true;
-							break;
-						}
-					}
-				}
-				
-				if(!libroencarrito) {
-					cliente.getCarrito().add(new Libro(compra,1));
-				}
-				
-				//Luego, al finalizar compra, hay que hacer un proceso especial por si el cliente se arrepiente y devolver el stock de libros.
-				// De pronto podemos crear un metodo que se llame devolver libros.
+				disminuirStock(compra,mercado);
 				
 				System.out.println("Producto agregado con exito!");
-				
 				System.out.println("\n1. Seguir comprando");
 				System.out.println("\n2. Finalizar compra ");
 				respuesta=sc.nextLine();
@@ -796,7 +900,6 @@ public class Main {
 					ofertaProductos(mercado);
 					break;
 				case "2":
-					//Aqui iria el metodo finalizarCompra()
 					filtrolibro=0;
 					finalizarCompra();
 					break;
@@ -1087,7 +1190,7 @@ public class Main {
 			 Carne p = null;
 			 p = listaCarne.get(oferSelec-1);
 			 System.out.println("Has Selecionado la "+p.getNombre());
-				cliente.getCarrito().add(lista.get(oferSelec-1));
+				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
@@ -1109,7 +1212,7 @@ public class Main {
 			 noCarnicos q = null;
 			 q = listanoCarne.get(oferSelec-1);
 			 System.out.println("Has Selecionado la oferta de "+q.getNombre());
-				cliente.getCarrito().add(lista.get(oferSelec-1));
+				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
@@ -1131,7 +1234,7 @@ public class Main {
 			Alimentos t = null;
 			 t = listAlimento.get(oferSelec-1);
 			 System.out.println("Has Selecionado la oferta de "+t.getNombre());
-				cliente.getCarrito().add(lista.get(oferSelec-1));
+				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
@@ -1377,7 +1480,8 @@ public class Main {
 		}
 		switch (respuesta2){
 			case "1":
-				cliente.getCarrito().add(televisores.get(Integer.parseInt(respuesta)-1));
+				
+				disminuirStock(televisores.get(Integer.parseInt(respuesta)-1),mercado);
 				System.out.println("Producto agregado con exito!");
 				System.out.println("\n1. Seguir comprando");
 				System.out.println("\n2. Finalizar compra ");
@@ -1682,7 +1786,7 @@ public class Main {
 		}
 		switch (respuesta2){
 			case "1":
-				cliente.getCarrito().add(celulares.get(Integer.parseInt(respuesta)-1));
+				disminuirStock(celulares.get(Integer.parseInt(respuesta)-1),mercado);
 				System.out.println("Producto agregado con exito!");
 				System.out.println("\n1. Seguir comprando");
 				System.out.println("\n2. Finalizar compra ");
@@ -1762,7 +1866,7 @@ public class Main {
 	                }
 	                switch (respuesta2) {
 	                    case "1":
-	                        cliente.getCarrito().add(prendaSeleccionada);
+	                        disminuirStock(prendaSeleccionada,mercado);
 	                        System.out.println("Producto agregado con exito!");
 	                        System.out.println("\n1. Seguir comprando");
 	                        System.out.println("\n2. Finalizar compra ");
