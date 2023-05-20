@@ -18,6 +18,7 @@ public class Main {
 	private static Cliente cliente;
 	private static int filtrolibro=0;
 	private static int Alimentos = 0;
+	private static final double IVA=0.19; //Uso de constante
 	
 	//Se crean las listas donde va cada tipo de producto
 	private static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
@@ -109,11 +110,9 @@ public class Main {
 	public static void finalizarCompra() {
 		System.out.println("\nCarrito de compras:");
 		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
-		int precio_total = 0;
+		double precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
-			//Ya agrege todas las impresiones para cada tipo de producto, puede que halla que hacer algunos cambios
-			//De acuerdo a la logica de compra de sus productos
 			if(producto instanceof Tv){
 				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
 				precio_total += ((Tv)producto).getPrecio();
@@ -144,20 +143,18 @@ public class Main {
 				precio_total += ((Ropa)producto).getCantidadRopa()*((Ropa)producto).getPrecioRopa();
 			
 			}
-			//else if(producto instanceof OtraClase)
-			//Terminar con el resto de tipos de productos
 			cont++;
 		}
-		System.out.println("\nTOTAL :"+precio_total);
+		System.out.println("\nSubtotal :"+precio_total);
+		System.out.println("\nImpuesto IVA 19%: "+precio_total*IVA);
+		precio_total= precio_total+(precio_total*IVA);
+		System.out.println("\nTotal: "+precio_total);
 		
 		if (cliente.getSaldo()<precio_total) {
 			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\nCual producto deseas quitar?");
 			String select =sc.nextLine();
 			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
-			
-			//No pude encontrar una manera mas eficiente para saber la cantidad de diferentes objetos
 			devolverProducto(producto);
-			
 			finalizarCompra();
 		}
 		else {
@@ -167,7 +164,7 @@ public class Main {
 			switch(eleccion) {
 			case "1":
 				System.out.println("\nEl pago a sido realizado con exito!"
-						+ "\n en unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
+						+ "\nEn unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
 						+"\nA nombre de "+cliente.getNombre()
 				        +"\nFue un placer atenderlo y esperamos que vuelva pronto!");
 				System.exit(0);
@@ -927,20 +924,20 @@ public class Main {
 				}
 			}
 		else {
-			System.out.println("\nYa no quedan Libros en este supermercado..."
-					+ "\nDeseas anadir un libro al supermercado?"
-					+ "\n1. Si"
-					+ "\n2. No");
-			String anadir=sc.next();
-			switch(anadir) {
-			case "1":
-				anadirProducto(mercado);
-				ofertaProductos(mercado);
-				break;
-			case "2":
-				menuQueDeseas();
-				break;
-			}
+			System.out.println("\nYa no quedan Libros en este supermercado...\n");
+//					+ "\nDeseas anadir un libro al supermercado?"
+//					+ "\n1. Si"
+//					+ "\n2. No");
+//			String anadir=sc.next();
+//			switch(anadir) {
+//			case "1":
+//				anadirProducto(mercado);
+//				ofertaProductos(mercado);
+//				break;
+//			case "2":
+//				menuQueDeseas();
+//				break;
+//			}
 		}
 		}
 	
