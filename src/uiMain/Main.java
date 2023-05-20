@@ -126,7 +126,7 @@ public class Main {
 			
 			else if(producto instanceof Celular) {
 				System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
-				precio_total += ((Celular)producto).getPrecio();
+				precio_total += ((Celular)producto).getCantidad()*((Celular)producto).getPrecio();
 			}
 			
 			else if(producto instanceof noCarnicos) {
@@ -159,6 +159,22 @@ public class Main {
 			devolverProducto(producto);
 			
 			finalizarCompra();
+		}
+		else {
+			System.out.println("\n1. Pagar"+
+		       "\n2.Volver al menu inicial");
+			String eleccion=sc.nextLine();
+			switch(eleccion) {
+			case "1":
+				System.out.println("\nEl pago a sido realizado con exito!"
+						+ "\n en unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
+						+"\nA nombre de "+cliente.getNombre()
+				        +"\nFue un placer atenderlo y esperamos que vuelva pronto!");
+				System.exit(0);
+				break;
+			case "2":
+				break;
+			}
 		}
 		
 	}
@@ -911,8 +927,20 @@ public class Main {
 				}
 			}
 		else {
-			System.out.println("Ya no quedan Libros en este supermercado...");
-			ofertaProductos(mercado);
+			System.out.println("\nYa no quedan Libros en este supermercado..."
+					+ "\nDeseas añadir un libro al supermercado?"
+					+ "\n1. Si"
+					+ "\n2. No");
+			String anadir=sc.next();
+			switch(anadir) {
+			case "1":
+				anadirProducto(mercado);
+				ofertaProductos(mercado);
+				break;
+			case "2":
+				menuQueDeseas();
+				break;
+			}
 		}
 		}
 	
