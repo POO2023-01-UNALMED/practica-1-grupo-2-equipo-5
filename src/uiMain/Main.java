@@ -46,7 +46,7 @@ public class Main {
 		String nombre = sc.nextLine();
 		System.out.print("Ingresa tu direccion: ");
 		String direccion = sc.nextLine();
-		System.out.println("Ingresa tu saldo disponible");
+		System.out.print("Ingresa tu saldo disponible: ");
 		String saldo =sc.nextLine();
 		Cliente cliente = new Cliente(nombre, direccion,Integer.parseInt(saldo));
 		Main.cliente=cliente;
@@ -84,7 +84,7 @@ public class Main {
 	
 	public static void menuQueDeseas() {
 		while(true){
-			System.out.print("\n¿Qué deseas hacer?\n" +
+			System.out.print("\nQue deseas hacer?\n" +
 					"1. Ver lista de supermercados" +
 					"\n2. Salir\n");
 			
@@ -98,7 +98,7 @@ public class Main {
 						
 			// Termina la ejecucion del programa
 			else{
-				System.out.print("¡Gracias por visitar nuestro gestor de tiendas!"+
+				System.out.print("Gracias por visitar nuestro gestor de tiendas!"+
 						", siempre seras bienvenido :D\n");
 				break;
 			}
@@ -612,11 +612,11 @@ public class Main {
 				String autorlib = sc.nextLine();
 				System.out.print("Ingresa la descripcion del libro:");
 				String descriplib = sc.nextLine();
-				System.out.println("Ingrese el codigo ISBN del libro:");
+				System.out.print("Ingrese el codigo ISBN del libro:");
 				String isbn = sc.nextLine();
 				System.out.print("Ingresa el precio del libro:");
 				String preciolib = confirmarNumero(sc.nextLine());
-				System.out.println("Ingresa la cantidad de libros");
+				System.out.print("Ingresa la cantidad de libros:");
 				String cantidad = sc.nextLine();;
 				Libro nuevolibro = new Libro(nombrelib,autorlib,descriplib,isbn,Integer.parseInt(preciolib),Integer.parseInt(cantidad),mercado);
 				mercado.oferlibros.add(nuevolibro);
@@ -725,10 +725,10 @@ public class Main {
 		switch(respuesta) {
 		case "1":
 			//comprarElectro()
-			System.out.println("¿Deseas ver la lista de Televisores o de Celulares?\n" +
+			System.out.println("Deseas ver la lista de Televisores o de Celulares?\n" +
 					"1.Televisores\n" +
 					"2.Celulares\n" +
-					"3.Volver al menú anterior");
+					"3.Volver al menu anterior");
 			String input_electro = sc.nextLine();
 			while(!input_electro.equals("1") && !input_electro.equals("2") && !input_electro.equals("3")){
 				System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
@@ -928,7 +928,7 @@ public class Main {
 			}
 		else {
 			System.out.println("\nYa no quedan Libros en este supermercado..."
-					+ "\nDeseas añadir un libro al supermercado?"
+					+ "\nDeseas anadir un libro al supermercado?"
 					+ "\n1. Si"
 					+ "\n2. No");
 			String anadir=sc.next();
@@ -947,7 +947,7 @@ public class Main {
 	//Creo el menuAlimentos para  si cliente desea volver a la seccion alimentos
 	public static void menuAlimentos(Supermercado mercado) {
 		System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
-		System.out.println(" ¿En que producto esta interesado de nuestra seccion?");
+		System.out.println("En que producto esta interesado de nuestra seccion?");
 		System.out.println(	"\n"+
 	    "1. Solo Alimentos Carnicos\n"
 		+"2. Solo Alimentos noCarnicos\n"
@@ -975,7 +975,7 @@ public class Main {
 			if(mercado.ofercarne.size() > 0){
 				int elegir,i=1;
 				System.out.print("Bienvenido al Area de Carnes del "+mercado+"\n");
-				System.out.print("       *** !CARNES EN OFERTA¡***\n");
+				System.out.print("       *** !CARNES EN OFERTA!***\n");
 				System.out.print("Acontinuacion nuestros productos disponibles: \n");
 				for(Carne productoC:mercado.ofercarne) {
 					System.out.println(i++ +"."
@@ -987,7 +987,7 @@ public class Main {
 					         System.out.print("\n");
 				}
 				
-				System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+				System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 				System.out.print("\n         **Opciones Adicionales**");
 				System.out.print("\nIngrese "+(mercado.ofercarne.size()+1)+" para Filtrar por Tipo de Carne");
 				System.out.print("\nIngrese "+(mercado.ofercarne.size()+2)+" Volver al Menu de Alimentos");
@@ -1001,7 +1001,7 @@ public class Main {
 					for(int c=0; c<listaTipo.length; c++) {
 						System.out.println((c+1)+". Tipo de Carne:"+listaTipo[c]);
 					}
-					System.out.println("\n¿Que Tipo de Carne Desea filtrar?");
+					System.out.println("\nQue Tipo de Carne Desea filtrar?");
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(listaTipo.length+1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(listaTipo.length+2)+" para Escoger otra Seccion");
@@ -1027,7 +1027,7 @@ public class Main {
 						            +"\nUnidades en stock: "+productoF.getCantidad());
 							         System.out.print("\n");
 						}
-						System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+						System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 						System.out.print("\n         **Opciones Adicionales**");
 						System.out.print("\nIngrese "+(y+1)+" Volver al Menu de Alimentos");
 						System.out.println("\nIngrese "+(y+2)+" para Escoger otra Seccion");
@@ -1070,7 +1070,7 @@ public class Main {
 					         System.out.print("\n");
 				}
 				
-				System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+				System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 				System.out.print("\n         **Opciones Adicionales**");
 				System.out.print("\nIngrese "+(mercado.ofernocarnicos.size()+1)+" para Filtrar por Categoria");
 				System.out.print("\nIngrese "+(mercado.ofernocarnicos.size()+2)+" Volver al Menu de Alimentos");
@@ -1097,7 +1097,7 @@ public class Main {
 							            +"\nUnidades en stock: "+productoF.getCantidad());
 								         System.out.print("\n");
 							}
-							System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+							System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 							System.out.print("\n         **Opciones Adicionales**");
 							System.out.print("\nIngrese "+(z+1)+" Volver al Menu de Alimentos");
 							System.out.println("\nIngrese "+(z+2)+" para Escoger otra Seccion");
@@ -1136,7 +1136,7 @@ public class Main {
 			ArrayList<Alimentos> sustento = new ArrayList<>();
 			if(mercado.ofernocarnicos.size() > 0){
 				System.out.print("Bienvenido al Area de Carnicos & noCarnicos del "+mercado+"\n");
-				System.out.print("*** !TODAS LAS OFERTAS DE ALIMENTOS EN UN SOLO LUGAR¡***\n");
+				System.out.print("*** !TODAS LAS OFERTAS DE ALIMENTOS EN UN SOLO LUGAR!***\n");
 				System.out.print("    Acontinuacion nuestros productos disponibles: \n");
 				for(int i = 0; i<mercado.ofercomi.size(); i++) {
 					System.out.print((i+1)+". ");
@@ -1144,7 +1144,7 @@ public class Main {
 					System.out.print("\n");
 				}
 				
-				System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+				System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 				System.out.print("\n         **Opciones Adicionales**");
 				System.out.print("\nIngrese "+(mercado.ofercomi.size()+1)+" para Filtrar por Precio");
 				System.out.print("\nIngrese "+(mercado.ofercomi.size()+2)+" Volver al Menu de Alimentos");
@@ -1169,7 +1169,7 @@ public class Main {
 						System.out.println(sustento.get(i).oferta());//Ligadura dinamica
 						System.out.print("\n");
 					}
-					System.out.println("\n¿Que Oferta esta interesado en agregar al carrito de compras?");
+					System.out.println("\nQue Oferta esta interesado en agregar al carrito de compras?");
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(sustento.size() +1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(sustento.size() +2)+" para Escoger otra Seccion");
@@ -1308,20 +1308,20 @@ public class Main {
 			}else if(respuesta.equals(mercado.ofertv.size()+2+"")){
 				//MI VERSION DE LOS FILTROS :D
 
-				System.out.println("Dinos por cuál tipo de caracteristica deseas filtrar: ");
+				System.out.println("Dinos por cual tipo de caracteristica deseas filtrar: ");
 				int indiceFiltros = 1;
 				for (String filtro: filtros){
 					System.out.println(indiceFiltros+". "+filtro+"\n");
 					indiceFiltros++;
 				}
-				System.out.println("Escribe un número para seleccionar su filtro correspondiente: ");
+				System.out.println("Escribe un numero para seleccionar su filtro correspondiente: ");
 				int inputFiltros = Integer.parseInt(validarRespuesta(1, filtros.size(), sc.nextLine()));
 				System.out.println("El filtro seleccionado fue: "+filtros.get(inputFiltros-1));
 				ArrayList<Tv> tvsFiltrados = new ArrayList<>();
 				switch (inputFiltros) {
 					case 1:
 
-						System.out.println("Ingresa el nombre del televisor que estás buscando: ");
+						System.out.println("Ingresa el nombre del televisor que estas buscando: ");
 						String nombre = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						tvsFiltrados = Tv.filtroNombre(mercado, nombre);
@@ -1333,14 +1333,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							tvsFiltrados = mercado.getOfertv();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos televisores disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Tv televisor: tvsFiltrados) {
 							System.out.println(indiceFiltros+". "+televisor);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
 						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1352,7 +1352,7 @@ public class Main {
 						break;
 					case 2:
 						//Filtrar por marca
-						System.out.println("Ingresa la marca del televisor que estás buscando: ");
+						System.out.println("Ingresa la marca del televisor que estas buscando: ");
 						String marca = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						tvsFiltrados = Tv.filtroMarca(mercado, marca);
@@ -1371,7 +1371,7 @@ public class Main {
 							System.out.println(indiceFiltros+". "+televisor);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
 						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1384,9 +1384,9 @@ public class Main {
 					case 3:
 
 						//Filtramos por pulgadas
-						System.out.println("Ingrese el número minimo de pulgadas que desea en su televisor: ");
+						System.out.println("Ingrese el numero minimo de pulgadas que desea en su televisor: ");
 						int minPulgadas = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el número máximo de pulgadas que desea en su televisor: ");
+						System.out.println("Ingrese el numero maximo de pulgadas que desea en su televisor: ");
 						int maxPulgadas = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						tvsFiltrados = filtroPulgadas(mercado, minPulgadas,maxPulgadas);
@@ -1394,14 +1394,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							tvsFiltrados = mercado.getOfertv();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos televisores disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Tv televisor: tvsFiltrados) {
 							System.out.println(indiceFiltros+". "+televisor);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
 						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1413,7 +1413,7 @@ public class Main {
 						break;
 					case 4:
 						//Filtrar por resolucion
-						System.out.println("Ingresa la resolucion del televisor que estás buscando: ");
+						System.out.println("Ingresa la resolucion del televisor que estas buscando: ");
 						String resolucion = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						tvsFiltrados = Tv.filtroResolucion(mercado, resolucion);
@@ -1425,14 +1425,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							tvsFiltrados = mercado.getOfertv();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos televisores disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Tv televisor: tvsFiltrados) {
 							System.out.println(indiceFiltros+". "+televisor);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
 						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1446,7 +1446,7 @@ public class Main {
 						//Filtrar por precios
 						System.out.println("Ingrese el precio minimo que desea en su televisor: ");
 						int minPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el precio máximo que desea en su televisor: ");
+						System.out.println("Ingrese el precio maximo que desea en su televisor: ");
 						int maxPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						tvsFiltrados = filtroPrecio(mercado, minPrecio,maxPrecio);
@@ -1454,14 +1454,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							tvsFiltrados = mercado.getOfertv();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos televisores disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos televisores disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Tv televisor: tvsFiltrados) {
 							System.out.println(indiceFiltros+". "+televisor);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del televisor que desas comprar o dale en "+(tvsFiltrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, tvsFiltrados.size()+1,sc.nextLine());
 						if(respuesta.equals((tvsFiltrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1476,12 +1476,12 @@ public class Main {
 				comprarTelevisor(mercado, respuesta, mercado.getOfertv());
 			}
 		}else{
-			System.out.println("Este supermercado no cuenta con televisores D: ¿Deseas añadir uno?: " +
+			System.out.println("Este supermercado no cuenta con televisores D: Deseas anadir uno?: " +
 					"\n1. SI" +
 					"\n2. NO");
 			String respuesta = sc.nextLine();
 			while(!respuesta.equals("1") && !respuesta.equals("2")){
-				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				System.out.println("Rectifica el numero ingresado, intentalo nuevamente: ");
 				respuesta = sc.nextLine();
 			}
 			switch (respuesta){
@@ -1499,11 +1499,11 @@ public class Main {
 		System.out.println("Has seleccionado el televisor: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
 
 		System.out.println("Ingresa: " +
-				"\n1. Añadir al carrito" +
-				"\n2. Volver al menú anterior");
+				"\n1. Anadir al carrito" +
+				"\n2. Volver al menu anterior");
 		String respuesta2 = sc.nextLine();
 		while(!respuesta2.equals("1") && !respuesta2.equals("2")){
-			System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+			System.out.println("Rectifica el numero ingresado, intentalo nuevamente: ");
 			respuesta2 = sc.nextLine();
 		}
 		switch (respuesta2){
@@ -1554,20 +1554,20 @@ public class Main {
 			}else if(respuesta.equals(mercado.ofercelular.size()+2+"")){
 				//MI VERSION DE LOS FILTROS :D
 
-				System.out.println("Dinos por cuál tipo de caracteristica deseas filtrar: ");
+				System.out.println("Dinos por cual tipo de caracteristica deseas filtrar: ");
 				int indiceFiltros = 1;
 				for (String filtro: filtros){
 					System.out.println(indiceFiltros+". "+filtro+"\n");
 					indiceFiltros++;
 				}
-				System.out.println("Escribe un número para seleccionar su filtro correspondiente: ");
+				System.out.println("Escribe un numero para seleccionar su filtro correspondiente: ");
 				int inputFiltros = Integer.parseInt(validarRespuesta(1, filtros.size(), sc.nextLine()));
 				System.out.println("El filtro seleccionado fue: "+filtros.get(inputFiltros-1));
 				ArrayList<Celular> celulares_filtrados = new ArrayList<>();
 				switch (inputFiltros) {
 					case 1:
 
-						System.out.println("Ingresa el nombre del celular que estás buscando: ");
+						System.out.println("Ingresa el nombre del celular que estas buscando: ");
 						String nombre = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						celulares_filtrados = Celular.filtroNombre(mercado, nombre);
@@ -1579,14 +1579,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1598,7 +1598,7 @@ public class Main {
 						break;
 					case 2:
 						//Filtrar por marca
-						System.out.println("Ingresa la marca del celular que estás buscando: ");
+						System.out.println("Ingresa la marca del celular que estas buscando: ");
 						String marca = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						celulares_filtrados = Celular.filtroMarca(mercado, marca);
@@ -1610,14 +1610,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1629,7 +1629,7 @@ public class Main {
 						break;
 					case 3:
 						//Filtrar por Color
-						System.out.println("Ingresa el color del celular que estás buscando: ");
+						System.out.println("Ingresa el color del celular que estas buscando: ");
 						String color = sc.nextLine().toLowerCase();
 						System.out.println("Buscando...");
 						celulares_filtrados = Celular.filtroColor(mercado, color);
@@ -1638,14 +1638,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarTelevisor(mercado);
@@ -1658,9 +1658,9 @@ public class Main {
 					case 4:
 
 						//Filtramos por almacenamiento
-						System.out.println("Ingrese el número minimo de almacenamiento que desea en su celular: ");
+						System.out.println("Ingrese el numero minimo de almacenamiento que desea en su celular: ");
 						int minAlmacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el número máximo de almacenamiento que desea en su celular: ");
+						System.out.println("Ingrese el número maximo de almacenamiento que desea en su celular: ");
 						int maxAlmacenamiento = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						celulares_filtrados = Celular.filtroAlmacenamiento(mercado, minAlmacenamiento,maxAlmacenamiento);
@@ -1668,14 +1668,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1689,9 +1689,9 @@ public class Main {
 					case 5:
 
 						//Filtramos por bateria
-						System.out.println("Ingrese el número minimo de bateria que desea en su celular: ");
+						System.out.println("Ingrese el numero minimo de bateria que desea en su celular: ");
 						int minBateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el número máximo de bateria que desea en su celular: ");
+						System.out.println("Ingrese el numero maximo de bateria que desea en su celular: ");
 						int maxBateria = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						celulares_filtrados = Celular.filtroBateria(mercado, minBateria,maxBateria);
@@ -1699,14 +1699,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1719,9 +1719,9 @@ public class Main {
 					case 6:
 
 						//Filtramos por Ram
-						System.out.println("Ingrese el número minimo de ram que desea en su celular: ");
+						System.out.println("Ingrese el numero minimo de ram que desea en su celular: ");
 						int minRam = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el número máximo de ram que desea en su celular: ");
+						System.out.println("Ingrese el numero maximo de ram que desea en su celular: ");
 						int maxRam = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						celulares_filtrados = Celular.filtroRam(mercado, minRam,maxRam);
@@ -1729,14 +1729,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1749,9 +1749,9 @@ public class Main {
 					case 7:
 
 						//Filtramos por precio
-						System.out.println("Ingrese el número minimo de precio que desea en su celular: ");
+						System.out.println("Ingrese el numero minimo de precio que desea en su celular: ");
 						int minPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
-						System.out.println("Ingrese el número máximo de precio que desea en su celular: ");
+						System.out.println("Ingrese el numero maximo de precio que desea en su celular: ");
 						int maxPrecio = Integer.parseInt(confirmarNumero(sc.nextLine()));
 						System.out.println("Buscando... jejeje");
 						celulares_filtrados = Celular.filtroPrecio(mercado, minPrecio,maxPrecio);
@@ -1759,14 +1759,14 @@ public class Main {
 							System.out.println("Estos son los resultados de tu busqueda: ");
 						}else{
 							celulares_filtrados = mercado.getOfercelular();
-							System.out.println("No se encontraron resultados a tu busqueda, aqui te enseñamos algunos celulares disponibles en la tienda: ");
+							System.out.println("No se encontraron resultados a tu busqueda, aqui te ensenamos algunos celulares disponibles en la tienda: ");
 						}
 						indiceFiltros = 1;
 						for (Celular celular: celulares_filtrados) {
 							System.out.println(indiceFiltros+". "+celular);
 							indiceFiltros++;
 						}
-						System.out.println("Escribe el número del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atrás");
+						System.out.println("Escribe el numero del celular que desas comprar o dale en "+(celulares_filtrados.size()+1)+" para volver atras");
 						respuesta = validarRespuesta(1, celulares_filtrados.size()+1,sc.nextLine());
 						if(respuesta.equals((celulares_filtrados.size()+1)+"")){
 							comprarCelular(mercado);
@@ -1781,12 +1781,12 @@ public class Main {
 				comprarCelular(mercado, respuesta, mercado.getOfercelular());
 			}
 		}else{
-			System.out.println("Este supermercado no cuenta con Celulares D: ¿Deseas añadir uno?: " +
+			System.out.println("Este supermercado no cuenta con Celulares D: Deseas anadir uno?: " +
 					"\n1. SI" +
 					"\n2. NO");
 			String respuesta = sc.nextLine();
 			while(!respuesta.equals("1") && !respuesta.equals("2")){
-				System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+				System.out.println("Rectifica el numero ingresado, intentalo nuevamente: ");
 				respuesta = sc.nextLine();
 			}
 			switch (respuesta){
@@ -1805,11 +1805,11 @@ public class Main {
 		System.out.println("Has seleccionado el celular: \n"+producto_seleccionado.getMarca()+": "+producto_seleccionado.getNombre());
 
 		System.out.println("Ingresa: " +
-				"\n1. Añadir al carrito" +
-				"\n2. Volver al menú anterior");
+				"\n1. Anadir al carrito" +
+				"\n2. Volver al menu anterior");
 		String respuesta2 = sc.nextLine();
 		while(!respuesta2.equals("1") && !respuesta2.equals("2")){
-			System.out.println("Rectifica el número ingresado, intentalo nuevamente: ");
+			System.out.println("Rectifica el numero ingresado, intentalo nuevamente: ");
 			respuesta2 = sc.nextLine();
 		}
 		switch (respuesta2){
@@ -1885,11 +1885,11 @@ public class Main {
 	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 
 	                System.out.println("Ingresa: " +
-	                        "\n1. A�adir al carrito" +
+	                        "\n1. Anadir al carrito" +
 	                        "\n2. Volver al menu anterior");
 	                String respuesta2 = sc.nextLine();
 	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
-	                    System.out.println("Numero ingresado incorrecto, inténtalo nuevamente: ");
+	                    System.out.println("Numero ingresado incorrecto, intentalo nuevamente: ");
 	                    respuesta2 = sc.nextLine();
 	                }
 	                switch (respuesta2) {
@@ -1949,10 +1949,10 @@ public class Main {
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
 		while(!numero.matches("\\d+(\\.\\d+)?")){
-			System.out.println("El número ingresado anteriormente no es válido, por favor intenalo "
+			System.out.println("El numero ingresado anteriormente no es valido, por favor intenalo "
 		            +"nuevamente solo se acepta"
-			        + "\n* Número entero"
-					+ "\n* Número decimal con punto");
+			        + "\n* Numero entero"
+					+ "\n* Numero decimal con punto");
 			numero = sc.nextLine();
 		}
 		return numero;
