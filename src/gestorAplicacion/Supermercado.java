@@ -6,15 +6,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Supermercado  implements Serializable{
-	public String nombre;
+	private String nombre;
 	
-	public ArrayList<Libro> oferlibros = new ArrayList<Libro>();
-	public ArrayList<Carne> ofercarne = new ArrayList<>();
-	public ArrayList<Alimentos> ofercomi = new ArrayList<Alimentos>();
-	public ArrayList<noCarnicos> ofernocarnicos = new ArrayList<>();
-	public ArrayList<Tv> ofertv = new ArrayList<>();
-	public ArrayList<Celular> ofercelular = new ArrayList<>();
-	public ArrayList<Ropa> oferropa = new ArrayList<>();
+	private ArrayList<Libro> oferlibros = new ArrayList<Libro>();
+	private ArrayList<Carne> ofercarne = new ArrayList<>();
+	private ArrayList<Alimentos> ofercomi = new ArrayList<Alimentos>();
+	private ArrayList<noCarnicos> ofernocarnicos = new ArrayList<>();
+	private ArrayList<Tv> ofertv = new ArrayList<>();
+	private ArrayList<Celular> ofercelular = new ArrayList<>();
+	private ArrayList<Ropa> oferropa = new ArrayList<>();
 	
 	public Supermercado(String nombre){
 		this.nombre = nombre;

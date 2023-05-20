@@ -10,7 +10,6 @@ public class Libro implements Serializable,Comparable<Libro>{
 	private Supermercado supermercado;
 	private String titulo,autor,descripcion,isbn;
 	private int precio,cantidad;
-	static int numlibros;
 	public Libro(String titulo,String autor,String descripcion, String isbn,int precio,int cantidad, Supermercado supermercado){
 		this.titulo=titulo;
 		this.autor=autor;
@@ -19,7 +18,6 @@ public class Libro implements Serializable,Comparable<Libro>{
 		this.precio=precio;
 		this.supermercado = supermercado;
 		this.cantidad=cantidad;
-		Main.lista_libros.add(this);
 	}
 	public Libro(Libro libro,int cantidad) {
 		//Un uso de this()
@@ -66,12 +64,6 @@ public class Libro implements Serializable,Comparable<Libro>{
 	}
 	public void setPrecio(int precio) {
 		this.precio = precio;
-	}
-	public static int getNumlibros() {
-		return numlibros;
-	}
-	public static void setNumlibros(int numlibros) {
-		Libro.numlibros = numlibros;
 	}
 	
 	public String toString() {
