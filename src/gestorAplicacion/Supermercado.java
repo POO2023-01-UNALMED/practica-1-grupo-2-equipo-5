@@ -74,7 +74,7 @@ public class Supermercado  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Supermercado "+this.nombre.toUpperCase();
+		return ""+this.nombre.toUpperCase();
 	}
 	
 }

@@ -41,14 +41,17 @@ public class Main {
 		
 		//Si no hay supermercados se ejecuta un flujo para crear el supermercado dentro de deserializarSupermercados()
 		lista_super =  Deserializar.deserializarSupermercados();
-		
-		System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
+		//muchachos dejo el que teniamos abajo por si este genera algun error
+		System.out.println("╔════════════════════════════════════════════════════════╗");
+		System.out.println("║   ¡Bienvenido/a! a nuestro sistema gestor de tiendas   ║");
+		System.out.println("╚════════════════════════════════════════════════════════╝");
+		//System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
 		System.out.print("Ingresa tu nombre: ");
 		String nombre = sc.nextLine();
 		System.out.print("Ingresa tu direccion: ");
 		String direccion = sc.nextLine();
 		System.out.print("Ingresa tu saldo disponible: ");
-		String saldo =sc.nextLine();
+		String saldo = validarsaldo(sc.nextLine());
 		Cliente cliente = new Cliente(nombre, direccion,Integer.parseInt(saldo));
 		Main.cliente=cliente;
 		System.out.println("\nBienvenido "+nombre+"!\n");
@@ -108,38 +111,49 @@ public class Main {
 	
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
-		System.out.println("\nCarrito de compras:");
-		System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
+		System.out.println("\n  ***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACIÓN SU CARRITO DE COMPRAS***\n");
+		//System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
+		System.out.printf("%-25s %-20s %-16s %-10s %-5s\n","Nombre", "Tipo de producto", "Supermercado", "Cantidad", "Precio");
 		double precio_total = 0;
 		int cont = 1;
 		for(Object producto:cliente.getCarrito()) {
 			if(producto instanceof Tv){
-				System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
+				String tipoProducto="Televisor";
+				System.out.printf("%-25s TV:%-20s %-16s %-10d %-5d\n",((Tv)producto).getMarca(), ((Tv)producto).getNombre(), ((Tv)producto).getSupermercado(), ((Tv)producto).getCantidad(), ((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
+				//System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
 				precio_total += ((Tv)producto).getPrecio();
 			}
 			
 			else if(producto instanceof Libro) {
-				System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
+				String tipoProducto2="Libro";
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Libro)producto).getTitulo(), tipoProducto2, ((Libro)producto).getSupermercado(), ((Libro)producto).getCantidad(), ((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
+				//System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
 				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
 			}
 			
 			else if(producto instanceof Celular) {
-				System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
+				System.out.printf("%-25s Celular:%-20s %-15s %-10d %-5d\n",((Celular)producto).getMarca(), ((Celular)producto).getNombre(), ((Celular)producto).getSupermercado(), ((Celular)producto).getCantidad(), ((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
+				//System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
 				precio_total += ((Celular)producto).getCantidad()*((Celular)producto).getPrecio();
 			}
 			
 			else if(producto instanceof noCarnicos) {
-				System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| noCarnicos |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				String tipoProducto3="noCarnico";
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((noCarnicos)producto).getNombre(), tipoProducto3, ((noCarnicos)producto).getSupermercado(), ((noCarnicos)producto).getCantidad(), ((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				//System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| noCarnicos |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
 				precio_total += ((noCarnicos)producto).getCantidad()*((noCarnicos)producto).getPrecio();
 			}
 			
 			else if(producto instanceof Carne) {
-				System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| Carne |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Carne)producto).getNombre(), ((Carne)producto).getTipo(), ((Carne)producto).getSupermercado(), ((Carne)producto).getCantidad(), ((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
+				//System.out.println(cont+". "+((Carne)producto).getNombre()+ "| Carne |"+((Carne)producto).getSupermercado()+" | "+((Carne)producto).getCantidad()+" | "+((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
 				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio();
 			}
 			
 			else if(producto instanceof Ropa) {
-				System.out.println(cont+". "+((Ropa)producto).getNombreRopa()+ "| Ropa |"+((Ropa)producto).getSupermercado()+" | "+((Ropa)producto).getCantidadRopa()+" | "+((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
+				String tipoProducto4="Ropa";
+				System.out.printf("%-25s %-20s %-15s %-10s %-5d\n",((Ropa)producto).getNombreRopa(), tipoProducto4, ((Ropa)producto).getSupermercado(), ((Ropa)producto).getCantidadRopa(), ((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
+				//System.out.println(cont+". "+((Ropa)producto).getNombreRopa()+ "| Ropa |"+((Ropa)producto).getSupermercado()+" | "+((Ropa)producto).getCantidadRopa()+" | "+((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
 				precio_total += ((Ropa)producto).getCantidadRopa()*((Ropa)producto).getPrecioRopa();
 			
 			}
@@ -695,7 +709,8 @@ public class Main {
 		
 		System.out.println("\nDeseas agregar otro producto?"+
 		                   "\n1. Si "
-		                  +"\n2. No");
+		                  +"\n2. No"
+		                   );
 		
 		respuesta = validarRespuesta(1,2,Main.sc.nextLine());
 
@@ -704,6 +719,9 @@ public class Main {
 			anadirProducto(mercado);
 			break;
 		case "2":
+			break;
+		case "3":
+			//Posibilidad de añadir otro supermercado
 			break;
 		}	
 	}
@@ -943,32 +961,64 @@ public class Main {
 	
 	//Creo el menuAlimentos para  si cliente desea volver a la seccion alimentos
 	public static void menuAlimentos(Supermercado mercado) {
-		System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
-		System.out.println("En que producto esta interesado de nuestra seccion?");
-		System.out.println(	"\n"+
-	    "1. Solo Alimentos Carnicos\n"
-		+"2. Solo Alimentos noCarnicos\n"
-		+"3. Alimentos Carnicos y noCarnicos\n"
-		+"4. Elegir otra seccion");
 		
-		String eleccion = validarRespuesta(1, 4, sc.nextLine());
-		
-		if (eleccion.equals("1")){
-			comprarAlimento(mercado, eleccion);
-		}else if(eleccion.equals("2")){
-			comprarAlimento(mercado, eleccion);
-		}else if(eleccion.equals("3")){
-			comprarAlimento(mercado, eleccion);
-		}else{
-			ofertaProductos(mercado);
-		}	
+		    int swiche = 0; 
+			System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
+			System.out.println("En que producto esta interesado de nuestra seccion?");
+			System.out.println(	"\n"+
+		    "1. Solo Alimentos Carnicos\n"
+			+"2. Solo Alimentos noCarnicos\n"
+			+"3. Alimentos Carnicos y noCarnicos\n"
+			+"4. Elegir otra seccion");
+			String eleccion = sc.nextLine();
+			
+			if (eleccion.equals("1") && mercado.getOfercarne().size() > 0 ){
+				comprarAlimento(mercado,eleccion);
+			}else if(eleccion.equals("1") && mercado.getOfernocarnicos().size() > 0){
+				comprarAlimento(mercado, eleccion );
+			}else {
+				swiche = 1;
+			}
+			if((eleccion.equals("3") && mercado.getOfernocarnicos().size() > 0) && (eleccion.equals("1") && mercado.getOfernocarnicos().size() > 0)){
+				comprarAlimento(mercado, eleccion );
+			}
+			if(eleccion.equals("4")){
+				ofertaProductos(mercado);
+				return;
+			}
+			
+		if(swiche == 1) {
+			
+			swiche = 0;
+			String sindatos	 = sc.nextLine();
+			System.out.println("Esta sección no cuenta con suministros pedimos disculpas :(");
+			System.out.print("\n** Pero tenemos Opciones Adicionales :) **");
+			System.out.println("\nIngresa \n1. Menu alimetnos\n2.Otras Secciones");
+			
+			System.out.println("!Acceso Exclusivo¡ \nIngresa 3. \nPara Agregar productos al supermercado\n ");
+			
+			while (true) {
+				    sindatos = sc.nextLine();
+				if (sindatos.equals("1")) {
+					menuAlimentos(mercado);
+					break;
+				}else if (sindatos.equals("2")){
+					ofertaProductos(mercado);
+					break;
+				}else if(sindatos.equals("3")) {
+					anadirProducto(mercado);
+				}
+				System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
+              }
+			
+		}
+			
 	}
 
 public static void comprarAlimento(Supermercado mercado, String eleccion) {
-		
-		if (eleccion.equals("1")){//OPCION NO CARNICOS
+	
+		if (eleccion.equals("1")){//OPCION CARNICOS
 			ArrayList<Carne> meat2 = new ArrayList<Carne>();
-			
 			if(mercado.getOfercarne().size() > 0){
 				int elegir,i=1;
 				System.out.print("Bienvenido al Area de Carnes del "+mercado+"\n");
@@ -993,6 +1043,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				
 				if(elegir==mercado.getOfercarne().size()+1){
 	                  //FILTRO LISTA DE TIPOS DE CARNE
+					int elegirtipo =0;
 				    System.out.println("\nLos Tipo de Carnes Disponibles Son:");
 					Object[] listaTipo = Carne.listaTipos(mercado.getOfercarne());//
 					for(int c=0; c<listaTipo.length; c++) {
@@ -1002,7 +1053,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(listaTipo.length+1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(listaTipo.length+2)+" para Escoger otra Seccion");
-					int elegirtipo = Integer.parseInt(validarRespuesta(1,listaTipo.length+2, String.valueOf(sc.nextInt())));
+					elegirtipo = Integer.parseInt(validarRespuesta(1,listaTipo.length+2, String.valueOf(sc.nextInt())));
 					
 					if(elegirtipo==listaTipo.length+1) {
 						menuAlimentos(mercado);
@@ -1014,7 +1065,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 						//FILTRO POR TIPO DE CARNE
 						System.out.println("\nOfertas Disponibles para el filtro de "+listaTipo[elegirtipo-1].toString());
 						meat2 = Carne.filtroTipo(mercado.getOfercarne(),listaTipo[elegirtipo-1].toString());
-						int y =1, oferSelec;
+						int y =1, oferSelec=0;
 						for(Carne productoF:meat2) {
 							System.out.println(y++ +"."
 						            +"\nNombre: "+productoF.getNombre()
@@ -1028,19 +1079,21 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 						System.out.print("\n         **Opciones Adicionales**");
 						System.out.print("\nIngrese "+(y+1)+" Volver al Menu de Alimentos");
 						System.out.println("\nIngrese "+(y+2)+" para Escoger otra Seccion");
-						oferSelec = Integer.parseInt(validarRespuesta(1,meat2.size()+2, String.valueOf(sc.nextInt())));
-						
-						if(oferSelec == (y+1)) {
-							menuAlimentos(mercado);
-							return;
-						}else if(oferSelec == (y+2)) {
-							ofertaProductos(mercado);
-							return;
-						}else if(oferSelec<y) {
-							comprarAlimentos(mercado,meat2, oferSelec,eleccion);
+						while(true) {
+							oferSelec = sc.nextInt();
+							if(oferSelec == (y+1)) {
+								menuAlimentos(mercado);
+								return;
+							}else if(oferSelec == (y+2)) {
+								ofertaProductos(mercado);
+								return;
+							}else if(oferSelec<y) {
+								comprarAlimentos(mercado,meat2, oferSelec,eleccion);
+							}
+							System.out.println("Respuesta erronea, ingresa nuevamente el numero: ");
 						}
 					}
-		               return;
+		             return;
 					}else if(elegir==mercado.getOfercarne().size()+2) {
 						menuAlimentos(mercado);
 						return;
@@ -1050,10 +1103,9 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 
 					}else if(elegir-1<mercado.getOfercarne().size()) {
 						comprarAlimentos(mercado,mercado.getOfercarne(),elegir,eleccion);
-
 					}
-
-		}else if(eleccion.equals("2")){// OPCION NO CARNICOS
+	      	}
+		 	if(eleccion.equals("2")){// OPCION NO CARNICOS
 			ArrayList<noCarnicos> nomeat = new ArrayList<noCarnicos>();
 			if(mercado.getOfernocarnicos().size() > 0){
 				int ii=1,elegir2;
@@ -1129,10 +1181,11 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 						comprarAlimentos(mercado, mercado.getOfernocarnicos(), elegir2,eleccion);
 					}
 				}
-					
 			}
-		}else if(eleccion.equals("3")){// OPCION CARNICOS Y NO CARNICOS
+		}
+		if(eleccion.equals("3")){// OPCION CARNICOS Y NO CARNICOS
 			ArrayList<Alimentos> sustento = new ArrayList<>();
+			int validar = 0;
 			if(mercado.getOfernocarnicos().size() > 0){
 				System.out.print("Bienvenido al Area de Carnicos & noCarnicos del "+mercado+"\n");
 				System.out.print("*** !TODAS LAS OFERTAS DE ALIMENTOS EN UN SOLO LUGAR!***\n");
@@ -1149,7 +1202,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.print("\nIngrese "+(mercado.getOfercomi().size()+1)+" para Filtrar por Precio");
 				System.out.print("\nIngrese "+(mercado.getOfercomi().size()+2)+" Volver al Menu de Alimentos");
 				System.out.println("\nIngrese "+(mercado.getOfercomi().size()+3)+" para Escoger otra Seccion");
-	            int validar = Integer.parseInt(validarRespuesta(1,mercado.getOfercomi().size()+3, String.valueOf(sc.nextInt())));
+	            validar = Integer.parseInt(validarRespuesta(1,mercado.getOfercomi().size()+3, String.valueOf(sc.nextInt())));
 			if(validar<mercado.getOfercomi().size()) {
 				comprarAlimentos(mercado, sustento,validar,eleccion);
 				return;
@@ -1161,6 +1214,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.println("Ingrese el precio máximo que desea en la oferta: ");
 				int max = Integer.parseInt(confirmarNumero(sc.nextLine()));
 				System.out.println("Bus..can..do....");
+				int respuesta = 0;
 				sustento = Carne.filPrecioAli(mercado, min, max);//
 				if(sustento.size() != 0){
 					System.out.println("Las Ofertas Disponibles para el Filtro son : ");
@@ -1173,7 +1227,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(sustento.size() +1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(sustento.size() +2)+" para Escoger otra Seccion");
-					int respuesta = Integer.parseInt(validarRespuesta(1,sustento.size()+2, String.valueOf(sc.nextInt())));
+				    respuesta = Integer.parseInt(validarRespuesta(1,sustento.size()+2, String.valueOf(sc.nextInt())));
 					if(respuesta-1<sustento.size()) {
 						comprarAlimentos(mercado, sustento, respuesta,eleccion);
 						return;
@@ -1187,11 +1241,12 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					}
 				}else{
 					sustento = mercado.getOfercomi();
+					int vali = 0;
 					System.out.println("No se encontraron Ofertas Disponibles :(");
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(2)+" para Escoger otra Seccion");
-					int vali = Integer.parseInt(validarRespuesta(1,2, String.valueOf(sc.nextInt())));
+					vali = Integer.parseInt(validarRespuesta(1,2, String.valueOf(sc.nextInt())));
 					switch(vali) {
 					case 1:
 						menuAlimentos(mercado);
@@ -1215,14 +1270,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		switch (eleccion){
 		case "1":
 			 ArrayList<Carne> listaCarne = Carne.convertirCarne(lista);
-			 Carne p = null;
+			 Carne p = null; int validado = 0;
 			 p = listaCarne.get(oferSelec-1);
-			 System.out.println("Has Selecionado la Oferta de "+p.getNombre());
+			 System.out.println("Has Selecionado la Oferta de "+p.getNombre()+" Stock:"+p.getCantidad());
 				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito al carrito de compras!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
-				int validado = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+				validado = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
 				//String validado = validarRespuesta(1, 3, sc.nextLine());
 				
 			    switch(validado) {
@@ -1240,14 +1295,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			break;
 		case "2":
 			 ArrayList<noCarnicos> listanoCarne = noCarnicos.convertirnoCarne(lista);
-			 noCarnicos q = null;
+			 noCarnicos q = null; int validad = 0;
 			 q = listanoCarne.get(oferSelec-1);
 			 System.out.println("Has Selecionado la oferta de "+q.getNombre());
 				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito al carrito de compras!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
-				int validad = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+				validad = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
 				//String validad = validarRespuesta(1, 3, sc.nextLine());
 				if(validad==1) {
 					menuAlimentos(mercado);
@@ -1263,14 +1318,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			
 		case"3":
 			ArrayList<Alimentos> listAlimento = noCarnicos.convertirAlimentos(lista);
-			Alimentos t = null;
+			Alimentos t = null; int res = 0;
 			 t = listAlimento.get(oferSelec-1);
 			 System.out.println("Has Selecionado la oferta de "+t.getNombre());
 				disminuirStock(lista.get(oferSelec-1),mercado);
 				System.out.println("Producto agregado con exito al carrito de compras!");
 				System.out.print("\nSeguir comprando \n1. Seccion Alimentos \n2. Otras Secciones");
 				System.out.println("\n3. Finalizar compra ");
-				int res = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+				res = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
 				//String res = sc.nextLine();
 				
 				if(res == 1) {
@@ -1974,5 +2029,13 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		 return respuesta;
 	}
 	
+private static String validarsaldo(String saldo) {
+		
+	while (Integer.parseInt(saldo)<=699) {
+			System.out.println("\nLo sentimos Nuestros precios mas bajos son a partir de 700 pesos intentalo nuevamente\n");
+			saldo = sc.nextLine();
+	}
+	return saldo;
+}
 	
 }
