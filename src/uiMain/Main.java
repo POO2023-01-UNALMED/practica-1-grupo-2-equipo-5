@@ -2026,6 +2026,8 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		
 		
 	}
+	
+	//Ordene el Main
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
