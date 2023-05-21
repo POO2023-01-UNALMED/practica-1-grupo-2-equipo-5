@@ -109,394 +109,12 @@ public class Main {
 		}
 	}
 	
-	// Se muestra el carrito de compras al finalizar la compra
-	public static void finalizarCompra() {
-		System.out.println("\n  ***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACIÓN SU CARRITO DE COMPRAS***\n");
-		//System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
-		System.out.printf("%-25s %-20s %-16s %-10s %-5s\n","Nombre", "Tipo de producto", "Supermercado", "Cantidad", "Precio");
-		double precio_total = 0;
-		int cont = 1;
-		for(Object producto:cliente.getCarrito()) {
-			if(producto instanceof Tv){
-				String tipoProducto="Televisor";
-				System.out.printf("%-25s TV:%-20s %-16s %-10d %-5d\n",((Tv)producto).getMarca(), ((Tv)producto).getNombre(), ((Tv)producto).getSupermercado(), ((Tv)producto).getCantidad(), ((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
-				//System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
-				precio_total += ((Tv)producto).getPrecio();
-			}
-			
-			else if(producto instanceof Libro) {
-				String tipoProducto2="Libro";
-				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Libro)producto).getTitulo(), tipoProducto2, ((Libro)producto).getSupermercado(), ((Libro)producto).getCantidad(), ((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
-				//System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
-				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
-			}
-			
-			else if(producto instanceof Celular) {
-				System.out.printf("%-25s Celular:%-20s %-15s %-10d %-5d\n",((Celular)producto).getMarca(), ((Celular)producto).getNombre(), ((Celular)producto).getSupermercado(), ((Celular)producto).getCantidad(), ((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
-				//System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
-				precio_total += ((Celular)producto).getCantidad()*((Celular)producto).getPrecio();
-			}
-			
-			else if(producto instanceof noCarnicos) {
-				String tipoProducto3="noCarnico";
-				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((noCarnicos)producto).getNombre(), tipoProducto3, ((noCarnicos)producto).getSupermercado(), ((noCarnicos)producto).getCantidad(), ((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
-				//System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| noCarnicos |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
-				precio_total += ((noCarnicos)producto).getCantidad()*((noCarnicos)producto).getPrecio();
-			}
-			
-			else if(producto instanceof Carne) {
-				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Carne)producto).getNombre(), ((Carne)producto).getTipo(), ((Carne)producto).getSupermercado(), ((Carne)producto).getCantidad(), ((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
-				//System.out.println(cont+". "+((Carne)producto).getNombre()+ "| Carne |"+((Carne)producto).getSupermercado()+" | "+((Carne)producto).getCantidad()+" | "+((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
-				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio();
-			}
-			
-			else if(producto instanceof Ropa) {
-				String tipoProducto4="Ropa";
-				System.out.printf("%-25s %-20s %-15s %-10s %-5d\n",((Ropa)producto).getNombreRopa(), tipoProducto4, ((Ropa)producto).getSupermercado(), ((Ropa)producto).getCantidadRopa(), ((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
-				//System.out.println(cont+". "+((Ropa)producto).getNombreRopa()+ "| Ropa |"+((Ropa)producto).getSupermercado()+" | "+((Ropa)producto).getCantidadRopa()+" | "+((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
-				precio_total += ((Ropa)producto).getCantidadRopa()*((Ropa)producto).getPrecioRopa();
-			
-			}
-			cont++;
-		}
-		System.out.println("\nSubtotal :"+precio_total);
-		System.out.println("\nImpuesto IVA 19%: "+precio_total*IVA);
-		precio_total= precio_total+(precio_total*IVA);
-		System.out.println("\nTotal: "+precio_total);
-		
-		if (cliente.getSaldo()<precio_total) {
-			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\nCual producto deseas quitar?");
-			String select =sc.nextLine();
-			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
-			devolverProducto(producto);
-			finalizarCompra();
-		}
-		else {
-			System.out.println("\n1. Pagar"+
-		       "\n2.Volver al menu inicial");
-			String eleccion=sc.nextLine();
-			switch(eleccion) {
-			case "1":
-				System.out.println("\nEl pago a sido realizado con exito!"
-						+ "\nEn unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
-						+"\nA nombre de "+cliente.getNombre()
-				        +"\nFue un placer atenderlo y esperamos que vuelva pronto!");
-				System.exit(0);
-				break;
-			case "2":
-				break;
-			}
-		}
-		
-	}
-	
-	public static void devolverProducto(Object producto) {
-		boolean productoenmercado=false;
-		
-		if(producto instanceof Libro) {
-			Libro libro = (Libro) producto;
-			int asumar=0, cantidad = libro.getCantidad();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(Libro libros:libro.getSupermercado().getOferlibros()) {
-				if (libro.compareTo(libros)==1) {
-					libros.setCantidad(libros.getCantidad()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
-				}
-			
-			((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
-			if (((Libro) producto).getCantidad()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		else if(producto instanceof Celular) {
-			Celular celular = (Celular) producto;
-			int asumar=0, cantidad = celular.getCantidad();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(Celular celulares:celular.getSupermercado().getOfercelular()) {
-				if (celular.compareTo(celulares)==1) {
-					celulares.setCantidad(celulares.getCantidad()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				celular.getSupermercado().getOfercelular().add(new Celular(celular,asumar));
-				}
-			
-			((Celular) producto).setCantidad(((Celular) producto).getCantidad()-asumar);
-			if (((Celular) producto).getCantidad()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		else if(producto instanceof Tv) {
-			Tv tv = (Tv) producto;
-			int asumar=0, cantidad = tv.getCantidad();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(Tv tvs:tv.getSupermercado().getOfertv()) {
-				if (tv.compareTo(tvs)==1) {
-					tvs.setCantidad(tvs.getCantidad()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				tv.getSupermercado().getOfertv().add(new Tv(tv,asumar));
-				}
-			
-			((Tv) producto).setCantidad(((Tv) producto).getCantidad()-asumar);
-			if (((Tv) producto).getCantidad()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		else if(producto instanceof Carne) {
-			Carne carne = (Carne) producto;
-			int asumar=0, cantidad = carne.getCantidad();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(Carne carnes:carne.getSupermercado().getOfercarne()) {
-				if (carne.compareTo(carnes)==1) {
-					carnes.setCantidad(carnes.getCantidad()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				carne.getSupermercado().getOfercarne().add(new Carne(carne,asumar));
-				}
-			
-			((Carne) producto).setCantidad(((Carne) producto).getCantidad()-asumar);
-			if (((Carne) producto).getCantidad()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		else if(producto instanceof noCarnicos) {
-			noCarnicos nocarne = (noCarnicos) producto;
-			int asumar=0, cantidad = nocarne.getCantidad();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(noCarnicos nocarnes:nocarne.getSupermercado().getOfernocarnicos()) {
-				if (nocarne.compareTo(nocarnes)==1) {
-					nocarnes.setCantidad(nocarnes.getCantidad()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				nocarne.getSupermercado().getOfernocarnicos().add(new noCarnicos(nocarne,asumar));
-				}
-			
-			((noCarnicos) producto).setCantidad(((noCarnicos) producto).getCantidad()-asumar);
-			if (((noCarnicos) producto).getCantidad()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		else if(producto instanceof Ropa) {
-			Ropa ropa = (Ropa) producto;
-			int asumar=0, cantidad = ropa.getCantidadRopa();
-			
-			System.out.println("Cuantas unidades deseas quitar?");
-			for (int i=1;i<=cantidad;i++) {
-				System.out.println(i+". "+i);
-			}
-			asumar=Integer.parseInt(sc.nextLine());
-	
-			for(Ropa ropas:ropa.getSupermercado().getOferropa()) {
-				if (ropa.compareTo(ropas)==1) {
-					ropas.setCantidadRopa(ropas.getCantidadRopa()+asumar);
-					productoenmercado=true;
-					break;
-				}
-			}
-			if(!productoenmercado) {
-				ropa.getSupermercado().getOferropa().add(new Ropa(ropa,asumar));
-				}
-			
-			((Ropa) producto).setCantidadRopa(((Ropa) producto).getCantidadRopa()-asumar);
-			if (((Ropa) producto).getCantidadRopa()==0) {
-				cliente.getCarrito().remove(producto);
-			}
-	
-		}
-		
-		
-		
-		
-		
-	}
-	
-	public static void disminuirStock(Object producto,Supermercado mercado) {
-		boolean prodencarrito=false;
-		//el producto el cual se desea rebajar el stock
-		if(producto instanceof Libro) {
-			
-			Libro libro= (Libro) producto;
-			
-			libro.setCantidad(libro.getCantidad()-1);
-			if(libro.getCantidad()==0) mercado.getOferlibros().remove(libro);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof Libro) {
-					if(libro.compareTo((Libro)productos)==1) {
-						((Libro) productos).setCantidad(((Libro) productos).getCantidad()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new Libro(libro,1));
-			}
-		}
-		
-		else if(producto instanceof Celular) {
-			Celular celular= (Celular) producto;
-			celular.setCantidad(celular.getCantidad()-1);
-			if(celular.getCantidad()==0) mercado.getOfercelular().remove(celular);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof Celular) {
-					if(celular.compareTo((Celular)productos)==1) {
-						((Celular) productos).setCantidad(((Celular) productos).getCantidad()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new Celular(celular,1));
-			}
-		}
-		
-		else if(producto instanceof Tv) {
-			Tv tv= (Tv) producto;
-			tv.setCantidad(tv.getCantidad()-1);
-			if(tv.getCantidad()==0) mercado.getOfertv().remove(tv);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof Tv) {
-					if(tv.compareTo((Tv)productos)==1) {
-						((Tv) productos).setCantidad(((Tv) productos).getCantidad()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new Tv(tv,1));
-			}
-		}
-		
-		else if(producto instanceof Carne) {
-			Carne carne= (Carne) producto;
-			carne.setCantidad(carne.getCantidad()-1);
-			if(carne.getCantidad()==0) mercado.getOfercarne().remove(carne);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof Carne) {
-					if(carne.compareTo((Carne)productos)==1) {
-						((Carne) productos).setCantidad(((Carne) productos).getCantidad()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new Carne(carne,1));
-			}
-		}
-		
-		else if(producto instanceof noCarnicos) {
-			noCarnicos nocarne= (noCarnicos) producto;
-			nocarne.setCantidad(nocarne.getCantidad()-1);
-			if(nocarne.getCantidad()==0) mercado.getOfernocarnicos().remove(nocarne);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof noCarnicos) {
-					if(nocarne.compareTo((noCarnicos)productos)==1) {
-						((noCarnicos) productos).setCantidad(((noCarnicos) productos).getCantidad()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new noCarnicos(nocarne,1));
-			}
-		}
-		
-		else if(producto instanceof Ropa) {
-			Ropa ropa= (Ropa) producto;
-			ropa.setCantidadRopa(ropa.getCantidadRopa()-1);
-			if(ropa.getCantidadRopa()==0) mercado.getOferropa().remove(ropa);
-			for(Object productos:cliente.getCarrito()) {
-				if (productos instanceof Ropa) {
-					if(ropa.compareTo((Ropa)productos)==1) {
-						((Ropa) productos).setCantidadRopa(((Ropa) productos).getCantidadRopa()+1);
-						prodencarrito=true;
-						break;
-					}
-				}
-			}
-			
-			if(!prodencarrito) {
-				cliente.getCarrito().add(new Ropa(ropa,1));
-			}
-		}
-		
-		
-		
-	}
-	
-	
 	//Hay que generalizar algunas cosas en este metodo
 	public static void seleccionarSupermercado() {
-
+	
 		String respuesta;
 		Supermercado super_seleccionado;
-
+	
 		
 		if(lista_super.size() == 0){
 			//Si el usuario no crea ningun supermercado salimos del metodo para volver al menu anterior
@@ -509,7 +127,7 @@ public class Main {
 		System.out.println((lista_super.size()+1)+". Crear un nuevo supermercado");
 		respuesta = sc.nextLine();
 		
-
+	
 		while(true){
 			try{
 				if(Integer.parseInt(respuesta)<= 0){
@@ -547,6 +165,55 @@ public class Main {
 			//System.out.println("Supermercado vacio");
 			//anadirProducto(super_seleccionado);}
 		// Santi says(Creo que este codigo lo podemos eliminar)
+	}
+
+	public static void ofertaProductos(Supermercado mercado) {
+		String respuesta;
+		System.out.println("Cual producto estas buscando en el "+mercado+"?"+
+				"\n1. Electronica"+
+				"\n2. Libros"+
+				"\n3. Alimentos"+
+				"\n4. Ropa"+
+				"\n5. Volver al menu anterior");
+		
+		respuesta=validarRespuesta(1, 5, sc.nextLine());
+		
+		switch(respuesta) {
+		case "1":
+			//comprarElectro()
+			System.out.println("Deseas ver la lista de Televisores o de Celulares?\n" +
+					"1.Televisores\n" +
+					"2.Celulares\n" +
+					"3.Volver al menu anterior");
+			String input_electro = sc.nextLine();
+			while(!input_electro.equals("1") && !input_electro.equals("2") && !input_electro.equals("3")){
+				System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
+				input_electro = Main.sc.nextLine();
+			}
+			if (input_electro.equals("1")){
+				comprarTelevisor(mercado);
+			}else if(input_electro.equals("2")){
+				comprarCelular(mercado);
+			}else{
+				break;
+			}
+			break;
+		case "2":
+			//comprarLibro()
+			comprarLibro(mercado);
+			break;
+		case "3":
+			//comprarAlim()
+			menuAlimentos(mercado);
+			
+			break;
+		case "4":
+			//comprarRopa()
+			comprarRopa(mercado);
+			break;
+		case "5":
+			break;
+		}
 	}
 
 	// Aqui entran todas las clases de la capa logica
@@ -690,7 +357,7 @@ public class Main {
 			    String tipoRopa = sc.nextLine();
 			    System.out.print("Ingresa la cantidad de prendas de ropa " + nombreRopa.toUpperCase() + " que desea añadir: ");
 			    int cantidadRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
-			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa);
+			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa, false);
 			    mercado.getOferropa().add(nuevaRopa);
 			    lista_ropa.add(nuevaRopa);
 			    cuandoSeAgrega(mercado);
@@ -701,7 +368,7 @@ public class Main {
 				break;
 		}
 	}
-	
+
 	//Posibilidad de agregar otro producto cuando se acaba de crear uno
 	public static void cuandoSeAgrega(Supermercado mercado) {
 		String respuesta;
@@ -724,55 +391,6 @@ public class Main {
 			//Posibilidad de añadir otro supermercado
 			break;
 		}	
-	}
-	
-	public static void ofertaProductos(Supermercado mercado) {
-		String respuesta;
-		System.out.println("Cual producto estas buscando en el "+mercado+"?"+
-				"\n1. Electronica"+
-				"\n2. Libros"+
-				"\n3. Alimentos"+
-				"\n4. Ropa"+
-				"\n5. Volver al menu anterior");
-		
-		respuesta=validarRespuesta(1, 5, sc.nextLine());
-		
-		switch(respuesta) {
-		case "1":
-			//comprarElectro()
-			System.out.println("Deseas ver la lista de Televisores o de Celulares?\n" +
-					"1.Televisores\n" +
-					"2.Celulares\n" +
-					"3.Volver al menu anterior");
-			String input_electro = sc.nextLine();
-			while(!input_electro.equals("1") && !input_electro.equals("2") && !input_electro.equals("3")){
-				System.out.println("La respuesta ingresada es erronea, intentalo nuevamente: ");
-				input_electro = Main.sc.nextLine();
-			}
-			if (input_electro.equals("1")){
-				comprarTelevisor(mercado);
-			}else if(input_electro.equals("2")){
-				comprarCelular(mercado);
-			}else{
-				break;
-			}
-			break;
-		case "2":
-			//comprarLibro()
-			comprarLibro(mercado);
-			break;
-		case "3":
-			//comprarAlim()
-			menuAlimentos(mercado);
-			
-			break;
-		case "4":
-			//comprarRopa()
-			comprarRopa(mercado);
-			break;
-		case "5":
-			break;
-		}
 	}
 	
 	public static void comprarLibro(Supermercado mercado,String...filtros ) {
@@ -1913,18 +1531,18 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                    "\nPrecio: " + prenda.getPrecioRopa() +
 	                    "\nCantidad en stock: " + prenda.getCantidadRopa());
 	        }
-	        System.out.println("\nSelecciona los filtros de busqueda:");
+	        System.out.println("\nSelecciona los filtros de búsqueda:");
 	        System.out.println("Talla: ");
 	        String talla = sc.nextLine();
 	        System.out.println("Color: ");
 	        String color = sc.nextLine();
-	        System.out.println("Genero: ");
+	        System.out.println("Género: ");
 	        String genero = sc.nextLine();
 	        System.out.println("Tipo: ");
 	        String tipo = sc.nextLine();
 
-	        // Filtrar las prendas de ropa segun los criterios de busqueda
-	        prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo);
+	        // Filtrar las prendas de ropa según los criterios de búsqueda
+	        prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo, false);
 
 	        if (prendasFiltradas.size() > 0) {
 	            System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");
@@ -1946,17 +1564,38 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 
 	                System.out.println("Ingresa: " +
-	                        "\n1. Anadir al carrito" +
-	                        "\n2. Volver al menu anterior");
+	                        "\n1. Añadir al carrito" +
+	                        "\n2. Volver al menú anterior");
 	                String respuesta2 = sc.nextLine();
 	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
-	                    System.out.println("Numero ingresado incorrecto, intentalo nuevamente: ");
+	                    System.out.println("Número ingresado incorrecto, intentalo nuevamente: ");
 	                    respuesta2 = sc.nextLine();
 	                }
 	                switch (respuesta2) {
 	                    case "1":
-	                        disminuirStock(prendaSeleccionada,mercado);
-	                        System.out.println("Producto agregado con exito!");
+	                        disminuirStock(prendaSeleccionada, mercado);
+	                        System.out.println("Producto agregado con éxito!");
+
+	                        // Aplicar descuento del 10% después de comprar tres prendas
+	                        if (cliente.getCarrito().size() >= 3) {
+	                            double descuento = 0.2;  // 10% de descuento
+	                            double total = 0;
+	                            
+	                            for (Object item : cliente.getCarrito()) {
+	                                if (item instanceof Ropa) {
+	                                    Ropa prendaCarrito = (Ropa) item;
+	                                    total += prendaCarrito.getPrecioRopa();
+	                                }
+	                            }
+
+	                            double descuentoAplicado = total * descuento;
+	                            double subtotal = total - descuentoAplicado;
+
+	                            System.out.println("Total: " + total);
+	                            System.out.println("Descuento aplicado: " + descuentoAplicado);
+	                            System.out.println("Subtotal: " + subtotal);
+	                        }
+
 	                        System.out.println("\n1. Seguir comprando");
 	                        System.out.println("\n2. Finalizar compra ");
 	                        while (true) {
@@ -1968,7 +1607,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                                finalizarCompra();
 	                                break;
 	                            }
-	                            System.out.println("Numero ingresado incorrecto, ingresa nuevamente el numero: ");
+	                            System.out.println("Número ingresado incorrecto, ingresa nuevamente el número: ");
 	                        }
 	                        break;
 	                    case "2":
@@ -1977,7 +1616,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                }
 	            }
 	        } else {
-	            System.out.println("No hay prendas de ropa disponibles segun los filtros seleccionados. Deseas volver a intentarlo?");
+	            System.out.println("No hay prendas de ropa disponibles según los filtros seleccionados. ¿Deseas volver a intentarlo?");
 	            System.out.println("1. SI");
 	            System.out.println("2. NO");
 	            String respuesta = sc.nextLine();
@@ -1991,7 +1630,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	            }
 	        }
 	    } else {
-	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. Deseas anadir alguna?");
+	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. ¿Deseas añadir alguna?");
 	        System.out.println("1. SI");
 	        System.out.println("2. NO");
 	        String respuesta = sc.nextLine();
@@ -2006,6 +1645,387 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	    }
 	}
 
+   
+	public static void devolverProducto(Object producto) {
+		boolean productoenmercado=false;
+		
+		if(producto instanceof Libro) {
+			Libro libro = (Libro) producto;
+			int asumar=0, cantidad = libro.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Libro libros:libro.getSupermercado().getOferlibros()) {
+				if (libro.compareTo(libros)==1) {
+					libros.setCantidad(libros.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				libro.getSupermercado().getOferlibros().add(new Libro(libro,asumar));
+				}
+			
+			((Libro) producto).setCantidad(((Libro) producto).getCantidad()-asumar);
+			if (((Libro) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Celular) {
+			Celular celular = (Celular) producto;
+			int asumar=0, cantidad = celular.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Celular celulares:celular.getSupermercado().getOfercelular()) {
+				if (celular.compareTo(celulares)==1) {
+					celulares.setCantidad(celulares.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				celular.getSupermercado().getOfercelular().add(new Celular(celular,asumar));
+				}
+			
+			((Celular) producto).setCantidad(((Celular) producto).getCantidad()-asumar);
+			if (((Celular) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Tv) {
+			Tv tv = (Tv) producto;
+			int asumar=0, cantidad = tv.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Tv tvs:tv.getSupermercado().getOfertv()) {
+				if (tv.compareTo(tvs)==1) {
+					tvs.setCantidad(tvs.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				tv.getSupermercado().getOfertv().add(new Tv(tv,asumar));
+				}
+			
+			((Tv) producto).setCantidad(((Tv) producto).getCantidad()-asumar);
+			if (((Tv) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Carne) {
+			Carne carne = (Carne) producto;
+			int asumar=0, cantidad = carne.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Carne carnes:carne.getSupermercado().getOfercarne()) {
+				if (carne.compareTo(carnes)==1) {
+					carnes.setCantidad(carnes.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				carne.getSupermercado().getOfercarne().add(new Carne(carne,asumar));
+				}
+			
+			((Carne) producto).setCantidad(((Carne) producto).getCantidad()-asumar);
+			if (((Carne) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof noCarnicos) {
+			noCarnicos nocarne = (noCarnicos) producto;
+			int asumar=0, cantidad = nocarne.getCantidad();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(noCarnicos nocarnes:nocarne.getSupermercado().getOfernocarnicos()) {
+				if (nocarne.compareTo(nocarnes)==1) {
+					nocarnes.setCantidad(nocarnes.getCantidad()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				nocarne.getSupermercado().getOfernocarnicos().add(new noCarnicos(nocarne,asumar));
+				}
+			
+			((noCarnicos) producto).setCantidad(((noCarnicos) producto).getCantidad()-asumar);
+			if (((noCarnicos) producto).getCantidad()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		else if(producto instanceof Ropa) {
+			Ropa ropa = (Ropa) producto;
+			int asumar=0, cantidad = ropa.getCantidadRopa();
+			
+			System.out.println("Cuantas unidades deseas quitar?");
+			for (int i=1;i<=cantidad;i++) {
+				System.out.println(i+". "+i);
+			}
+			asumar=Integer.parseInt(sc.nextLine());
+	
+			for(Ropa ropas:ropa.getSupermercado().getOferropa()) {
+				if (ropa.compareTo(ropas)==1) {
+					ropas.setCantidadRopa(ropas.getCantidadRopa()+asumar);
+					productoenmercado=true;
+					break;
+				}
+			}
+			if(!productoenmercado) {
+				ropa.getSupermercado().getOferropa().add(new Ropa(ropa,asumar, productoenmercado));
+				}
+			
+			((Ropa) producto).setCantidadRopa(((Ropa) producto).getCantidadRopa()-asumar);
+			if (((Ropa) producto).getCantidadRopa()==0) {
+				cliente.getCarrito().remove(producto);
+			}
+	
+		}
+		
+		
+		
+		
+		
+	}
+
+	// Se muestra el carrito de compras al finalizar la compra
+	public static void finalizarCompra() {
+		System.out.println("\n  ***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACIÓN SU CARRITO DE COMPRAS***\n");
+		//System.out.println("Nombre       | Tipo de producto        |  Supermercado            |  Cantidad            |  Precio\n");
+		System.out.printf("%-25s %-20s %-16s %-10s %-5s\n","Nombre", "Tipo de producto", "Supermercado", "Cantidad", "Precio");
+		double precio_total = 0;
+		int cont = 1;
+		for(Object producto:cliente.getCarrito()) {
+			if(producto instanceof Tv){
+				String tipoProducto="Televisor";
+				System.out.printf("%-25s TV:%-20s %-16s %-10d %-5d\n",((Tv)producto).getMarca(), ((Tv)producto).getNombre(), ((Tv)producto).getSupermercado(), ((Tv)producto).getCantidad(), ((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
+				//System.out.println(cont+". "+((Tv)producto).getMarca()+": "+((Tv)producto).getNombre()+" | Televisor |"+((Tv)producto).getSupermercado()+" | "+((Tv)producto).getCantidad()+" | "+((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
+				precio_total += ((Tv)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Libro) {
+				String tipoProducto2="Libro";
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Libro)producto).getTitulo(), tipoProducto2, ((Libro)producto).getSupermercado(), ((Libro)producto).getCantidad(), ((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
+				//System.out.println(cont+". "+((Libro)producto).getTitulo()+ "| Libro |"+((Libro)producto).getSupermercado()+" | "+((Libro)producto).getCantidad()+" | "+((Libro)producto).getPrecio()*((Libro)producto).getCantidad());
+				precio_total += ((Libro)producto).getCantidad()*((Libro)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Celular) {
+				System.out.printf("%-25s Celular:%-20s %-15s %-10d %-5d\n",((Celular)producto).getMarca(), ((Celular)producto).getNombre(), ((Celular)producto).getSupermercado(), ((Celular)producto).getCantidad(), ((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
+				//System.out.println(cont+". "+((Celular)producto).getMarca()+": "+((Celular)producto).getNombre()+" | Celular |"+((Celular)producto).getSupermercado()+" | "+((Celular)producto).getCantidad()+" | "+((Celular)producto).getPrecio()*((Celular)producto).getCantidad());
+				precio_total += ((Celular)producto).getCantidad()*((Celular)producto).getPrecio();
+			}
+			
+			else if(producto instanceof noCarnicos) {
+				String tipoProducto3="noCarnico";
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((noCarnicos)producto).getNombre(), tipoProducto3, ((noCarnicos)producto).getSupermercado(), ((noCarnicos)producto).getCantidad(), ((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				//System.out.println(cont+". "+((noCarnicos)producto).getNombre()+ "| noCarnicos |"+((noCarnicos)producto).getSupermercado()+" | "+((noCarnicos)producto).getCantidad()+" | "+((noCarnicos)producto).getPrecio()*((noCarnicos)producto).getCantidad());
+				precio_total += ((noCarnicos)producto).getCantidad()*((noCarnicos)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Carne) {
+				System.out.printf("%-25s %-20s %-15s %-10d %-5d\n",((Carne)producto).getNombre(), ((Carne)producto).getTipo(), ((Carne)producto).getSupermercado(), ((Carne)producto).getCantidad(), ((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
+				//System.out.println(cont+". "+((Carne)producto).getNombre()+ "| Carne |"+((Carne)producto).getSupermercado()+" | "+((Carne)producto).getCantidad()+" | "+((Carne)producto).getPrecio()*((Carne)producto).getCantidad());
+				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio();
+			}
+			
+			else if(producto instanceof Ropa) {
+				String tipoProducto4="Ropa";
+				System.out.printf("%-25s %-20s %-15s %-10s %-5d\n",((Ropa)producto).getNombreRopa(), tipoProducto4, ((Ropa)producto).getSupermercado(), ((Ropa)producto).getCantidadRopa(), ((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
+				//System.out.println(cont+". "+((Ropa)producto).getNombreRopa()+ "| Ropa |"+((Ropa)producto).getSupermercado()+" | "+((Ropa)producto).getCantidadRopa()+" | "+((Ropa)producto).getPrecioRopa()*((Ropa)producto).getCantidadRopa());
+				precio_total += ((Ropa)producto).getCantidadRopa()*((Ropa)producto).getPrecioRopa();
+			
+			}
+			cont++;
+		}
+		System.out.println("\nSubtotal :"+precio_total);
+		System.out.println("\nImpuesto IVA 19%: "+precio_total*IVA);
+		precio_total= precio_total+(precio_total*IVA);
+		System.out.println("\nTotal: "+precio_total);
+		
+		if (cliente.getSaldo()<precio_total) {
+			System.out.println("Tu saldo es insuficiente. Debes quitar algunos productos del carrito.\nCual producto deseas quitar?");
+			String select =sc.nextLine();
+			Object producto= cliente.getCarrito().get(Integer.parseInt(select)-1);
+			devolverProducto(producto);
+			finalizarCompra();
+		}
+		else {
+			System.out.println("\n1. Pagar"+
+		       "\n2.Volver al menu inicial");
+			String eleccion=sc.nextLine();
+			switch(eleccion) {
+			case "1":
+				System.out.println("\nEl pago a sido realizado con exito!"
+						+ "\nEn unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
+						+"\nA nombre de "+cliente.getNombre()
+				        +"\nFue un placer atenderlo y esperamos que vuelva pronto!");
+				System.exit(0);
+				break;
+			case "2":
+				break;
+			}
+		}
+		
+	}
+
+	public static void disminuirStock(Object producto,Supermercado mercado) {
+		boolean prodencarrito=false;
+		//el producto el cual se desea rebajar el stock
+		if(producto instanceof Libro) {
+			
+			Libro libro= (Libro) producto;
+			
+			libro.setCantidad(libro.getCantidad()-1);
+			if(libro.getCantidad()==0) mercado.getOferlibros().remove(libro);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Libro) {
+					if(libro.compareTo((Libro)productos)==1) {
+						((Libro) productos).setCantidad(((Libro) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Libro(libro,1));
+			}
+		}
+		
+		else if(producto instanceof Celular) {
+			Celular celular= (Celular) producto;
+			celular.setCantidad(celular.getCantidad()-1);
+			if(celular.getCantidad()==0) mercado.getOfercelular().remove(celular);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Celular) {
+					if(celular.compareTo((Celular)productos)==1) {
+						((Celular) productos).setCantidad(((Celular) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Celular(celular,1));
+			}
+		}
+		
+		else if(producto instanceof Tv) {
+			Tv tv= (Tv) producto;
+			tv.setCantidad(tv.getCantidad()-1);
+			if(tv.getCantidad()==0) mercado.getOfertv().remove(tv);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Tv) {
+					if(tv.compareTo((Tv)productos)==1) {
+						((Tv) productos).setCantidad(((Tv) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Tv(tv,1));
+			}
+		}
+		
+		else if(producto instanceof Carne) {
+			Carne carne= (Carne) producto;
+			carne.setCantidad(carne.getCantidad()-1);
+			if(carne.getCantidad()==0) mercado.getOfercarne().remove(carne);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Carne) {
+					if(carne.compareTo((Carne)productos)==1) {
+						((Carne) productos).setCantidad(((Carne) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Carne(carne,1));
+			}
+		}
+		
+		else if(producto instanceof noCarnicos) {
+			noCarnicos nocarne= (noCarnicos) producto;
+			nocarne.setCantidad(nocarne.getCantidad()-1);
+			if(nocarne.getCantidad()==0) mercado.getOfernocarnicos().remove(nocarne);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof noCarnicos) {
+					if(nocarne.compareTo((noCarnicos)productos)==1) {
+						((noCarnicos) productos).setCantidad(((noCarnicos) productos).getCantidad()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new noCarnicos(nocarne,1));
+			}
+		}
+		
+		else if(producto instanceof Ropa) {
+			Ropa ropa= (Ropa) producto;
+			ropa.setCantidadRopa(ropa.getCantidadRopa()-1);
+			if(ropa.getCantidadRopa()==0) mercado.getOferropa().remove(ropa);
+			for(Object productos:cliente.getCarrito()) {
+				if (productos instanceof Ropa) {
+					if(ropa.compareTo((Ropa)productos)==1) {
+						((Ropa) productos).setCantidadRopa(((Ropa) productos).getCantidadRopa()+1);
+						prodencarrito=true;
+						break;
+					}
+				}
+			}
+			
+			if(!prodencarrito) {
+				cliente.getCarrito().add(new Ropa(ropa,1, prodencarrito));
+			}
+		}
+		
+		
+		
+	}
 
 	//Confirmar si la entrada es un número o no.
 	private static String confirmarNumero(String numero){
