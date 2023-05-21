@@ -1,19 +1,19 @@
 package src.gestorAplicacion;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ropa implements Serializable,Comparable<Ropa> {
+public class Ropa implements Serializable, Comparable<Ropa> {
     private String tallaRopa;
     private String colorRopa;
-    private double precioRopa;
+    private int precioRopa;
     private String nombreRopa;
     private int cantidadRopa;
     private Supermercado mercado;
     private String tipoRopa;
     private String generoRopa;
+    private boolean enOferta;
 
-    public Ropa(String tallaRopa, String colorRopa, double precioRopa, String nombreRopa, int cantidadRopa, Supermercado mercado, String generoRopa, String tipoRopa) {
+    public Ropa(String tallaRopa, String colorRopa, int precioRopa, String nombreRopa, int cantidadRopa, Supermercado mercado, String generoRopa, String tipoRopa, boolean enOferta) {
         this.tallaRopa = tallaRopa;
         this.colorRopa = colorRopa;
         this.precioRopa = precioRopa;
@@ -22,11 +22,12 @@ public class Ropa implements Serializable,Comparable<Ropa> {
         this.mercado = mercado;
         this.generoRopa = generoRopa;
         this.tipoRopa = tipoRopa;
+        this.enOferta = enOferta;
     }
     
-    public Ropa(Ropa ropa,int cantidad) {
-    	this(ropa.getTallaRopa(),ropa.getColorRopa(),ropa.getPrecioRopa(),ropa.getNombreRopa(),
-    			cantidad,ropa.getSupermercado(),ropa.getGeneroRopa(),ropa.getTipoRopa());
+    public Ropa(Ropa ropa, int cantidad, boolean enOferta) {
+        this(ropa.getTallaRopa(), ropa.getColorRopa(), ropa.getPrecioRopa(), ropa.getNombreRopa(),
+                cantidad, ropa.getSupermercado(), ropa.getGeneroRopa(), ropa.getTipoRopa(), enOferta);
     }
 
     public String getTallaRopa() {
@@ -53,11 +54,11 @@ public class Ropa implements Serializable,Comparable<Ropa> {
         this.colorRopa = colorRopa;
     }
 
-    public double getPrecioRopa() {
+    public int getPrecioRopa() {
         return precioRopa;
     }
 
-    public void setPrecioRopa(double precioRopa) {
+    public void setPrecioRopa(int precioRopa) {
         this.precioRopa = precioRopa;
     }
 
@@ -92,25 +93,36 @@ public class Ropa implements Serializable,Comparable<Ropa> {
     public void setTipoRopa(String tipoRopa) {
         this.tipoRopa = tipoRopa;
     }
+    
+    public boolean isEnOferta() {
+        return enOferta;
+    }
 
-    public static ArrayList<Ropa> filtrarPrendas(ArrayList<Ropa> prendas, String talla, String color, String genero, String tipo) {
+    public void setEnOferta(boolean enOferta) {
+        this.enOferta = enOferta;
+    }
+
+    public static ArrayList<Ropa> filtrarPrendas(ArrayList<Ropa> prendas, String talla, String color, String genero, String tipo, boolean enOferta) {
         ArrayList<Ropa> filtradas = new ArrayList<>();
         for (Ropa prenda : prendas) {
             if (prenda.getTallaRopa().equalsIgnoreCase(talla) &&
                 prenda.getColorRopa().equalsIgnoreCase(color) &&
                 prenda.getGeneroRopa().equalsIgnoreCase(genero) &&
-                prenda.getTipoRopa().equalsIgnoreCase(tipo)) {
+                prenda.getTipoRopa().equalsIgnoreCase(tipo) &&
+                prenda.isEnOferta() == enOferta) {
                 filtradas.add(prenda);
             }
         }
         return filtradas;
     }
-    
+
     @Override
-	public int compareTo(Ropa o) {
-		if (this.getNombreRopa().equals(o.getNombreRopa())) {
-			return 1;
-		}
-		else return 0;
-	}
+    public int compareTo(Ropa o) {
+        if (this.getNombreRopa().equals(o.getNombreRopa())) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
+
