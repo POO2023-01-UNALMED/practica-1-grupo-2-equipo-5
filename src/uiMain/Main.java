@@ -696,7 +696,7 @@ public class Main {
 			    String tipoRopa = sc.nextLine();
 			    System.out.print("Ingresa la cantidad de prendas de ropa " + nombreRopa.toUpperCase() + " que desea añadir: ");
 			    int cantidadRopa = Integer.parseInt(confirmarNumero(sc.nextLine()));
-			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa);
+			    Ropa nuevaRopa = new Ropa(tallaRopa, colorRopa, precioRopa, nombreRopa, cantidadRopa, mercado, generoRopa, tipoRopa,false);
 			    mercado.getOferropa().add(nuevaRopa);
 			    lista_ropa.add(nuevaRopa);
 			    cuandoSeAgrega(mercado);
@@ -1990,7 +1990,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	        String tipo = sc.nextLine();
 
 	        // Filtrar las prendas de ropa segun los criterios de busqueda
-	        prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo);
+	        prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo,false);
 
 	        if (prendasFiltradas.size() > 0) {
 	            System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");

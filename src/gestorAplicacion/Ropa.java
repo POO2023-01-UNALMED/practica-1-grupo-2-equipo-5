@@ -25,9 +25,9 @@ public class Ropa implements Serializable, Comparable<Ropa> {
         this.enOferta = enOferta;
     }
     
-    public Ropa(Ropa ropa, int cantidad, boolean enOferta) {
+    public Ropa(Ropa ropa, int cantidad) {
         this(ropa.getTallaRopa(), ropa.getColorRopa(), ropa.getPrecioRopa(), ropa.getNombreRopa(),
-                cantidad, ropa.getSupermercado(), ropa.getGeneroRopa(), ropa.getTipoRopa(), enOferta);
+                cantidad, ropa.getSupermercado(), ropa.getGeneroRopa(), ropa.getTipoRopa(), ropa.isEnOferta());
     }
 
     public String getTallaRopa() {
