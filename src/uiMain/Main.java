@@ -2020,85 +2020,140 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                    "\nPrecio: " + prenda.getPrecioRopa() +
 	                    "\nCantidad en stock: " + prenda.getCantidadRopa());
 	        }
-	        System.out.println("\nSelecciona los filtros de busqueda:");
-	        System.out.println("Talla: ");
-	        String talla = sc.nextLine();
-	        System.out.println("Color: ");
-	        String color = sc.nextLine();
-	        System.out.println("Genero: ");
-	        String genero = sc.nextLine();
-	        System.out.println("Tipo: ");
-	        String tipo = sc.nextLine();
+	        
+	        System.out.println("\n¿Deseas comprar una prenda sin aplicar filtros de búsqueda?");
+	        System.out.println("1. Sí");
+	        System.out.println("2. No");
+	        String respuesta = sc.nextLine();
+	        
+	        while (!respuesta.equals("1") && !respuesta.equals("2")) {
+	            System.out.println("Respuesta incorrecta, por favor ingresa '1' o '2': ");
+	            respuesta = sc.nextLine();
+	        }
 
-	        // Filtrar las prendas de ropa segun los criterios de busqueda
-	        prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo,false);
-
-	        if (prendasFiltradas.size() > 0) {
-	            System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");
-	            for (int i = 0; i < prendasFiltradas.size(); i++) {
-	                Ropa prenda = prendasFiltradas.get(i);
-	                System.out.println((i + 1) + ". " +
-	                        "\nNombre: " + prenda.getNombreRopa() +
-	                        "\nColor: " + prenda.getColorRopa() +
-	                        "\nTalla: " + prenda.getTallaRopa() +
-	                        "\nPrecio: " + prenda.getPrecioRopa() +
-	                        "\nCantidad en stock: " + prenda.getCantidadRopa());
-	            }
-	            System.out.println("Selecciona una prenda de ropa para comprar (escribe '0' para cancelar):");
-	            int seleccion = Integer.parseInt(sc.nextLine());
-	            if (seleccion == 0) {
-	                return;
-	            } else if (seleccion > 0 && seleccion <= prendasFiltradas.size()) {
-	                Ropa prendaSeleccionada = prendasFiltradas.get(seleccion - 1);
-	                System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
-
-	                System.out.println("Ingresa: " +
-	                        "\n1. Anadir al carrito" +
-	                        "\n2. Volver al menu anterior");
-	                String respuesta2 = sc.nextLine();
-	                while (!respuesta2.equals("1") && !respuesta2.equals("2")) {
-	                    System.out.println("Numero ingresado incorrecto, intentalo nuevamente: ");
-	                    respuesta2 = sc.nextLine();
+	        if (respuesta.equals("1")) {
+	            System.out.println("Selecciona las prendas de ropa para comprar (escribe '0' para finalizar la selección):");
+	            ArrayList<Ropa> prendasSeleccionadas = new ArrayList<>();
+	            int seleccion;
+	            do {
+	                seleccion = Integer.parseInt(sc.nextLine());
+	                if (seleccion > 0 && seleccion <= mercado.getOferropa().size()) {
+	                    Ropa prendaSeleccionada = mercado.getOferropa().get(seleccion - 1);
+	                    prendasSeleccionadas.add(prendaSeleccionada);
+	                    System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 	                }
-	                switch (respuesta2) {
-	                    case "1":
-	                        disminuirStock(prendaSeleccionada,mercado);
-	                        System.out.println("Producto agregado con exito!");
-	                        System.out.println("\n1. Seguir comprando");
-	                        System.out.println("\n2. Finalizar compra ");
-	                        while (true) {
-	                            respuesta2 = sc.nextLine();
-	                            if (respuesta2.equals("1")) {
-	                                ofertaProductos(mercado);
-	                                break;
-	                            } else if (respuesta2.equals("2")) {
-	                                finalizarCompra();
-	                                break;
-	                            }
-	                            System.out.println("Numero ingresado incorrecto, ingresa nuevamente el numero: ");
+	            } while (seleccion != 0);
+	            
+	            if (prendasSeleccionadas.size() > 0) {
+	                // Agregar las prendas seleccionadas al carrito
+	                cliente.getCarrito().addAll(prendasSeleccionadas);
+	                
+	                System.out.println("Productos agregados con éxito al carrito!");
+	                
+	                // Aplicar descuento del 10% después de comprar tres prendas
+	                if (cliente.getCarrito().size() >= 3) {
+	                    double descuento = 0.1;  // 10% de descuento
+	                    double total = 0;
+	                    
+	                    for (Object item : cliente.getCarrito()) {
+	                        if (item instanceof Ropa) {
+	                            Ropa prendaCarrito = (Ropa) item;
+	                            total += prendaCarrito.getPrecioRopa();
 	                        }
-	                        break;
-	                    case "2":
-	                        comprarRopa(mercado);
-	                        break;
+	                    }
+
+	                    double descuentoAplicado = total * descuento;
+	                    double subtotal = total - descuentoAplicado;
+
+	                    System.out.println("Total: " + total);
+	                    System.out.println("Descuento aplicado: " + descuentoAplicado);
+	                    System.out.println("Subtotal: " + subtotal);
 	                }
+	                
+	                // Resto del código para finalizar la compra, seguir comprando, etc.
 	            }
 	        } else {
-	            System.out.println("No hay prendas de ropa disponibles segun los filtros seleccionados. Deseas volver a intentarlo?");
-	            System.out.println("1. SI");
-	            System.out.println("2. NO");
-	            String respuesta = sc.nextLine();
-	            while (!respuesta.equals("1") && !respuesta.equals("2")) {
-	                System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
-	                respuesta = sc.nextLine();
-	            }
+	            System.out.println("Selecciona los filtros de búsqueda:");
+	            System.out.println("Talla: ");
+	            String talla = sc.nextLine();
+	            System.out.println("Color: ");
+	            String color = sc.nextLine();
+	            System.out.println("Género: ");
+	            String genero = sc.nextLine();
+	            System.out.println("Tipo: ");
+	            String tipo = sc.nextLine();
 
-	            if (respuesta.equals("1")) {
-	                comprarRopa(mercado);
+	            // Filtrar las prendas de ropa según los criterios de búsqueda
+	            prendasFiltradas = Ropa.filtrarPrendas(mercado.getOferropa(), talla, color, genero, tipo, false);
+
+	            if (prendasFiltradas.size() > 0) {
+	                System.out.println("Estas son las prendas de ropa que coinciden con los filtros seleccionados:");
+	                for (int i = 0; i < prendasFiltradas.size(); i++) {
+	                    Ropa prenda = prendasFiltradas.get(i);
+	                    System.out.println((i + 1) + ". " +
+	                            "\nNombre: " + prenda.getNombreRopa() +
+	                            "\nColor: " + prenda.getColorRopa() +
+	                            "\nTalla: " + prenda.getTallaRopa() +
+	                            "\nPrecio: " + prenda.getPrecioRopa() +
+	                            "\nCantidad en stock: " + prenda.getCantidadRopa());
+	                }
+	                System.out.println("Selecciona las prendas de ropa para comprar (escribe '0' para finalizar la selección):");
+	                ArrayList<Ropa> prendasSeleccionadas = new ArrayList<>();
+	                int seleccion;
+	                do {
+	                    seleccion = Integer.parseInt(sc.nextLine());
+	                    if (seleccion > 0 && seleccion <= prendasFiltradas.size()) {
+	                        Ropa prendaSeleccionada = prendasFiltradas.get(seleccion - 1);
+	                        prendasSeleccionadas.add(prendaSeleccionada);
+	                        System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
+	                    }
+	                } while (seleccion != 0);
+	                
+	                if (prendasSeleccionadas.size() > 0) {
+	                    // Agregar las prendas seleccionadas al carrito
+	                    cliente.getCarrito().addAll(prendasSeleccionadas);
+	                    
+	                    System.out.println("Productos agregados con éxito al carrito!");
+	                    
+	                    // Aplicar descuento del 10% después de comprar tres prendas
+	                    if (cliente.getCarrito().size() >= 3) {
+	                        double descuento = 0.1;  // 10% de descuento
+	                        double total = 0;
+	                        
+	                        for (Object item : cliente.getCarrito()) {
+	                            if (item instanceof Ropa) {
+	                                Ropa prendaCarrito = (Ropa) item;
+	                                total += prendaCarrito.getPrecioRopa();
+	                            }
+	                        }
+
+	                        double descuentoAplicado = total * descuento;
+	                        double subtotal = total - descuentoAplicado;
+
+	                        System.out.println("Total: " + total);
+	                        System.out.println("Descuento aplicado: " + descuentoAplicado);
+	                        System.out.println("Subtotal: " + subtotal);
+	                    }
+	                    
+	                    // Resto del código para finalizar la compra, seguir comprando, etc.
+	                }
+	            } else {
+	                System.out.println("No hay prendas de ropa disponibles según los filtros seleccionados. ¿Deseas volver a intentarlo?");
+	                System.out.println("1. SI");
+	                System.out.println("2. NO");
+	                String respuesta1 = sc.nextLine();
+	                while (!respuesta1.equals("1") && !respuesta1.equals("2")) {
+	                    System.out.println("Respuesta incorrecta, intentalo nuevamente: ");
+	                    respuesta1 = sc.nextLine();
+	                }
+
+	                if (respuesta1.equals("1")) {
+	                    comprarRopa(mercado);
+	                }
 	            }
 	        }
 	    } else {
-	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. Deseas anadir alguna?");
+	        System.out.println("Este supermercado no cuenta con prendas de ropa disponibles. ¿Deseas añadir alguna?");
 	        System.out.println("1. SI");
 	        System.out.println("2. NO");
 	        String respuesta = sc.nextLine();
