@@ -175,21 +175,19 @@ public class Main {
 		System.out.println("\nTu saldo disponible:"+cliente.getSaldo());
 		
 		if (cliente.getSaldo()<precio_total) {
-			int selct;
+			String selct;
 			System.out.println("\nTU SALDO ES INSUFICINETE. \nDebes quitar algunos productos del carrito.\nIngresa el numero del producto que desea quitar?");
-			selct =sc.nextInt();
-			Object producto= cliente.getCarrito().get(selct-1);
+			selct =sc.nextLine();
+			Object producto= cliente.getCarrito().get(Integer.parseInt(selct)-1);
 			devolverProducto(producto);
 			finalizarCompra();
 		}
 		else if(cliente.getSaldo()>=precio_total) {
-			String elccion; int opc;
+			String opc;
 			System.out.println("\n1. Pagar"+
 		       "\n2.Volver al menu inicial");
-			opc=sc.nextInt();
-			elccion = String.valueOf(opc);
-			System.out.println("\n1. Pagar--"+elccion);
-			switch(elccion) {
+			opc=sc.nextLine();
+			switch(opc) {
 			case "1":
 				System.out.println("\nEl pago a sido realizado con exito!"
 						+ "\nEn unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
@@ -218,7 +216,7 @@ public class Main {
 			for (int i=1;i<=cantidad;i++) {
 				System.out.println(i+". ....."+i+" De "+libro.getCantidad());
 			}
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 	
 			for(Libro libros:libro.getSupermercado().getOferlibros()) {
 				if (libro.compareTo(libros)==1) {
@@ -247,7 +245,7 @@ public class Main {
 			for (int i=1;i<=cantidad;i++) {
 				System.out.println(i+". ....."+i+" De "+celular.getCantidad());
 			}
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 	
 			for(Celular celulares:celular.getSupermercado().getOfercelular()) {
 				if (celular.compareTo(celulares)==1) {
@@ -277,7 +275,7 @@ public class Main {
 			for (int i=1;i<=cantidad;i++) {
 				System.out.println(i+". ....."+i+" De "+tv.getCantidad());
 			}
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 	
 			for(Tv tvs:tv.getSupermercado().getOfertv()) {
 				if (tv.compareTo(tvs)==1) {
@@ -306,7 +304,7 @@ public class Main {
 			for (int i=1;i<=cantidad;i++) {
 				System.out.println(i+". ....."+i+" De "+carne.getCantidad());
 			}
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 			for(Carne carnes:carne.getSupermercado().getOfercarne()) {
 				if (carne.compareTo(carnes)==1) {
 					carnes.setCantidad(carnes.getCantidad()+asumar);
@@ -336,7 +334,7 @@ public class Main {
 				System.out.println(i+". ....."+i+" De "+nocarne.getCantidad());
 			}
 			
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 	
 			for(noCarnicos nocarnes:nocarne.getSupermercado().getOfernocarnicos()) {
 				if (nocarne.compareTo(nocarnes)==1) {
@@ -365,7 +363,7 @@ public class Main {
 			for (int i=1;i<=cantidad;i++) {
 				System.out.println(i+". ....."+i+" De "+ropa.getCantidadRopa());
 			}
-			asumar=sc.nextInt();
+			asumar=Integer.parseInt(sc.nextLine());
 	
 			for(Ropa ropas:ropa.getSupermercado().getOferropa()) {
 				if (ropa.compareTo(ropas)==1) {
@@ -567,11 +565,6 @@ public class Main {
 		
 		Serializar.serializarSupermercados(lista_super);
 		
-		//Esto hay que cambiarlo de modo que aplique para todos los productos
-		//if (super_seleccionado.oferelectro.size() == 0) {
-			//System.out.println("Supermercado vacio");
-			//anadirProducto(super_seleccionado);}
-		// Santi says(Creo que este codigo lo podemos eliminar)
 	}
 
 	// Este metodo es para añadir productos al supermercado que se esta creando
@@ -745,22 +738,19 @@ public class Main {
 			break;
 		case "2":
 			break;
-		case "3":
-			//Posibilidad de añadir otro supermercado
-			break;
 		}	
 	}
 	
 	// Este metodo ejecuta el menu de oferta de productos de cada supermercado
 	public static void ofertaProductos(Supermercado mercado) { 
-		String respuesta;int respu ;
+		String respuesta;String respu ;
 		System.out.println("Cual producto estas buscando en el "+mercado+"?"+
 				"\n1. Electronica"+
 				"\n2. Libros"+
 				"\n3. Alimentos"+
 				"\n4. Ropa"+
 				"\n5. Volver al menu anterior");
-		respu = sc.nextInt();
+		respu = sc.nextLine();
 		respuesta=validarRespuesta(1, 5, String.valueOf(respu));
 		
 		if(respuesta.equals("5"));
@@ -860,6 +850,7 @@ public class Main {
 			System.out.println("Ingresa "+(i+1)+" para buscar por isbn");
 			System.out.println("Ingresa "+(i+2)+" para volver al menu anterior");
 			if(filtrolibro==1||filtrolibro==2) System.out.println("Ingresa 0 para eliminar filtros");
+			
 			libroselect=sc.nextLine();
 			
 			//Caso volver al menu anterior
@@ -982,7 +973,7 @@ public class Main {
 	//Creo el menuAlimentos para  si cliente desea volver a la seccion alimentos
 	public static void menuAlimentos(Supermercado mercado) {
 		
-		    int swiche = 0; int eleccions;
+		    int swiche = 0; String eleccions;
 			System.out.println("Bienvenido a la seccion de Alimentos del "+mercado+"\n");
 			System.out.println("En que producto esta interesado de nuestra seccion?");
 			System.out.println(	"\n"+
@@ -992,7 +983,7 @@ public class Main {
 			+"4. Elegir otra seccion");
 			
 			while(true) {
-				eleccions= sc.nextInt();
+				eleccions= sc.nextLine();
 				String eleccion = String.valueOf(eleccions);
 				if (eleccion.equals("1") && mercado.getOfercarne().size() > 0 ){
 					comprarAlimento(mercado,eleccion);
@@ -1068,7 +1059,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.print("\nIngrese "+(mercado.getOfercarne().size()+1)+" para Filtrar por Tipo de Carne");
 				System.out.print("\nIngrese "+(mercado.getOfercarne().size()+2)+" Volver al Menu de Alimentos");
 				System.out.println("\nIngrese "+(mercado.getOfercarne().size()+3)+" para Escoger otra Seccion");
-				elegir = Integer.parseInt(validarRespuesta(1,mercado.getOfercarne().size()+3, String.valueOf(sc.nextInt())));
+				elegir = Integer.parseInt(validarRespuesta(1,mercado.getOfercarne().size()+3, sc.nextLine()));
 				
 				if(elegir==mercado.getOfercarne().size()+1){
 	                  //FILTRO LISTA DE TIPOS DE CARNE
@@ -1082,7 +1073,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(listaTipo.length+1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(listaTipo.length+2)+" para Escoger otra Seccion");
-					elegirtipo = Integer.parseInt(validarRespuesta(1,listaTipo.length+2, String.valueOf(sc.nextInt())));
+					elegirtipo = Integer.parseInt(validarRespuesta(1,listaTipo.length+2, sc.nextLine()));
 					
 					if(elegirtipo==listaTipo.length+1) {
 						menuAlimentos(mercado);
@@ -1109,7 +1100,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 						System.out.print("\nIngrese "+(y+1)+" Volver al Menu de Alimentos");
 						System.out.println("\nIngrese "+(y+2)+" para Escoger otra Seccion");
 						while(true) {
-							oferSelec = sc.nextInt();
+							oferSelec = Integer.parseInt(sc.nextLine());
 							if(oferSelec == (y+1)) {
 								menuAlimentos(mercado);
 								return;
@@ -1157,14 +1148,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.print("\nIngrese "+(mercado.getOfernocarnicos().size()+1)+" para Filtrar por Categoria");
 				System.out.print("\nIngrese "+(mercado.getOfernocarnicos().size()+2)+" Volver al Menu de Alimentos");
 				System.out.println("\nIngrese "+(mercado.getOfernocarnicos().size()+3)+" para Escoger otra Seccion");
-				elegir2 = Integer.parseInt(validarRespuesta(1,mercado.getOfernocarnicos().size()+3, String.valueOf(sc.nextInt())));
+				elegir2 = Integer.parseInt(validarRespuesta(1,mercado.getOfernocarnicos().size()+3, sc.nextLine()));
 				if(elegir2==mercado.getOfernocarnicos().size()+1){
 					System.out.print("Ingrese :"+"\n1. Categoria Granos" 
 				                      +"\n2. Categoria Lacteos"+"\n3. Categoria Vegetales"+"\n4. Categoria Otros\n");
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(5)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(6)+" para Escoger otra Seccion");
-					int grupo = Integer.parseInt(validarRespuesta(1,6, String.valueOf(sc.nextInt())));
+					int grupo = Integer.parseInt(validarRespuesta(1,6, sc.nextLine()));
 					if(grupo<5){
 						//FILTRO POR CATEGORIA DE NOCARNE
 							System.out.println("\nOfertas Disponibles para el Filtro de la "+"Categoria "+noCarnicos.validarGrupo(String.valueOf(grupo)));
@@ -1182,7 +1173,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 							System.out.print("\n         **Opciones Adicionales**");
 							System.out.print("\nIngrese "+(z+1)+" Volver al Menu de Alimentos");
 							System.out.println("\nIngrese "+(z+2)+" para Escoger otra Seccion");
-							ofernoCarne = Integer.parseInt(validarRespuesta(1,nomeat.size()+2, String.valueOf(sc.nextInt())));
+							ofernoCarne = Integer.parseInt(validarRespuesta(1,nomeat.size()+2, sc.nextLine()));
 							
 							if(ofernoCarne == (z+1)) {
 								menuAlimentos(mercado);
@@ -1230,7 +1221,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.print("\nIngrese "+(mercado.getOfercomi().size()+1)+" para Filtrar por Precio");
 				System.out.print("\nIngrese "+(mercado.getOfercomi().size()+2)+" Volver al Menu de Alimentos");
 				System.out.println("\nIngrese "+(mercado.getOfercomi().size()+3)+" para Escoger otra Seccion");
-	            validar = Integer.parseInt(validarRespuesta(1,(mercado.getOfercomi().size()+3), String.valueOf(sc.nextInt())));
+	            validar = Integer.parseInt(validarRespuesta(1,(mercado.getOfercomi().size()+3), sc.nextLine()));
 			if(validar-1<mercado.getOfercomi().size()) {
 				comprarAlimentos(mercado, mercado.getOfercomi(),validar,eleccion);
 				return;
@@ -1239,9 +1230,9 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				//FILTRO CARNES Y NOCARNICOS POR PRECIO
 				int min; int max;
 				System.out.println("Ingrese el precio minimo que desea en la oferta: ");
-				min = Integer.parseInt(validarRespuesta(1,(999999999), String.valueOf(sc.nextInt())));
+				min = Integer.parseInt(validarRespuesta(1,(999999999), sc.nextLine()));
 				System.out.println("Ingrese el precio máximo que desea en la oferta: ");
-				max = Integer.parseInt(validarRespuesta(1,(999999999), String.valueOf(sc.nextInt())));
+				max = Integer.parseInt(validarRespuesta(1,(999999999), sc.nextLine()));
 				System.out.println("Bus..can..do....");
 				try {
 					Thread.sleep(2000);
@@ -1263,7 +1254,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(sustento.size() +1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(sustento.size() +2)+" para Escoger otra Seccion");
-				    respuesta = Integer.parseInt(validarRespuesta(1,sustento.size()+2, String.valueOf(sc.nextInt())));
+				    respuesta = Integer.parseInt(validarRespuesta(1,sustento.size()+2, sc.nextLine()));
 					if(respuesta-1<sustento.size()) {
 						comprarAlimentos(mercado, sustento, respuesta,eleccion);
 						return;
@@ -1282,7 +1273,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 					System.out.print("\n         **Opciones Adicionales**");
 					System.out.print("\nIngrese "+(1)+" Volver al Menu de Alimentos");
 					System.out.println("\nIngrese "+(2)+" para Escoger otra Seccion");
-					vali = Integer.parseInt(validarRespuesta(1,2, String.valueOf(sc.nextInt())));
+					vali = Integer.parseInt(validarRespuesta(1,2, sc.nextLine()));
 					switch(vali) {
 					case 1:
 						menuAlimentos(mercado);
@@ -1317,7 +1308,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			int resp = 0;
 			System.out.println("Has Selecionado la Oferta de "+p.getNombre());
 			System.out.println("Ingrese \n1. Añadir al Carrito de compras \n2. Ir al Menu Alimentos\n3. Mejor ver Otros productos\n");
-			resp = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+			resp = Integer.parseInt(validarRespuesta(1,3, sc.nextLine()));
 			if (resp>1) {
 					if(resp == (2)) {
 						menuAlimentos(mercado);
@@ -1330,7 +1321,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				int can;int conta0=0;
 	    		System.out.println("la Oferta de "+p.getNombre()+" Tiene en Stock: "+p.getCantidad()+" Unidades");
 	    		System.out.println("Cuantas Unidades Desea Ingresar al Carrito de Compras");
-	    	     can = Integer.parseInt(validarRespuesta(1,p.getCantidad(), String.valueOf(sc.nextInt())));
+	    	     can = Integer.parseInt(validarRespuesta(1,p.getCantidad(), sc.nextLine()));
 	    		while(conta0<=can-1) {
 	    			disminuirStock(lista.get(oferSelec-1),mercado);
 	    			conta0++;
@@ -1341,7 +1332,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.println("\nIngrese 1. Si Desea Finalizar compra! \n");
 				System.out.print("\n         **Opciones Adicionales**");
 				System.out.print("\nSi Desea Seguir Comprando Ingrese\n2. Para la Seccion Carnes \n3. Menu Alimentos \n4. Otras Productos\n");
-				validado = Integer.parseInt(validarRespuesta(1,4, String.valueOf(sc.nextInt())));
+				validado = Integer.parseInt(validarRespuesta(1,4, sc.nextLine()));
 				switch(validado) {
 				case 1:
 					 finalizarCompra();
@@ -1365,7 +1356,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			int resp2 = 0;
 			System.out.println("Has Selecionado la Oferta de "+q.getNombre());
 			System.out.println("Ingrese \n1. Ingresar al Carrito de compras Cuantas unidades desea llevar \n2. Ir al Menu Alimentos\n3. Mejor ver Otros productos\n");
-			resp2 = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+			resp2 = Integer.parseInt(validarRespuesta(1,3, sc.nextLine()));
 			if (resp2>1) {
 				if(resp2 == (2)) {
 					menuAlimentos(mercado);
@@ -1378,7 +1369,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	    		int can;int conta=0;
 	    		System.out.println("la Oferta de "+q.getNombre()+" Tiene en Stock: "+q.getCantidad()+" Unidades");
 	    		System.out.println("Cuantas Unidades Desea Ingresar al Carrito de Compras");
-	    	     can = Integer.parseInt(validarRespuesta(1,q.getCantidad(), String.valueOf(sc.nextInt())));
+	    	     can = Integer.parseInt(validarRespuesta(1,q.getCantidad(), sc.nextLine()));
 	    		while(conta<=can-1) {
 	    			disminuirStock(lista.get(oferSelec-1),mercado);
 	    			conta++;
@@ -1387,7 +1378,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.println("\nIngrese 1. Si Desea Finalizar compra! \n");
 				System.out.print("\n         **Opciones Adicionales**");
 			    System.out.println("Ingrese \n2. Seguir comprando en noCarnicos \n3. Ir al Menu Alimentos\n4. Mejor ver Otros productos\n");
-				validad = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+				validad = Integer.parseInt(validarRespuesta(1,3, sc.nextLine()));
 				switch(validad) {
 				case 1:
 					 finalizarCompra();
@@ -1411,7 +1402,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			int resp3 = 0;
 		    System.out.println("Has Selecionado la Oferta de "+t.getNombre());
 		    System.out.println("Ingrese \n1. Añadir al Carrito de compras \n2. Ir al Menu Alimentos\n3. Mejor ver Otros productos\n");
-		    resp3 = Integer.parseInt(validarRespuesta(1,3, String.valueOf(sc.nextInt())));
+		    resp3 = Integer.parseInt(validarRespuesta(1,3, sc.nextLine()));
 			if (resp3>1) {
 					if(resp3 == (2)) {
 						menuAlimentos(mercado);
@@ -1424,7 +1415,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				int can;int conta1=0;
 	    		System.out.println("la Oferta de "+t.getNombre()+" Tiene en Stock: "+t.getCantidad()+" Unidades");
 	    		System.out.println("Cuantas Unidades Desea Ingresar al Carrito de Compras");
-	    	     can = Integer.parseInt(validarRespuesta(1,t.getCantidad(), String.valueOf(sc.nextInt())));
+	    	     can = Integer.parseInt(validarRespuesta(1,t.getCantidad(), sc.nextLine()));
 	    		while(conta1<=can-1) {
 	    			disminuirStock(lista.get(oferSelec-1),mercado);
 	    			conta1++;
@@ -1434,7 +1425,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 				System.out.println("\nIngrese 1. Si Desea Finalizar compra! \n");
 				System.out.print("\n         **Opciones Adicionales**");
 			    System.out.println("Ingrese \n2. Seguir comprando Carnicos y noCarnicos \n3. Ir al Menu Alimentos\n4. Mejor ver Otros productos\n");
-				res = Integer.parseInt(validarRespuesta(1,4, String.valueOf(sc.nextInt())));
+				res = Integer.parseInt(validarRespuesta(1,4, sc.nextLine()));
 				switch(res) {
 				case 1:
 					 finalizarCompra();
