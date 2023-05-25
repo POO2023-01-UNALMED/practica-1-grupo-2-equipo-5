@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Esta clase define los objetos de tipo televisor
 public class Tv extends Electronico implements Serializable,Comparable<Tv>{
     private int pulgadas;
     private String resolucion;

@@ -3,7 +3,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-// Se define la clase abstracta
+// Se define una clase para los objetos de tipo alimento
 public abstract class Alimentos implements Serializable {
 	
 	private Supermercado supermercado;

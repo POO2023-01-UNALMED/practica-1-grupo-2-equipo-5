@@ -3,6 +3,7 @@ package src.gestorAplicacion;
 
 import java.util.ArrayList;
 
+//Se define un clase para el usuario Cliente
 public class Cliente {
 	private String nombre,direccion;
 	private int saldo;

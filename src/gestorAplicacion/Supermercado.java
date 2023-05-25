@@ -5,6 +5,7 @@ import src.uiMain.Main;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// Esta clase es para los objetos Supermercado
 public class Supermercado  implements Serializable{
 	private String nombre;
 	

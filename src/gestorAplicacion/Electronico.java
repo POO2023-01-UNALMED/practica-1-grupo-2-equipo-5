@@ -3,7 +3,8 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//Definimos la clase abstracta
+//Definimos esta clase para los electronicos
+//De esta clase heredan los celulares y Televisores
 public abstract class Electronico implements Serializable {
     private Supermercado supermercado;
     private String nombre;

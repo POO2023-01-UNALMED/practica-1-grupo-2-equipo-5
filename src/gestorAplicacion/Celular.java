@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Se define una clase para los objetos tipo celular
 public class Celular extends Electronico implements Serializable,Comparable<Celular> {
     private int almacenamiento;
     private int camaras;

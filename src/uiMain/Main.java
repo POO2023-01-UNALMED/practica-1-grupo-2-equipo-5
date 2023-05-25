@@ -1,5 +1,7 @@
 package src.uiMain;
 
+// La clase Main es la implementacion principal del programa
+// En esta clase estan todas las funcionalidades
 
 import src.baseDatos.Deserializar;
 import src.baseDatos.Serializar;
@@ -66,6 +68,7 @@ public class Main {
 
 	}
 	
+	//Este metodo serializa los listados de productos de cada supermercado
 	public static void serializarYa() {
 		if(lista_super.size() >0) {
 			Serializar.serializarSupermercados(lista_super);
@@ -90,6 +93,7 @@ public class Main {
 		
 	}
 	
+	// Este metodo ejecuta el menu inicial para salir del programa o para ver los supermercados disponibles
 	public static void menuQueDeseas() {
 		while(true){
 			System.out.print("\nQue deseas hacer?\n" +
@@ -201,6 +205,7 @@ public class Main {
 		
 	}
 	
+	// Este metodo se utiliza para aplicar la logica de devolver productos en el carrito de compra
 	public static void devolverProducto(Object producto) {
 		boolean productoenmercado=false;
 		
@@ -386,6 +391,7 @@ public class Main {
 		
 	}
 	
+	// Este metodo se utiliza para eliminar productos de los supermercados o disminuir el stock
 	public static void disminuirStock(Object producto,Supermercado mercado) {
 		boolean prodencarrito=false;
 		//el producto el cual se desea rebajar el stock
@@ -509,7 +515,8 @@ public class Main {
 	}
 	
 	
-	//Hay que generalizar algunas cosas en este metodo
+	//Este metodo es el inicio del flujo de compra del supermercado
+	//Tambien es el inicio para el flujo de creacion del supermercado
 	public static void seleccionarSupermercado() {
 
 		String respuesta;
@@ -567,7 +574,7 @@ public class Main {
 		// Santi says(Creo que este codigo lo podemos eliminar)
 	}
 
-	// Aqui entran todas las clases de la capa logica
+	// Este metodo es para añadir productos al supermercado que se esta creando
 	public static void anadirProducto(Supermercado mercado){
 		String respuesta;
 		
@@ -744,7 +751,8 @@ public class Main {
 		}	
 	}
 	
-	public static void ofertaProductos(Supermercado mercado) { //CAMBIOS
+	// Este metodo ejecuta el menu de oferta de productos de cada supermercado
+	public static void ofertaProductos(Supermercado mercado) { 
 		String respuesta;int respu ;
 		System.out.println("Cual producto estas buscando en el "+mercado+"?"+
 				"\n1. Electronica"+
@@ -799,6 +807,7 @@ public class Main {
 		}
 	}
 	
+	// Esta es la funcionalidad para comprar un libro en un supermercado y personalizar la busqueda
 	public static void comprarLibro(Supermercado mercado,String...filtros ) {
 		if(mercado.getOferlibros().size() > 0){
 			
@@ -967,19 +976,6 @@ public class Main {
 			}
 		else {
 			System.out.println("\nYa no quedan Libros en este supermercado...\n");
-//					+ "\nDeseas anadir un libro al supermercado?"
-//					+ "\n1. Si"
-//					+ "\n2. No");
-//			String anadir=sc.next();
-//			switch(anadir) {
-//			case "1":
-//				anadirProducto(mercado);
-//				ofertaProductos(mercado);
-//				break;
-//			case "2":
-//				menuQueDeseas();
-//				break;
-//			}
 		}
 		}
 	
@@ -1046,6 +1042,7 @@ public class Main {
 			
 	}
 
+	// Esta es la funcionalidad para comprar alimentos en un supermercado
 public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	    
 		if (eleccion.equals("1")){//OPCION CARNICOS
@@ -1457,6 +1454,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		}
 	}
 
+	// Esta es la funcionalidad principal para comprar un televisor en un supermercado
 	public static void comprarTelevisor(Supermercado mercado){
 		if(mercado.getOfertv().size() > 0){
 			ArrayList<String> filtros = new ArrayList<>(List.of("Nombre","Marca", "Pulgadas", "Resolucion", "Precio"));
@@ -1668,6 +1666,8 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			}
 		}
 	}
+	
+	// Esta es una sobrecarga de metodo para aplicar filtros en la funcionalidad de comprar televisor
 	public static void comprarTelevisor(Supermercado mercado, String respuesta, ArrayList<Tv> televisores){
 		Electronico producto_seleccionado = null;
 		producto_seleccionado = televisores.get(Integer.parseInt(respuesta)-1);
@@ -1707,6 +1707,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		}
 	}
 
+	//Esta es la funcionalidad principal para comprar un celular en un supermercado
 	public static void comprarCelular(Supermercado mercado){
 		ArrayList<String> filtros = new ArrayList<>(List.of("Nombre","Marca", "Color", "Almacenamiento","Bateria", "Ram", "Precio"));
 		if(mercado.getOfercelular().size() > 0){
@@ -1974,6 +1975,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		}
 	}
 
+	// Esta es una sobrecarga de metodo para aplicar filtros en la funcionalidad de comprar celular
 	public static void comprarCelular(Supermercado mercado, String respuesta, ArrayList<Celular> celulares){
 		Electronico producto_seleccionado = null;
 		producto_seleccionado = celulares.get(Integer.parseInt(respuesta)-1);
@@ -2012,7 +2014,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		}
 	}
 
-	
+	// Esta es la funcionalidad comprar ropa
 	public static void comprarRopa(Supermercado mercado) {
 	    if (mercado.getOferropa().size() > 0) {
 	        ArrayList<Ropa> prendasFiltradas = new ArrayList<>();
@@ -2143,10 +2145,11 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 		 return respuesta;
 	}
 	
+	// Este metodo se utiliza para confirmar si el saldo del cliente es suficiente para comprar
 private static String validarsaldo(String saldo) {
 	while (Integer.parseInt(saldo)<=599) {
 			System.out.println("\nComprendemos tu deseo de pagar menos pero en este momento la Oferta"
-					+ "más economica es de 600 pesos");
+					+ "mas economica es de 600 pesos");
 			saldo = sc.nextLine();
 	}
 	return saldo;
