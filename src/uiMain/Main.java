@@ -1,5 +1,5 @@
 package src.uiMain;
-//package uiMain;
+
 
 import src.baseDatos.Deserializar;
 import src.baseDatos.Serializar;
@@ -19,6 +19,8 @@ public class Main {
 	private static int filtrolibro=0;
 	private static int Alimentos = 0;
 	private static final double IVA=0.19; //Uso de constante
+	
+	public enum productos{ELECTRONICA,LIBROS,ALIMENTOS,ROPA};
 	
 	//Se crean las listas donde va cada tipo de producto
 	private static ArrayList<Libro> lista_libros = new ArrayList<Libro>();
@@ -41,9 +43,10 @@ public class Main {
 		
 		//Si no hay supermercados se ejecuta un flujo para crear el supermercado dentro de deserializarSupermercados()
 		lista_super =  Deserializar.deserializarSupermercados();
-		System.out.println("╔════════════════════════════════════════════════════════╗");
-		System.out.println("║   ¡Bienvenido/a! a nuestro sistema gestor de tiendas   ║");
-		System.out.println("╚════════════════════════════════════════════════════════╝");
+
+		//muchachos dejo el que teniamos abajo por si este genera algun error
+		System.out.println("\nBienvenido a nuestro sistema gestor de tiendas!\n");
+		
 		System.out.print("Ingresa tu nombre: ");
 		String nombre = sc.nextLine();
 		System.out.print("Ingresa tu direccion: ");
@@ -55,9 +58,15 @@ public class Main {
 		System.out.println("\nBienvenido "+nombre+"!\n");
 		
 		menuQueDeseas();
+		serializarYa();
+		
+
 		
 		
-		//Falta hacer esto con las demas listas
+
+	}
+	
+	public static void serializarYa() {
 		if(lista_super.size() >0) {
 			Serializar.serializarSupermercados(lista_super);
 		}
@@ -70,7 +79,6 @@ public class Main {
 		if(lista_libros.size() >0) {
 			Serializar.serializarLibros(lista_libros);
 		}
-		//agregure la mia//
 		if(lista_ropa.size() >0) {
 			Serializar.serializarRopa(lista_ropa);
 		}
@@ -80,9 +88,7 @@ public class Main {
 			Serializar.serializarnoCarnicos(lista_no_carnicos);
 		}
 		
-
 	}
-	//Volvi este codigo un metodo para aplicar el boton de volver al menu anterior
 	
 	public static void menuQueDeseas() {
 		while(true){
@@ -109,7 +115,7 @@ public class Main {
 	
 	// Se muestra el carrito de compras al finalizar la compra
 	public static void finalizarCompra() {
-		System.out.println("\n  ***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACIÓN SU CARRITO DE COMPRAS***\n");
+		System.out.println("\n  ***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***\n");
 		int cont = 1;
 		System.out.printf("\n%-25s %-20s %-16s %-10s %-5s\n","Nombre", "Tipo de producto", "Supermercado", "Cantidad", "Precio");
 		double precio_total = 0;
@@ -185,6 +191,7 @@ public class Main {
 						+ "\nEn unos momentos recibira su pedido a la direccion "+cliente.getDireccion()
 						+"\nA nombre de "+cliente.getNombre()
 				        +"\nFue un placer atenderlo y esperamos que vuelva pronto!");
+				serializarYa();
 				System.exit(0);
 				break;
 			case "2":
@@ -748,8 +755,13 @@ public class Main {
 		respu = sc.nextInt();
 		respuesta=validarRespuesta(1, 5, String.valueOf(respu));
 		
-		switch(respuesta) {
-		case "1":
+		if(respuesta.equals("5"));
+		
+		else {
+			
+		switch(productos.values()[Integer.parseInt(respuesta)-1]) {
+		
+		case ELECTRONICA:
 			//comprarElectro()
 			System.out.println("Deseas ver la lista de Televisores o de Celulares?\n" +
 					"1.Televisores\n" +
@@ -768,21 +780,22 @@ public class Main {
 				break;
 			}
 			break;
-		case "2":
+			
+		case LIBROS:
 			//comprarLibro()
 			comprarLibro(mercado);
 			break;
-		case "3":
+			
+		case ALIMENTOS:
 			//comprarAlim()
 			menuAlimentos(mercado);
-			
 			break;
-		case "4":
+			
+		case ROPA:
 			//comprarRopa()
 			comprarRopa(mercado);
 			break;
-		case "5":
-			break;
+		}
 		}
 	}
 	

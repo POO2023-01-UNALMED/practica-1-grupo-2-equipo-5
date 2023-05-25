@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class Cliente {
 	private String nombre,direccion;
 	private int saldo;
+	private ArrayList<Object> carrito = new ArrayList<> ();
+	
 	public Cliente(String nombre, String direccion,int saldo){
 		this.nombre = nombre;
 		this.direccion = direccion;
@@ -17,7 +19,7 @@ public class Cliente {
 	public void setSaldo(int saldo) {
 		this.saldo = saldo;
 	}
-	private ArrayList<Object> carrito = new ArrayList<> ();
+	
 
 	public String getNombre() {
 		return nombre;
