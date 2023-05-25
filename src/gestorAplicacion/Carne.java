@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+//Autor: Ruben
 public class Carne extends Alimentos implements Serializable,Comparable<Carne>{
 	private String tipo;
 	private float pesoLibra;

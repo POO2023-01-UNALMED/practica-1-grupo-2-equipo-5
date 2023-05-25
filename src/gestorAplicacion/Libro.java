@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import src.uiMain.Main;
+// Autor: Alejandro
 // Esta clase se define para los objetos tipo libro
 public class Libro implements Serializable,Comparable<Libro>{
 	private Supermercado supermercado;

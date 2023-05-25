@@ -1,5 +1,6 @@
 package src.uiMain;
 
+// Autores: Todos los integrantes trabajamos en esta clase
 // La clase Main es la implementacion principal del programa
 // En esta clase estan todas las funcionalidades
 
