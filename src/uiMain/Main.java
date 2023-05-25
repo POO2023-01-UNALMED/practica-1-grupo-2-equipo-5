@@ -1706,7 +1706,7 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 			System.out.println("Estos son los celulares que tenemos disponibles en "+mercado.getNombre());
 			for(int i = 0; i<mercado.getOfercelular().size(); i++) {
 				producto_seleccionado = mercado.getOfercelular().get(i);
-				System.out.println((i+1)+". "+producto_seleccionado);
+				System.out.println((i+1)+". "+producto_seleccionado+"\n");
 			}
 			System.out.println("Selecciona uno de nuestros productos a comprar o escribe '"+(mercado.getOfercelular().size()+1)+"' para salir: ");
 			System.out.println("Puedes escribir: "+(mercado.getOfercelular().size()+2)+" para realizar una busqueda con filtros: ");
@@ -2006,6 +2006,8 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	}
 
 	// Esta es la funcionalidad comprar ropa
+	// Esta funcionalidad la hizo Yiduar
+	
 	public static void comprarRopa(Supermercado mercado) {
 	    if (mercado.getOferropa().size() > 0) {
 	        ArrayList<Ropa> prendasFiltradas = new ArrayList<>();
@@ -2039,15 +2041,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                seleccion = Integer.parseInt(sc.nextLine());
 	                if (seleccion > 0 && seleccion <= mercado.getOferropa().size()) {
 	                    Ropa prendaSeleccionada = mercado.getOferropa().get(seleccion - 1);
-	                    prendasSeleccionadas.add(prendaSeleccionada);
+	                    disminuirStock(prendaSeleccionada,mercado);
 	                    System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 	                }
 	            } while (seleccion != 0);
 	            
 	            if (prendasSeleccionadas.size() > 0) {
 	                // Agregar las prendas seleccionadas al carrito
-	                cliente.getCarrito().addAll(prendasSeleccionadas);
-	                
+	            	
 	                System.out.println("Productos agregados con éxito al carrito!");
 	                
 	                // Aplicar descuento del 10% después de comprar tres prendas
@@ -2104,14 +2105,14 @@ public static void comprarAlimento(Supermercado mercado, String eleccion) {
 	                    seleccion = Integer.parseInt(sc.nextLine());
 	                    if (seleccion > 0 && seleccion <= prendasFiltradas.size()) {
 	                        Ropa prendaSeleccionada = prendasFiltradas.get(seleccion - 1);
-	                        prendasSeleccionadas.add(prendaSeleccionada);
+	                        disminuirStock(prendaSeleccionada,mercado);
 	                        System.out.println("Has seleccionado la prenda de ropa: \n" + prendaSeleccionada.getNombreRopa());
 	                    }
 	                } while (seleccion != 0);
 	                
 	                if (prendasSeleccionadas.size() > 0) {
 	                    // Agregar las prendas seleccionadas al carrito
-	                    cliente.getCarrito().addAll(prendasSeleccionadas);
+	                    
 	                    
 	                    System.out.println("Productos agregados con éxito al carrito!");
 	                    
