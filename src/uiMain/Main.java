@@ -123,13 +123,12 @@ public class Main {
 		int cont = 1;
 		System.out.printf("\n%-25s %-20s %-16s %-10s %-5s\n","Nombre", "Tipo de producto", "Supermercado", "Cantidad", "Precio");
 		double precio_total = 0;
-		double precio = 0;
 		for(Object producto:cliente.getCarrito()) {
 			if(producto instanceof Tv){
 				//String tipoProducto="Televisor";
 				System.out.print(cont+"...");
 				System.out.printf("\n%-25s TV:%-20s %-16s %-10d %-5d\n",((Tv)producto).getMarca(), ((Tv)producto).getNombre(), ((Tv)producto).getSupermercado(), ((Tv)producto).getCantidad(), ((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
-				precio_total += ((Tv)producto).getPrecio();
+				precio_total += ((Tv)producto).getPrecio()*((Tv)producto).getCantidad();
 			}
 			
 			else if(producto instanceof Libro) {
@@ -155,7 +154,7 @@ public class Main {
 			else if(producto instanceof Carne) {
 				System.out.print(cont+"...");
 				System.out.printf("\n%-25s %-20s %-15s %-10d %-5.2f\n",((Carne)producto).getNombre(), ((Carne)producto).getTipo(), ((Carne)producto).getSupermercado(), ((Carne)producto).getCantidad(), ((Carne)producto).getPrecio()*((Carne)producto).getCantidad()*((Carne)producto).getPesoLibra());
-				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio();
+				precio_total += ((Carne)producto).getCantidad()*((Carne)producto).getPrecio()*((Carne)producto).getPesoLibra();
 			}
 			
 			else if(producto instanceof Ropa) {
