@@ -3,6 +3,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// Autor: Santiago
 //Definimos esta clase para los electronicos
 //De esta clase heredan los celulares y Televisores
 public abstract class Electronico implements Serializable {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+// Autor: Ruben
 //Esta clase se define para los alimentos no carnicos
 public class noCarnicos extends Alimentos implements Serializable,Comparable<noCarnicos>{
 

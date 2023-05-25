@@ -2,6 +2,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+//Autor: Yiduar
 // Esta clase define los objetos clase ropa
 public class Ropa implements Serializable, Comparable<Ropa> {
     private String tallaRopa;

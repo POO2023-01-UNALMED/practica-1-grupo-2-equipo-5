@@ -1,5 +1,6 @@
 package src.uiMain;
 
+// Autores: Todos los integrantes trabajamos en esta clase
 // La clase Main es la implementacion principal del programa
 // En esta clase estan todas las funcionalidades
 
@@ -129,7 +130,7 @@ public class Main {
 				//String tipoProducto="Televisor";
 				System.out.print(cont+"...");
 				System.out.printf("\n%-25s TV:%-20s %-16s %-10d %-5d\n",((Tv)producto).getMarca(), ((Tv)producto).getNombre(), ((Tv)producto).getSupermercado(), ((Tv)producto).getCantidad(), ((Tv)producto).getPrecio()*((Tv)producto).getCantidad());
-				precio_total += ((Tv)producto).getPrecio();
+				precio_total += ((Tv)producto).getPrecio()*((Tv)producto).getCantidad();
 			}
 			
 			else if(producto instanceof Libro) {

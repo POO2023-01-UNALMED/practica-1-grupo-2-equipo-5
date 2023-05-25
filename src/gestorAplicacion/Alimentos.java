@@ -3,6 +3,7 @@ package src.gestorAplicacion;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// Autor: Ruben
 // Se define una clase para los objetos de tipo alimento
 public abstract class Alimentos implements Serializable {
 	
