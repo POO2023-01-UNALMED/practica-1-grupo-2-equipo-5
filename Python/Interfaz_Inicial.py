@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 from FieldFrame import FieldFrame
 import random
 
+
 def venInicio():
     # Ingreso a la aplicacion
     def ingresarapp():
@@ -15,7 +16,7 @@ def venInicio():
         
         #Se define el frame cambiante que permanece en la zona 2
         frame_zona2=tk.Frame(ventana_usuario)
-        frame_zona2.grid(sticky="news",row=0,column=0)
+        frame_zona2.pack()
         #Se definen las funciones de los Widgets
         
         def acercade():
@@ -34,15 +35,21 @@ También perminte a los clientes comprar en el supermercado de su preferencia.""
         
         # boton identificar usuario
         def IdenUsuario():
-            tk.Label(frame_zona2,text="Identificar Usuario").grid(row=1,column=0)
+            tk.Label(frame_zona2,text="Identificar Usuario",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
             
             descrip_idenusuario="""Este proceso permite la identificación del usuario.\n
 Esto se hace por medio de sus datos personales básicos"""
             
-            tk.Label(frame_zona2,text=descrip_idenusuario).grid(row=2,column=0)
+            tk.Label(frame_zona2,text=descrip_idenusuario,borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
             
             identificadores=FieldFrame(frame_zona2,"Datos",["Nombre","Dirección","Saldo"],"Valor",None,None)
-            identificadores.grid(row=3,column=0)
+            identificadores.pack()
+            
+            def aceptar():
+                identificadores.valores=[x.get() for x in identificadores.lst_entrys]
+                print(identificadores.getValue("Nombre"))
+            
+            Aceptar=tk.Button(identificadores,text="Aceptar",font="Times 13",command=aceptar).grid(row=len(identificadores.criterios)+1,column=0,pady=10)
             
         
         #Se definen los Widgets de la App

@@ -20,10 +20,10 @@ class FieldFrame(Frame):
         #Se definen los Widgets
         
         # Titulo de la columna de los criterios
-        tk.Label(self,text=tituloCriterios).grid(row=0,column=0)
+        tk.Label(self,text=tituloCriterios,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=0,pady=10)
         
         # Titulo de la columna de los valores
-        tk.Label(self,text=tituloValores).grid(row=0,column=1)
+        tk.Label(self,text=tituloValores,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=1,pady=10)
         
         # Labels y Entrys de los criterios
         if not valores==None:
@@ -32,8 +32,8 @@ class FieldFrame(Frame):
                 tk.Entry(self,text=valores[i]).grid(row=i+1,column=1)
         else:
             for i in range(len(criterios)):
-                tk.Label(self,text=criterios[i]).grid(row=i+1,column=0)
-                en=tk.Entry(self)
+                tk.Label(self,text=criterios[i],font="Times 13").grid(row=i+1,column=0)
+                en=tk.Entry(self,width=50)
                 self.lst_entrys.append(en)
                 en.grid(row=i+1,column=1)
                 
@@ -49,10 +49,9 @@ class FieldFrame(Frame):
                 x.delete(0,tk.END)
             
         
-        # Boton aceptar
-        Aceptar=tk.Button(self,text="Aceptar",command=aceptar).grid(row=i+3,column=0)
+        
         # Boton borrar
-        Borrar=tk.Button(self,text="Borrar",command=borrar).grid(row=i+3,column=1)
+        Borrar=tk.Button(self,text="Borrar",font="Times 13",command=borrar).grid(row=i+2,column=1,pady=10)
             
             
             
