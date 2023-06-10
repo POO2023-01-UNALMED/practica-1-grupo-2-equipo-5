@@ -1,18 +1,21 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import ImageTk, Image
+from FieldFrame import FieldFrame
 import random
 
-
 def venInicio():
-    
     # Ingreso a la aplicacion
     def ingresarapp():
+        
         inicio.destroy()
         ventana_usuario=tk.Tk()
         ventana_usuario.title("Gestor T")
         ventana_usuario.geometry("1700x800")
         
+        #Se define el frame cambiante que permanece en la zona 2
+        frame_zona2=tk.Frame(ventana_usuario)
+        frame_zona2.grid(sticky="news",row=0,column=0)
         #Se definen las funciones de los Widgets
         
         def acercade():
@@ -21,12 +24,26 @@ def venInicio():
             
         def menBapli():
             mensaje_bapli="""Esta aplicación le ayuda a gestionar sus supemermercados.\n
-    También perminte a los clientes comprar en el supermercado de su preferencia."""
+También perminte a los clientes comprar en el supermercado de su preferencia."""
             messagebox.showinfo("Aplicacion",mensaje_bapli)
             
         def salirapp():
             ventana_usuario.destroy()
             venInicio()
+            
+        
+        # boton identificar usuario
+        def IdenUsuario():
+            tk.Label(frame_zona2,text="Identificar Usuario").grid(row=1,column=0)
+            
+            descrip_idenusuario="""Este proceso permite la identificación del usuario.\n
+Esto se hace por medio de sus datos personales básicos"""
+            
+            tk.Label(frame_zona2,text=descrip_idenusuario).grid(row=2,column=0)
+            
+            identificadores=FieldFrame(frame_zona2,"Datos",["Nombre","Dirección","Saldo"],"Valor",None,None)
+            identificadores.grid(row=3,column=0)
+            
         
         #Se definen los Widgets de la App
         
@@ -39,7 +56,12 @@ def venInicio():
         barra_usuario.add_cascade(menu=menu_archivo,label="Archivo")
         
         menu_procesos=tk.Menu(barra_usuario,tearoff=False)
-        menu_procesos.add_command(label="listado de procesos??")
+        menu_procesos.add_command(label="Identificar usuario",command=IdenUsuario)
+        menu_procesos.add_command(label="Seleccionar supermercado")
+        
+        menu_procesos.add_command(label="Comprar Libros")
+        #Aqui se agregarian las demas funcionalidades
+        menu_procesos.add_command(label="Ver carrito de compras")
         barra_usuario.add_cascade(menu=menu_procesos,label="Procesos y Consultas")
         
         
@@ -48,6 +70,8 @@ def venInicio():
         barra_usuario.add_cascade(menu=menu_ayuda,label="Ayuda")    
         
         ventana_usuario.config(menu=barra_usuario)
+        
+        ventana_usuario.mainloop()
     
     # Salir desde menu inicio
     def salir():
@@ -61,8 +85,8 @@ def venInicio():
         
         #Se crea la descripcion
         descrtext="""Este es un programa para la administración
-    de tiendas de supermercado.\n\nEn este se incluye manejo de inventario y tipos de producto,
-    también compra y venta de productos."""
+de tiendas de supermercado.\n\nEn este se incluye manejo de inventario y tipos de producto,
+también compra y venta de productos."""
         descrip=tk.Text(pop_up,wrap=tk.WORD,height=8)
         descrip.insert(tk.END,descrtext)
         
