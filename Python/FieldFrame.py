@@ -20,10 +20,10 @@ class FieldFrame(Frame):
         #Se definen los Widgets
         
         # Titulo de la columna de los criterios
-        tk.Label(self,text=tituloCriterios,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=0,pady=10)
+        tk.Label(self,text=tituloCriterios,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=0,pady=10,padx=10)
         
         # Titulo de la columna de los valores
-        tk.Label(self,text=tituloValores,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=1,pady=10)
+        tk.Label(self,text=tituloValores,borderwidth=2,relief="solid",font="Times 13",bg="white").grid(row=0,column=1,pady=10,padx=10)
         
         # Labels y Entrys de los criterios
         if not valores==None:
