@@ -4,7 +4,9 @@ from PIL import ImageTk, Image
 from FieldFrame import FieldFrame
 from Cliente import Cliente
 from Supermercado import Supermercado
+from Libro import Libro
 import random
+from dataclasses import field
 
 
 class Interfaz():
@@ -56,7 +58,7 @@ class Interfaz():
             # Boton salir de la ventan de usuario
             def salirapp():
                 ventana_usuario.destroy()
-                Interfaz.venInicio()
+                Interfaz.venInicio(self)
                 
             #----------------- Funcionalidades y Procesos --------------
             
@@ -95,7 +97,37 @@ class Interfaz():
                     
                     
                     def agregarLibro():
-                        pass
+                        limpia_frame()
+                        
+                        
+                            
+                        tk.Label(frame_zona2,text=f"Agregar Libros a {self.mercado.nombre}",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                        tk.Label(frame_zona2,text="Aquí podrá agregar libros al supermercado seleccionado",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                        crilibros=["Titulo","Autor","Descripcion","ISBN","Precio","Cantidad"]
+                        bookfield=FieldFrame(frame_zona2,"Datos del libro",crilibros,"Valores",None,None)
+                        bookfield.pack()
+                        
+                        #Boton Aceptar
+                        def agregarLib():
+                            bookfield.valores=[x.get() for x in bookfield.lst_entrys]
+                            
+                            libro=Libro(bookfield.valores[0],bookfield.valores[1],bookfield.valores[2]
+                                        ,bookfield.valores[3],bookfield.valores[4],bookfield.valores[5]
+                                        ,self.mercado)
+                            
+                            self.mercado.oferlibros.append(libro)
+                            
+                            otro=messagebox.askyesno(message="¡Producto agregado con éxito!\n\n¿Desea agregar otro?", title="Producto")
+                            
+                            if otro:
+                                agregarprods()
+                            
+                            print(self.mercado.oferlibros)
+                                
+                            
+                        Aceptar=tk.Button(bookfield,text="Aceptar",font="Times 13",command=agregarLib)
+                        Aceptar.grid(row=len(bookfield.criterios)+1,column=0,pady=10)
+                        
                     
                     def agregarElectronica():
                         #Flujo para agregar un producto electrónico
@@ -106,8 +138,10 @@ class Interfaz():
                         pass
                     
                     #Obtiene los valores del frame anterior
-                    c_super.valores=[x.get() for x in c_super.lst_entrys]
+                    if c_super.valores==None:
+                        c_super.valores=[x.get() for x in c_super.lst_entrys]
                     self.mercado.nombre=c_super.getValue("Nombre")
+                    self.lista_super.append(self.mercado)
                     
                     limpia_frame()
                     
