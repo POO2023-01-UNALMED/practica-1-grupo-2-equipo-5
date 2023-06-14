@@ -6,7 +6,7 @@ from Cliente import Cliente
 from Supermercado import Supermercado
 from Libro import Libro
 import random
-from dataclasses import field
+
 
 
 class Interfaz():
@@ -62,6 +62,15 @@ class Interfaz():
                 
             #----------------- Funcionalidades y Procesos --------------
             
+            #Boton ver carrito de compras
+            def finalizarCompra():
+                limpia_frame()
+                
+                tk.Label(frame_zona2,text="Carrito de compras",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                
+                #Completar------------------
+                
+                
             # boton identificar usuario
             def IdenUsuario():
                 limpia_frame()
@@ -98,9 +107,7 @@ class Interfaz():
                     
                     def agregarLibro():
                         limpia_frame()
-                        
-                        
-                            
+                    
                         tk.Label(frame_zona2,text=f"Agregar Libros a {self.mercado.nombre}",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
                         tk.Label(frame_zona2,text="Aquí podrá agregar libros al supermercado seleccionado",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
                         crilibros=["Titulo","Autor","Descripcion","ISBN","Precio","Cantidad"]
@@ -117,12 +124,11 @@ class Interfaz():
                             
                             self.mercado.oferlibros.append(libro)
                             
-                            otro=messagebox.askyesno(message="¡Producto agregado con éxito!\n\n¿Desea agregar otro?", title="Producto")
+                            otro=messagebox.askyesno(message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?", title="Producto")
                             
                             if otro:
                                 agregarprods()
                             
-                            print(self.mercado.oferlibros)
                                 
                             
                         Aceptar=tk.Button(bookfield,text="Aceptar",font="Times 13",command=agregarLib)
@@ -170,7 +176,7 @@ class Interfaz():
                 limpia_frame()
                 
                 # funcion de los botones del listbox
-                def listboxselection(event):
+                def listboxselecsuper(event):
                     selected_item=listbox.get(listbox.curselection())
                     
                     if selected_item=="Agregar Supermercado":
@@ -202,7 +208,90 @@ También, permite agregar un nuevo supermercado al listado"""
                 listbox.insert(tk.END,"Agregar Supermercado")
                 listbox.pack()
                     
-                listbox.bind('<<ListboxSelect>>', listboxselection)
+                listbox.bind('<<ListboxSelect>>', listboxselecsuper)
+            
+            #Funcionalidad comprarLibro
+            def comprarLibro():
+                
+                limpia_frame()
+                
+                def mostraroferlibros(oferlibro):
+                    limpia_frame()
+                    oferlibros=oferlibro.copy()
+                    def filtroAutor():
+                            autores=Libro.listaAutores(oferlibros)
+                            
+                            limpia_frame()
+                            
+                            def selectAutor(event):
+                                selected_item=oferlibros[int(listboxAutores.get(listboxAutores.curselection())[0])-1]
+                                mostraroferlibros(Libro.filtrarporAutor(oferlibros, selected_item))
+                                
+                            tk.Label(frame_zona2,text="Filtrar por autor",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                            tk.Label(frame_zona2,text="Aqui podrás filtrar los libros por el autor de tu selección",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                            listboxAutores=tk.Listbox(frame_zona2,borderwidth=2,relief="solid",font="Times 13",bg="white")
+                            
+                            
+                            for l in range(len(autores)):
+                                listboxAutores.insert(tk.END,str(l+1)+". "+autores[l])
+                                
+                            listboxAutores.pack(pady=20)
+                            
+                            listboxAutores.bind('<<ListboxSelect>>', selectAutor)
+                            
+                            
+                    
+                    def selectlibro(event):
+                        
+                        selected_item=oferlibros[int(listbox_libros.get(listbox_libros.curselection())[0])-1]
+                        
+                        limpia_frame()
+                        
+                                
+                        def agregarlibalcarro():
+                            self.cliente.carrito.append(selected_item)
+                            otro=messagebox.askyesno(message="¡Libro agregado con éxito!\n\n¿Desea finalizar su compra?", title="Libro")
+                            
+                            if otro:
+                                #Finalizar Compra
+                                pass
+                            
+                            else:
+                                comprarLibro()
+                                
+                        
+                        tk.Label(frame_zona2,text="Seleccionaste:",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                        tk.Label(frame_zona2,text=selected_item,borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                        
+                        tk.Button(frame_zona2,text="Agregar al carrito",font="Times 13").pack(pady=10)
+                        tk.Button(frame_zona2,text="Volver",font="Times 13",command=comprarLibro).pack()
+                        
+                    L_antesdelistbox=tk.Label(frame_zona2,text="Estos son los libros que tenemos disponibles",borderwidth=2,relief="solid",font="Times 13",bg="white")
+                    L_antesdelistbox.pack(pady=20)
+                    
+                    listbox_libros=tk.Listbox(frame_zona2,borderwidth=2,relief="solid",font="Times 13",bg="white")
+                    
+                    for l in range(len(oferlibros)):
+                        listbox_libros.insert(tk.END,str(l+1)+". "+oferlibros[l].titulo)
+                    
+                    listbox_libros.pack()
+                    
+                    tk.Label(frame_zona2,text="Filtros",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=10)
+                    
+                    tk.Button(frame_zona2,text="Autor",font="Times 13",command=filtroAutor).pack(pady=10)
+                    tk.Button(frame_zona2,text="Precio",font="Times 13").pack(pady=10)
+                    
+                    listbox_libros.bind('<<ListboxSelect>>', selectlibro)
+                    
+                        
+                    
+                    
+                tk.Label(frame_zona2,text=f"Comprar Libros en {self.mercado.nombre}",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                descrip_comprarLibro="""Esta es la funcionalidad que permite a los clientes comprar libros 
+en el supermercado seleccionado anteriormente"""
+                tk.Label(frame_zona2,text=descrip_comprarLibro,borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
+                
+                mostraroferlibros(self.mercado.oferlibros)
                 
                 
             #Se definen los Widgets de la App
@@ -219,7 +308,7 @@ También, permite agregar un nuevo supermercado al listado"""
             menu_procesos.add_command(label="Identificar usuario",command=IdenUsuario)
             menu_procesos.add_command(label="Seleccionar supermercado",command=selectsuper)
             menu_procesos.add_command(label="Crear supermercado",command=crearsuper)
-            menu_procesos.add_command(label="Comprar Libros")
+            menu_procesos.add_command(label="Comprar Libros",command=comprarLibro)
             #Aqui se agregarian las demas funcionalidades
             menu_procesos.add_command(label="Ver carrito de compras")
             barra_usuario.add_cascade(menu=menu_procesos,label="Procesos y Consultas")

@@ -18,3 +18,24 @@ class Libro():
             self.cantidad=args[5]
             self.supermercado=args[6]
     
+    @staticmethod        
+    def listaAutores(oferlibrolist):
+        autores=[]
+        for l in oferlibrolist:
+            if not l.autor in autores:
+                autores.append(l.autor)
+        return autores
+    
+    @staticmethod
+    def filtrarporAutor(oferlibrolist,autor):
+        lstporautor=[]
+        
+        for l in oferlibrolist:
+            if l.autor==autor:
+                lstporautor.append(l)
+        return lstporautor
+        
+    
+    def __str__(self):
+        return f"Titulo: {self.titulo}\nAutor: {self.autor}\nPrecio: {self.precio}\nUnidades disponibles: {self.cantidad}"
+    
