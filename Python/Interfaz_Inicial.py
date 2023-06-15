@@ -13,7 +13,6 @@ from Tv import Tv
 
 
 class Interfaz():
-    
     def __init__(self):
         self.lista_libros=[]
         self.lista_carnicos=[]
@@ -289,12 +288,31 @@ class Interfaz():
                 
                 Aceptar=tk.Button(c_super,text="Aceptar",font="Times 13",command=agregarprods)
                 Aceptar.grid(row=len(c_super.criterios)+1,column=0,pady=10)
+
             def ofertaProductos():
                 limpia_frame()
 
-                tk.Label(frame_zona2, text=f"Estos son los productos que tenemos disponibles en el supermercado: {self.mercado.nombre}").grid()
+                tk.Label(frame_zona2, text=f"Estos son los productos que tenemos disponibles en el supermercado: {self.mercado.nombre}",borderwidth=2,relief="solid",font="Times 13",bg="white").grid(pady=30, ipadx=15, ipady=10)
+                def ofertaElectronico():
+                    limpia_frame()
+                    tk.Label(frame_zona2,text="¿Que tipo de producto electronico deseas?",borderwidth=2,relief="solid",font="Times 13",bg="white").grid(pady=30, ipadx=15, ipady=10, columnspan=2)
+                    def ofertaCelulares():
+                        limpia_frame()
+                        if(len(self.mercado.ofercelular) == 0):
+                            tk.Label(frame_zona2, text ="Este supermercado no tiene celulares :(\n¿Deseas crear uno?",borderwidth=2,relief="solid",font="Times 13",bg="white").grid(pady=30, ipadx=15, ipady=10, columnspan=2)
+                            tk.Button(frame_zona2, text ="Si", font=("Times 13", 16)).grid(row=1, column=0) #No se si esto se pueda implementar
+                            tk.Button(frame_zona2, text ="No", font=("Times 13", 16)).grid(row=1, column=1)
+                        else:
+                            
+                    tk.Button(frame_zona2, text="Celular", font = ("Times 13", 16), command=ofertaCelulares).grid(column=0, row=1)
+                    tk.Button(frame_zona2, text="Televisor", font=("Times 13", 16)).grid(column=1, row=1)
+
+
                 #Por ahora voy dejando por acá muchachos, me cogió la noche jaja, espero poder seguir con normalidad mañana o el viernes
-                pass
+                tk.Button(frame_zona2,text ="Libros",font="Times 13").grid(pady=15)
+                tk.Button(frame_zona2,text ="Electronios",font="Times 13", command=ofertaElectronico).grid(pady=15)
+                tk.Button(frame_zona2,text ="Comida",font="Times 13").grid(pady=15)
+
             
             #Boton seleccionar supermercado
             def selectsuper():
