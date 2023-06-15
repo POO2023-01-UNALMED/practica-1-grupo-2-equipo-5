@@ -1,12 +1,15 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import ImageTk, Image
+
+from Celular import Celular
 from FieldFrame import FieldFrame
 from Cliente import Cliente
 from Supermercado import Supermercado
 from Libro import Libro
 import random
 
+from Tv import Tv
 
 
 class Interfaz():
@@ -30,12 +33,32 @@ class Interfaz():
             inicio.destroy()
             ventana_usuario=tk.Tk()
             ventana_usuario.title("Gestor T")
-            ventana_usuario.geometry("1700x800")
+            ventana_usuario.geometry("1200x600")
             
             #Se define el frame cambiante que permanece en la zona 2
             frame_zona2=tk.Frame(ventana_usuario)
+
             frame_zona2.pack()
-            
+            #Realizo la primera vista de la interfaz al ingresar a la zona 2 (Donde explico el funcionamiento de la misma)
+            titulo_zona2 = tk.Label(frame_zona2, text="Bienvenidos y gracias por preferir nuestro "
+                                                     "sistema gestor de tiendas y supermercados",
+                                    font=("Times 13", 18), bg = "lightgray")
+            titulo_zona2.grid(pady=10, ipadx=15, row=0)
+
+            texto_explicacion_zona2 = tk.Label(frame_zona2, font=("Times 13",14))
+            texto_explicacion_zona2.config(text="Este es un simple sistema gestor de tiendas, donde puedes buscar entre las diferentes opciones de tiendas que tenemos para ofrecerte, "
+                                                "\ndonde además podrás buscar entre la variedad de productos que estas nos ofrecen y puedes posteriormente realizar una compra :)")
+            texto_explicacion_zona2.grid(row=1)
+            pasos_uso_zona2 = tk.Label(frame_zona2, font=("Times New Roman", 14), bg="lightblue")
+            pasos_uso_zona2.config(text="- Lo primero que debes hacer es notar el menu de navegacion de la aplicacion, donde deberás entrar al apartado de 'Procesos y Consultas'"
+                                        "\n\n\n- Posteriormente, debes dirigirte al apartado 'Identificar usuario', donde deberas ingresar los datos que se te piden y dar en el boton 'Aceptar'"
+                                        "\n\n\n- Luego deberas elegir si deseas crear un supermercado o crearlo, por lo que en el menu 'Procesos y Consultas' encontraras dichas opciones"
+                                        "\n\n\n- En general, encontraras todo lo que nececitas en el apartado 'Procesos y Consultas'. Debes tener cuidado de seguir bien el flujo del programa"
+                                        "\n\n\n- Al finalizar todas tus compras (libros, comida, componentes electronicos) debes dirigirte al carrito de compra y concretar tu pedido"
+                                        "\n\n\n\n ¡Espero que disfrutes usando nuestro gestor de tiendas!")
+            pasos_uso_zona2.grid(row=2, pady=30, ipadx=10, ipady=20)
+
+
             #Funcion para limpiar el frame
             #Esto debe ir en la linea inicial de cada proceso o consulta
             def limpia_frame():
@@ -77,8 +100,7 @@ class Interfaz():
                 
                 tk.Label(frame_zona2,text="Identificar Usuario",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
                 
-                descrip_idenusuario="""Este proceso permite la identificación del usuario.\n
-    Esto se hace por medio de sus datos personales básicos"""
+                descrip_idenusuario="""Este proceso permite la identificación del usuario.\nEsto se hace por medio de sus datos personales básicos"""
                 
                 tk.Label(frame_zona2,text=descrip_idenusuario,borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
                 
@@ -136,9 +158,104 @@ class Interfaz():
                         
                     
                     def agregarElectronica():
+                        limpia_frame()
+                        tk.Label(frame_zona2,
+                                 text=f"¿Que tipo de productos electronicos deseas agregar a {self.mercado.nombre}?",
+                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(row=0, columnspan=2,
+                                                                                                  pady=30)
+
+                        def agregarTvs():
+                            limpia_frame()
+
+                            tk.Label(frame_zona2, text=f"Agregar Televisores a {self.mercado.nombre}", borderwidth=2,
+                                     relief="solid", font="Times 13", bg="white").pack(pady=20)
+                            tk.Label(frame_zona2, text="Aquí podrá agregar televisores al supermercado seleccionado",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
+                            critv = ["Nombre", "Marca", "Pulgadas (numero)", "Resolucion (String)", "Precio (int)", "Cantidad (int)"]
+                            tvfield = FieldFrame(frame_zona2, "Datos del televisor", critv, "Valores", None, None)
+                            tvfield.pack()
+
+                            # Boton Aceptar
+                            def agregarTv():
+                                tvfield.valores = [x.get() for x in tvfield.lst_entrys]
+
+                                tv = Tv(tvfield.valores[0], tvfield.valores[1], tvfield.valores[2]
+                                              , tvfield.valores[3], tvfield.valores[4], tvfield.valores[5]
+                                              , self.mercado)
+
+                                self.mercado.ofertv.append(tv)
+
+                                otro = messagebox.askyesno(
+                                    message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                    title="Producto")
+
+                                if otro:
+                                    agregarprods()
+
+                            aceptar = tk.Button(tvfield, text="Aceptar", font="Times 13", command=agregarTv)
+                            aceptar.grid(row=len(tvfield.criterios) + 1, column=0, pady=10)
+
+                        def agregarCelular():
+                            limpia_frame()
+
+                            tk.Label(frame_zona2, text=f"Agregar Celulares a {self.mercado.nombre}", borderwidth=2,
+                                     relief="solid", font="Times 13", bg="white").pack(pady=20)
+                            tk.Label(frame_zona2, text="Aquí podrá agregar celulares al supermercado seleccionado",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
+                            cricelulares = ["Nombre", "Marca", "almacenamiento (numero)", "Camaras (int)","Bateria (int)","Color (String)", "Ram (int)", "Precio (int)",
+                                     "Cantidad (int)"]
+                            celfield = FieldFrame(frame_zona2, "Datos del celular", cricelulares, "Valores", None, None)
+                            celfield.pack()
+
+                            # Boton Aceptar
+                            def agregarCel():
+                                celfield.valores = [x.get() for x in celfield.lst_entrys]
+
+                                celular = Celular(celfield.valores[0], celfield.valores[1], celfield.valores[2]
+                                        , celfield.valores[3], celfield.valores[4], celfield.valores[5],celfield.valores[6],celfield.valores[7],celfield.valores[8], self.mercado)
+
+                                self.mercado.ofercelular.append(celular)
+
+                                otro = messagebox.askyesno(
+                                    message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                    title="Producto")
+
+                                if otro:
+                                    agregarprods()
+
+                            aceptar = tk.Button(celfield, text="Aceptar", font="Times 13", command=agregarCel)
+                            aceptar.grid(row=len(celfield.criterios) + 1, column=0, pady=10)
+
                         #Flujo para agregar un producto electrónico
-                        pass
-                    
+
+                        # Cargar la imagen
+                        imagenTelevisor = Image.open("televisor.jpg")
+                        # Redimensionar la imagen si es necesario
+                        imagenTelevisor = imagenTelevisor.resize((170, 170))
+                        # Crear objeto PhotoImage y mantener una referencia
+                        imagenTelevisor = ImageTk.PhotoImage(imagenTelevisor)
+
+                        # Crear el widget Label para mostrar la imagen del celular
+                        televisor_label = tk.Label(frame_zona2, image=imagenTelevisor, relief="solid")
+                        televisor_label.image = imagenTelevisor
+                        televisor_label.grid(row=1, column=0)
+
+                        tk.Button(frame_zona2, text="Televisor", font="Times 13", command=agregarTvs).grid(row=2,column=0, pady=20)
+
+                        # Cargar la imagen
+                        imagenCelular = Image.open("celular.jpg")
+                        # Redimensionar la imagen si es necesario
+                        imagenCelular = imagenCelular.resize((170, 170))
+                        # Crear objeto PhotoImage y mantener una referencia
+                        imagenCelular = ImageTk.PhotoImage(imagenCelular)
+
+                        # Crear el widget Label para mostrar la imagen del celular
+                        celular_label = tk.Label(frame_zona2, image=imagenCelular, relief="solid")
+                        celular_label.image = imagenCelular
+                        celular_label.grid(row=1, column=1)
+
+                        tk.Button(frame_zona2, text="Celular", font="Times 13", command=agregarCelular).grid(row=2, column=1, pady=20)
+
                     def agregarComida():
                         #Flujo para agregar un producto comestible
                         pass
@@ -156,7 +273,7 @@ class Interfaz():
                     
                     #Botones para agregar diferentes tipos de producto
                     tk.Button(frame_zona2,text="Libros",font="Times 13",command=agregarLibro).pack(pady=10)
-                    tk.Button(frame_zona2,text="Electronica",font="Times 13").pack(pady=10)
+                    tk.Button(frame_zona2,text="Electronica",font="Times 13", command=agregarElectronica).pack(pady=10)
                     tk.Button(frame_zona2,text="Comida",font="Times 13",command=agregarLibro).pack(pady=10)
                     
                 
@@ -306,8 +423,8 @@ en el supermercado seleccionado anteriormente"""
             
             menu_procesos=tk.Menu(barra_usuario,tearoff=False)
             menu_procesos.add_command(label="Identificar usuario",command=IdenUsuario)
+            menu_procesos.add_command(label="Crear supermercado", command=crearsuper)#Creo que es mejor dar la opcion de crear supermercado primero que la de seleccionar uno (Si algo lo cambiamos)
             menu_procesos.add_command(label="Seleccionar supermercado",command=selectsuper)
-            menu_procesos.add_command(label="Crear supermercado",command=crearsuper)
             menu_procesos.add_command(label="Comprar Libros",command=comprarLibro)
             #Aqui se agregarian las demas funcionalidades
             menu_procesos.add_command(label="Ver carrito de compras")
@@ -349,12 +466,12 @@ en el supermercado seleccionado anteriormente"""
         #bio Alejandro
         def mbioA():
             biografia_Text.delete("1.0",tk.END)
-            bioA="Nombre: Alejandro Ramírez Ramírez\nFecha de Nacimiento: 01/11/2001\nGustos:Leer, Dormir y jugar"
+            bioA="Nombre: Alejandro Ramírez Ramírez\nFecha de Nacimiento: 01/11/2001\nGustos: Leer, Dormir y jugar"
             biografia_Text.insert(tk.END,bioA)
         #bio Santiago
         def mbioS():
             biografia_Text.delete("1.0",tk.END)
-            bioS=""#poner biografia
+            bioS="Nombre: Santiago Acevedo Cacua\nFecha de Nacimiento: 02/08/2004\nGustos: Caminar, comer y programar :D"
             biografia_Text.insert(tk.END,bioS)
         #bio Ruben
         def mbioR():
@@ -365,7 +482,7 @@ en el supermercado seleccionado anteriormente"""
         #cambiamos las imagenes de P4
         def cP4(event):
             imagenes=["donpatacon.png","carrefour.jpg","D1.jpg","exito.jpg","ktronix.png","walmart.jpg"]
-            imagen_P4=ImageTk.PhotoImage(Image.open(random.choice(imagenes)).resize((600,600)))
+            imagen_P4=ImageTk.PhotoImage(Image.open(random.choice(imagenes)).resize((400,400)))
             imagen_label_P4.configure(image=imagen_P4)
             imagen_label_P4.image = imagen_P4
     
@@ -373,7 +490,7 @@ en el supermercado seleccionado anteriormente"""
         
         inicio=tk.Tk()
         inicio.title("Gestor T")
-        inicio.geometry("1700x800")
+
             
         #Definimos los frames
         
@@ -394,14 +511,15 @@ en el supermercado seleccionado anteriormente"""
         #Widgets del frame izquierdo
         
         #Widget mensaje de bienvenida
-        bientext="""Bienvenido a nuestro gestor de supermercados Gestor T. Esta herramienta te ayudará a administrar tus supermercados y 
+        bientext="""Bienvenido a nuestro gestor de supermercados Gestor T. 
+        Esta herramienta te ayudará a administrar tus supermercados y 
         también será de utilidad para que tus clientes compren en ellos."""
         
         bienvenida_label=tk.Label(frame_izquierdo,text=bientext,borderwidth=2,relief="solid",font="Times 13",bg="white")
         
         
         #Widget imagen
-        imagenes_P4=ImageTk.PhotoImage(Image.open("donpatacon.png").resize((600,600)))
+        imagenes_P4=ImageTk.PhotoImage(Image.open("donpatacon.png").resize((400,400)))
         imagen_label_P4=tk.Label(frame_izquierdo,image=imagenes_P4,relief="solid")
         imagen_label_P4.bind("<Enter>",cP4)
         
@@ -419,15 +537,15 @@ en el supermercado seleccionado anteriormente"""
         #Widget imagenes de los autores
         frame_imagenes=tk.Frame(frame_derecho)
         
-        Aimg=ImageTk.PhotoImage(Image.open("Alejandro.jpg").resize((270,270)))
+        Aimg=ImageTk.PhotoImage(Image.open("Alejandro.jpg").resize((170,170)))
         Aimg_Button=tk.Button(frame_imagenes,image=Aimg,relief="solid",command=mbioA)
         
         # Aqui va la foto de Santiago
-        Simg=ImageTk.PhotoImage(Image.open("frente1.jpg").resize((270,270)))
+        Simg=ImageTk.PhotoImage(Image.open("Santiago.jpg").resize((170,170)))
         Simg_Button=tk.Button(frame_imagenes,image=Simg,relief="solid",command=mbioS)
         
         # Aqui va la foto de Ruben
-        Rimg=ImageTk.PhotoImage(Image.open("frente2.jpg").resize((270,270)))
+        Rimg=ImageTk.PhotoImage(Image.open("frente2.jpg").resize((170,170)))
         Rimg_Button=tk.Button(frame_imagenes,image=Rimg,relief="solid",command=mbioR)
         
         
