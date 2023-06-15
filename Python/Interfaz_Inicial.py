@@ -191,6 +191,8 @@ class Interfaz():
 
                                 if otro:
                                     agregarprods()
+                                else:
+                                    crearsuper()
 
                             aceptar = tk.Button(tvfield, text="Aceptar", font="Times 13", command=agregarTv)
                             aceptar.grid(row=len(tvfield.criterios) + 1, column=0, pady=10)
@@ -222,6 +224,8 @@ class Interfaz():
 
                                 if otro:
                                     agregarprods()
+                                else:
+                                    crearsuper()
 
                             aceptar = tk.Button(celfield, text="Aceptar", font="Times 13", command=agregarCel)
                             aceptar.grid(row=len(celfield.criterios) + 1, column=0, pady=10)
@@ -285,7 +289,12 @@ class Interfaz():
                 
                 Aceptar=tk.Button(c_super,text="Aceptar",font="Times 13",command=agregarprods)
                 Aceptar.grid(row=len(c_super.criterios)+1,column=0,pady=10)
-                
+            def ofertaProductos():
+                limpia_frame()
+
+                tk.Label(frame_zona2, text=f"Estos son los productos que tenemos disponibles en el supermercado: {self.mercado.nombre}").grid()
+                #Por ahora voy dejando por acá muchachos, me cogió la noche jaja, espero poder seguir con normalidad mañana o el viernes
+                pass
             
             #Boton seleccionar supermercado
             def selectsuper():
@@ -303,6 +312,7 @@ class Interfaz():
                             if s.nombre==selected_item:
                                 self.mercado=s
                                 messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                ofertaProductos()#Este metodo nos muestra que products hay en el supermercado seleccionado
                                 break
                 
                 tk.Label(frame_zona2,text="Seleccionar Supermercado",borderwidth=2,relief="solid",font="Times 13",bg="white").pack(pady=20)
