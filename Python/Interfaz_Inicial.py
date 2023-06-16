@@ -11,6 +11,9 @@ import random
 
 from Tv import Tv
 
+from Carne import Carne
+from noCarnicos import noCarnicos
+
 
 class Interfaz():
     def __init__(self):
@@ -568,7 +571,7 @@ en el supermercado seleccionado anteriormente"""
         # bio Ruben
         def mbioR():
             biografia_Text.delete("1.0", tk.END)
-            bioR = ""  # poner biografia
+            bioR="Nombre: Ruben Urías Salas Higuita\nFecha/Lugar de nacimiento:2/09/1995 - Medellín Antioquia"+"\nPresentación:Apasionado por la tecnología, leer,la musica,Jugar video juegos y salir a conocer/aprender del mundo"
             biografia_Text.insert(tk.END, bioR)
 
         # cambiamos las imagenes de P4
@@ -635,7 +638,7 @@ en el supermercado seleccionado anteriormente"""
         Simg_Button = tk.Button(frame_imagenes, image=Simg, relief="solid", command=mbioS)
 
         # Aqui va la foto de Ruben
-        Rimg = ImageTk.PhotoImage(Image.open("frente2.jpg").resize((170, 170)))
+        Rimg = ImageTk.PhotoImage(Image.open("Ruben.jpg").resize((170, 170)))
         Rimg_Button = tk.Button(frame_imagenes, image=Rimg, relief="solid", command=mbioR)
 
         # Posicionamos los Widgets
