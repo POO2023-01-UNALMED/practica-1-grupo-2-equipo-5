@@ -1,6 +1,6 @@
 class Alimentos():
-    def __init__(self, nombre, precio, supermercado, cantidad):
+    def __init__(self, nombre, precio, cantidad, supermercado):
         self.nombre = nombre
         self.precio = precio
-        self.supermercado = supermercado
         self.cantidad = cantidad
+        self.supermercado = supermercado

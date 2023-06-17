@@ -1,6 +1,6 @@
 from Alimentos import Alimentos
 
 class noCarnicos (Alimentos):
-    def __init__(self, nombre, precio, supermercado, cantidad, grupo):
-        super(noCarnicos, self).__init__(nombre, precio, supermercado, cantidad)
+    def __init__(self, nombre, precio, cantidad, grupo, supermercado):
+        super(noCarnicos, self).__init__(nombre, precio, cantidad, supermercado)
         self.grupo = grupo

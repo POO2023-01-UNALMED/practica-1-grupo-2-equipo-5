@@ -174,11 +174,7 @@ class Interfaz():
                             agregarprods()
 
                     Aceptar = tk.Button(bookfield, text="Aceptar", font="Times 13", command=agregarLib)
-                    Aceptar.grid(row=len(bookfield.criterios) + 1, column=0, pady=10)
-
-                def agregarComida():
-                    # Flujo para agregar un producto comestible
-                    pass
+                    Aceptar.grid(row=len(bookfield.criterios) + 1, column=0, pady=10)            
 
                 # Obtiene los valores del frame anterior
                 if c_super.valores is None:
@@ -190,14 +186,125 @@ class Interfaz():
 
                 tk.Label(frame_zona2, text="Agregar Productos", borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
-                tk.Label(frame_zona2, text=f"¿Que productos deseas agregar a {self.mercado.nombre}", borderwidth=2,
+                tk.Label(frame_zona2, text=f"¿Que productos deseas agregar al Supermercado {self.mercado.nombre}", borderwidth=2,
                          relief="solid", font="Times 13", bg="white").pack(pady=20)
 
                 # Botones para agregar diferentes tipos de producto
                 tk.Button(frame_zona2, text="Libros", font="Times 13", command=agregarLibro).pack(pady=10)
                 tk.Button(frame_zona2, text="Electronica", font="Times 13", command=agregarElectronica).pack(
                     pady=10)
-                tk.Button(frame_zona2, text="Comida", font="Times 13", command=agregarLibro).pack(pady=10)
+                tk.Button(frame_zona2, text="Alimentos", font="Times 13", command=AgregarAlimentos).pack(pady=10)
+            
+                # Flujo para agregar Alimentos
+            def agregarCarnico():
+                limpia_frame()
+
+                tk.Label(frame_zona2, text=f"Agregar Alimentos Carnicos al Supermercado {self.mercado.nombre}", borderwidth=2,
+                         relief="solid", font="Times 13", bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos Carnicos al Supermercado seleccionado",
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
+                cricarne = ["Nombre", "Precio", "Cantidad", "Tipo", "Peso Libra"]
+                carnefield = FieldFrame(frame_zona2, "Datos del producto Carncio", cricarne, "Valores", None, None)
+                carnefield.pack()
+
+                # Boton Aceptar
+                def agregarCarne():
+                    carnefield.valores = [x.get() for x in carnefield.lst_entrys]
+
+                    carne = Carne(carnefield.valores[0], carnefield.valores[1], carnefield.valores[2]
+                            ,carnefield.valores[3], carnefield.valores[4], self.mercado)
+
+                    self.mercado.ofercarne.append(carne)
+
+                    otro = messagebox.askyesno(
+                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                        title="Producto")
+
+                    if otro:
+                        agregarprods()
+                    else:
+                        crearsuper()
+                
+                aceptar = tk.Button(carnefield, text="Aceptar", font="Times 13", command=agregarCarne)
+                aceptar.grid(row=len(carnefield.criterios) + 1, column=0, pady=10)
+
+
+            def agregarnoCarnicos():
+                limpia_frame()
+
+                tk.Label(frame_zona2, text=f"Agregar Alimentos noCarnicos al Supermercado {self.mercado.nombre}", borderwidth=2,
+                         relief="solid", font="Times 13", bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos noCarnicos al Supermercado seleccionado",
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
+
+                crinocarnes = ["Nombre", "Precio", "Cantidad","Categoria:1.Granos / 2.Lacteos / 3.Verduras / 4.Otros"]
+                nocarnefield = FieldFrame(frame_zona2, "Datos del producto Carncio", crinocarnes, "Valores", None, None)
+                nocarnefield.pack()
+
+                # Boton Aceptar
+                def agregarnoCarne():
+                    nocarnefield.valores = [x.get() for x in nocarnefield.lst_entrys]
+
+                    nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1], nocarnefield.valores[2]
+                            ,nocarnefield.valores[3], self.mercado)
+
+                    self.mercado.ofernocarnicos.append(nocarne)
+
+                    otro = messagebox.askyesno(
+                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                        title="Producto")
+
+                    if otro:
+                        agregarprods()
+                    else:
+                        crearsuper()
+                
+                aceptar = tk.Button(nocarnefield, text="Aceptar", font="Times 13", command=agregarnoCarne)
+                aceptar.grid(row=len(nocarnefield.criterios) + 1, column=0, pady=10)
+            
+            def AgregarAlimentos():
+                limpia_frame()
+                tk.Label(frame_zona2,
+                         text=f"Binevenido al area de Alimentos del Supermercado {self.mercado.nombre}?",
+                         borderwidth=3, relief="solid", font="Times 13", bg="white").grid(row=0, columnspan=2,
+                                                                                          pady=35)
+                tk.Label(frame_zona2,
+                         text=f"¿Que tipo de Alimentos deseas agregar al Supermercado {self.mercado.nombre}?",
+                         borderwidth=3, relief="solid", font="Times 13", bg="white").grid(row=3, columnspan=2,
+                                                                                          pady=35)
+
+                # Cargar imagen Carnicos
+                imagenCarne = Image.open("Carne.jpg")
+                # Redimensionar la imagen si es necesario
+                imagenCarne = imagenCarne.resize((170, 170))
+                # Crear objeto PhotoImage y mantener una referencia
+                imagenCarne = ImageTk.PhotoImage(imagenCarne) 
+
+                # Crear el widget Label para mostrar la imagen de Carnicos
+                carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
+                carne_label.image = imagenCarne
+                carne_label.grid(row=1, column=0)     
+
+                tk.Button(frame_zona2, text="Carnicos", font="Times 13", command=agregarCarnico).grid(row=2,
+                                                                                                   column=0,
+                                                                                                   pady=20)
+                                                                         
+                # Cargar la imagen de noCarnicos
+                imagennoCarne = Image.open("noCarnico.jpg")
+                # Redimensionar la imagen si es necesario
+                imagennoCarne = imagennoCarne.resize((170, 170))
+                # Crear objeto PhotoImage y mantener una referencia
+                imagennoCarne = ImageTk.PhotoImage(imagennoCarne)
+
+                # Crear el widget Label para mostrar la imagen del celular
+                nocarne_label = tk.Label(frame_zona2, image=imagennoCarne, relief="solid")
+                nocarne_label.image = imagennoCarne
+                nocarne_label.grid(row=1, column=1)
+
+                tk.Button(frame_zona2, text="noCarnico", font="Times 13", command=agregarnoCarnicos).grid(row=2,
+                                                                                                     column=1,
+                                                                                                     pady=20)
+
 
             def agregarTvs():
                 limpia_frame()
@@ -219,7 +326,7 @@ class Interfaz():
                             , tvfield.valores[3], tvfield.valores[4], tvfield.valores[5]
                             , self.mercado)
 
-                    self.mercado.ofertv.append(tv)
+                    self.mercado.ofercarne.append(tv)
 
                     otro = messagebox.askyesno(
                         message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
@@ -314,7 +421,7 @@ class Interfaz():
                 limpia_frame()
 
                 tk.Label(frame_zona2,
-                         text=f"Estos son los productos que tenemos disponibles en el supermercado: {self.mercado.nombre}",
+                         text=f"Estos son los productos que tenemos disponibles en el Supermercado: {self.mercado.nombre}",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15, ipady=10)
 
                 def ofertaElectronico():
@@ -370,9 +477,9 @@ class Interfaz():
                     tk.Button(frame_zona2, text="Celular", font=("Times 13", 16), command=ofertaCelulares).grid(column=0, row=1)
                     tk.Button(frame_zona2, text="Televisor", font=("Times 13", 16)).grid(column=1, row=1)
 
-                tk.Button(frame_zona2, text="Libros", font="Times 13").grid(pady=15)
+                tk.Button(frame_zona2, text="Libros", font="Times 13", command=comprarLibro).grid(pady=15)
                 tk.Button(frame_zona2, text="Electronios", font="Times 13", command=ofertaElectronico).grid(pady=15)
-                tk.Button(frame_zona2, text="Comida", font="Times 13").grid(pady=15)
+                tk.Button(frame_zona2, text="Alimentos", font="Times 13").grid(pady=15)
 
             # Boton seleccionar supermercado
             def selectsuper():
