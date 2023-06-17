@@ -203,7 +203,7 @@ class Interfaz():
                          relief="solid", font="Times 13", bg="white").pack(pady=20)
                 tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos Carnicos al Supermercado seleccionado",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
-                cricarne = ["Nombre", "Precio", "Cantidad", "Tipo", "Peso Libra"]
+                cricarne = ["Nombre", "Precio por Libra", "Tipo de Producto", "Peso en Libras", "Unidades que desea añadir"]
                 carnefield = FieldFrame(frame_zona2, "Datos del producto Carncio", cricarne, "Valores", None, None)
                 carnefield.pack()
 
@@ -237,8 +237,8 @@ class Interfaz():
                 tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos noCarnicos al Supermercado seleccionado",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
 
-                crinocarnes = ["Nombre", "Precio", "Cantidad","Categoria:1.Granos / 2.Lacteos / 3.Verduras / 4.Otros"]
-                nocarnefield = FieldFrame(frame_zona2, "Datos del producto Carncio", crinocarnes, "Valores", None, None)
+                crinocarnes = ["Nombre", "Precio","Categoria:1.Granos / 2.Lacteos / 3.Verduras / 4.Otros", "Cantidad unidades que desea añadir"]
+                nocarnefield = FieldFrame(frame_zona2, "Datos del producto noCarncio", crinocarnes, "Valores", None, None)
                 nocarnefield.pack()
 
                 # Boton Aceptar
@@ -304,6 +304,19 @@ class Interfaz():
                 tk.Button(frame_zona2, text="noCarnico", font="Times 13", command=agregarnoCarnicos).grid(row=2,
                                                                                                      column=1,
                                                                                                      pady=20)
+
+            # Funcionalidad Alimentos                                                                                          
+            def MenuAlimentos():
+                limpia_frame()
+
+                tk.Label(frame_zona2,
+                         text=f"Binevenido a la seccion de Alimentos del Supermercado {self.mercado.nombre}?",
+                         borderwidth=3, relief="solid", font="Times 13", bg="white").grid(row=0, columnspan=2,
+                                                                                          pady=10)
+                tk.Label(frame_zona2,
+                         text=f"¿En que producto esta interesado de nuestra sección?",
+                         borderwidth=3, relief="raised", font="Times 14", bg="white",highlightbackground="black", highlightthickness=3).grid(row=2, columnspan=2,
+                                                                                          pady=10)
 
 
             def agregarTvs():
@@ -479,7 +492,7 @@ class Interfaz():
 
                 tk.Button(frame_zona2, text="Libros", font="Times 13", command=comprarLibro).grid(pady=15)
                 tk.Button(frame_zona2, text="Electronios", font="Times 13", command=ofertaElectronico).grid(pady=15)
-                tk.Button(frame_zona2, text="Alimentos", font="Times 13").grid(pady=15)
+                tk.Button(frame_zona2, text="Alimentos", font="Times 13", command= MenuAlimentos).grid(pady=15)
 
             # Boton seleccionar supermercado
             def selectsuper():
