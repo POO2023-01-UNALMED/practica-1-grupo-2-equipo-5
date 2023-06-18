@@ -1,4 +1,5 @@
 class Libro():
+    
     def __init__(self,*args):
         
         if len(args)==2:
@@ -34,6 +35,16 @@ class Libro():
             if l.autor==autor:
                 lstporautor.append(l)
         return lstporautor
+    
+    @staticmethod
+    def filtrarporPrecio(oferlibrolist,min,maxi):
+        lstporprecio=[]
+        
+        for l in oferlibrolist:
+            if min<=l.precio<=maxi:
+                lstporprecio.append(l)
+        
+        return lstporprecio
         
     
     def __str__(self):

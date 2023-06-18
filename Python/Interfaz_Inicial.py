@@ -25,6 +25,7 @@ class Interfaz():
         self.lista_super = []
         self.cliente = Cliente()
         self.mercado = Supermercado()
+        self.filtrolibro=0
 
     def venInicio(self):
 
@@ -540,13 +541,19 @@ También, permite agregar un nuevo supermercado al listado"""
 
             # Funcionalidad comprarLibro
             def comprarLibro():
-
+                
                 limpia_frame()
-
+                self.filtrolibro=0
+                
                 def mostraroferlibros(oferlibro):
                     limpia_frame()
                     oferlibros = oferlibro.copy()
-
+                    
+                    def borrarFiltros():
+                        self.filtrolibro=0
+                        mostraroferlibros(self.mercado.oferlibros)
+                    
+                    #Filtro #1
                     def filtroAutor():
                         autores = Libro.listaAutores(oferlibros)
 
@@ -554,7 +561,8 @@ También, permite agregar un nuevo supermercado al listado"""
 
                         def selectAutor(event):
                             selected_item = oferlibros[int(listboxAutores.get(listboxAutores.curselection())[0]) - 1]
-                            mostraroferlibros(Libro.filtrarporAutor(oferlibros, selected_item))
+                            self.filtrolibro=1
+                            mostraroferlibros(Libro.filtrarporAutor(oferlibros, selected_item.autor))
 
                         tk.Label(frame_zona2, text="Filtrar por autor", borderwidth=2, relief="solid", font="Times 13",
                                  bg="white").pack(pady=20)
@@ -569,7 +577,33 @@ También, permite agregar un nuevo supermercado al listado"""
                         listboxAutores.pack(pady=20)
 
                         listboxAutores.bind('<<ListboxSelect>>', selectAutor)
-
+                        
+                    #Filtro 2
+                    def filtroPrecio():
+                        limpia_frame()
+                        
+                        def defrango():
+                            precioField.valores=[x.get() for x in precioField.lst_entrys]
+                            self.filtrolibro=2
+                            mostraroferlibros(Libro.filtrarporPrecio(oferlibros, precioField.valores[0]
+                                                                     , precioField.valores[1]))
+                            
+                            
+                        tk.Label(frame_zona2, text="Filtrar por precio", borderwidth=2, relief="solid", font="Times 13",
+                                 bg="white").pack(pady=20)
+                                 
+                        tk.Label(frame_zona2, text="Aquí podrás filtrar los libros en un rango de precio", borderwidth=2, relief="solid", font="Times 13",
+                                 bg="white").pack(pady=20)
+                                 
+                        precioField=FieldFrame(frame_zona2, "Precios", ["Precio Mínimo","Precio Máximo"], "Valores", None, None)
+                        
+                        Aceptar = tk.Button(precioField, text="Aceptar", font="Times 13", command=defrango)
+                        Aceptar.grid(row=len(precioField.criterios) + 1, column=0, pady=10)
+                        
+                        
+                                 
+                        
+                        
                     def selectlibro(event):
 
                         selected_item = oferlibros[int(listbox_libros.get(listbox_libros.curselection())[0]) - 1]
@@ -582,7 +616,7 @@ También, permite agregar un nuevo supermercado al listado"""
                                 message="¡Libro agregado con éxito!\n\n¿Desea finalizar su compra?", title="Libro")
 
                             if otro:
-                                # Finalizar Compra
+                                finalizarCompra()
                                 pass
 
                             else:
@@ -593,7 +627,7 @@ También, permite agregar un nuevo supermercado al listado"""
                         tk.Label(frame_zona2, text=selected_item, borderwidth=2, relief="solid", font="Times 13",
                                  bg="white").pack(pady=20)
 
-                        tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13").pack(pady=10)
+                        tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13",command=agregarlibalcarro).pack(pady=10)
                         tk.Button(frame_zona2, text="Volver", font="Times 13", command=comprarLibro).pack()
 
                     L_antesdelistbox = tk.Label(frame_zona2, text="Estos son los libros que tenemos disponibles",
@@ -612,6 +646,12 @@ También, permite agregar un nuevo supermercado al listado"""
 
                     tk.Button(frame_zona2, text="Autor", font="Times 13", command=filtroAutor).pack(pady=10)
                     tk.Button(frame_zona2, text="Precio", font="Times 13").pack(pady=10)
+                    
+                    
+                    
+                    if self.filtrolibro!=0:
+                        tk.Button(frame_zona2, text="Quitar filtros", font="Times 13"
+                                  , command=borrarFiltros).pack(pady=10)
 
                     listbox_libros.bind('<<ListboxSelect>>', selectlibro)
 
