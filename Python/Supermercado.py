@@ -1,4 +1,3 @@
-
 class Supermercado():
     
     def __init__(self):
@@ -9,4 +8,3 @@ class Supermercado():
         self.ofernocarnicos=[]
         self.ofertv=[]
         self.ofercelular=[]
-
