@@ -1,6 +1,10 @@
+
+from ErrorAplicacion import *
 import tkinter as tk
+import regex as re
 from tkinter import messagebox
 from PIL import ImageTk, Image
+
 
 from Celular import Celular
 from FieldFrame import FieldFrame
@@ -160,19 +164,45 @@ class Interfaz():
                     # Boton Aceptar
                     def agregarLib():
                         bookfield.valores = [x.get() for x in bookfield.lst_entrys]
-
-                        libro = Libro(bookfield.valores[0], bookfield.valores[1], bookfield.valores[2]
-                                      , bookfield.valores[3], bookfield.valores[4], bookfield.valores[5]
-                                      , self.mercado)
-
-                        self.mercado.oferlibros.append(libro)
-
-                        otro = messagebox.askyesno(
-                            message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                            title="Producto")
-
-                        if otro:
-                            agregarprods()
+                        
+                        if "" in bookfield.valores:
+                            raise entrySinvalor
+                        else:
+                            
+                            try:
+                                if re.match(r"\D",bookfield.valores[0])==None:
+                                    buentipo=[crilibros[0],"palabras/letras"]
+                                    0/0
+                                if re.match(r"\D",bookfield.valores[1])==None:
+                                    buentipo=[crilibros[1],"palabras/letras"]
+                                    0/0
+                                if re.match(r"\D",bookfield.valores[2])==None:
+                                    buentipo=[crilibros[2],"palabras/letras"]
+                                    0/0
+                                buentipo=[crilibros[3],"un numero"]
+                                int(bookfield.valores[3])
+                                buentipo=[crilibros[4],"un numero"]
+                                int(bookfield.valores[4])
+                                buentipo=[crilibros[5],"un numero"]
+                                int(bookfield.valores[5])
+                                
+                                
+                                
+                                libro = Libro(bookfield.valores[0], bookfield.valores[1], bookfield.valores[2]
+                                              , bookfield.valores[3], bookfield.valores[4], bookfield.valores[5]
+                                              , self.mercado)
+        
+                                self.mercado.oferlibros.append(libro)
+        
+                                otro = messagebox.askyesno(
+                                    message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                    title="Producto")
+        
+                                if otro:
+                                    agregarprods()
+                            
+                            except:
+                                raise dtipoInvalido(buentipo[0],buentipo[1])
 
                     Aceptar = tk.Button(bookfield, text="Aceptar", font="Times 13", command=agregarLib)
                     Aceptar.grid(row=len(bookfield.criterios) + 1, column=0, pady=10)            
@@ -672,6 +702,11 @@ También, permite agregar un nuevo supermercado al listado"""
             # Funcionalidad comprarLibro
             def comprarLibro():
                 
+                if self.mercado.nombre==None:
+                    raise comprarSinEligirSup(selectsuper)
+                if self.cliente.nombre==None:
+                    raise comprarSinUsuario(IdenUsuario())
+                    
                 limpia_frame()
                 self.filtrolibro=0
                 
