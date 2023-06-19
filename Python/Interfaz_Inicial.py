@@ -28,7 +28,7 @@ class Interfaz():
         self.lista_celulares = []
         self.lista_super = []
         self.cliente = Cliente()
-        self.mercado = Supermercado()
+        self.mercado = None
         self.filtrolibro=0
 
     def venInicio(self):
@@ -210,7 +210,7 @@ class Interfaz():
                 # Obtiene los valores del frame anterior
                 if c_super.valores is None:
                     c_super.valores = [x.get() for x in c_super.lst_entrys]
-                self.mercado.nombre = c_super.getValue("Nombre")
+                self.mercado=Supermercado(c_super.getValue("Nombre"))
                 self.lista_super.append(self.mercado)
 
                 limpia_frame()
@@ -400,7 +400,7 @@ class Interfaz():
 
                     if not self.mercado.ofercarne == []:
                         for l in range(len(self.mercado.ofercarne)):
-                             listbox.insert(tk.END, str(l + 1) + ". " + self.mercado.ofercarne[l].nombre)
+                            listbox.insert(tk.END, str(l + 1) + ". " + self.mercado.ofercarne[l].nombre)
 
                     listbox.grid()
 
@@ -742,7 +742,7 @@ También, permite agregar un nuevo supermercado al listado"""
                 if self.mercado.nombre==None:
                     raise comprarSinEligirSup(selectsuper)
                 if self.cliente.nombre==None:
-                    raise comprarSinUsuario(IdenUsuario())
+                    raise comprarSinUsuario(IdenUsuario)
                     
                 limpia_frame()
                 self.filtrolibro=0

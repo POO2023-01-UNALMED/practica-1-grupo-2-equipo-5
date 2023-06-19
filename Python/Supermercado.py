@@ -1,7 +1,7 @@
 class Supermercado():
     
-    def __init__(self):
-        self.nombre=None
+    def __init__(self,nombre):
+        self.nombre=nombre
         self.oferlibros=[]
         self.ofercarne=[]
         self.ofercomi=[]
