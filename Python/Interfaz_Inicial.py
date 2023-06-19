@@ -11,6 +11,8 @@ from Supermercado import Supermercado
 from Libro import Libro
 import random
 
+from tabulate import tabulate
+
 from Tv import Tv
 
 from Carne import Carne
@@ -94,8 +96,29 @@ class Interfaz():
             def finalizarCompra():
                 limpia_frame()
 
-                tk.Label(frame_zona2, text="Carrito de compras", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text=f"BIENVENIDO AL CARRITO DE COMPRAS"
+                 f"\n***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***", borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").grid(row=0, columnspan=1,pady=8)
+            
+                # Cargar imagen 
+                imagenCarne = Image.open("CarritoComprass.jpg")
+                # Redimensionar la imagen si es necesario
+                imagenCarne = imagenCarne.resize((125, 125))
+                # Crear objeto PhotoImage y mantener una referencia
+                imagenCarne = ImageTk.PhotoImage(imagenCarne)
+
+                # Crear el widget Label para mostrar la imagen
+                carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
+                carne_label.image = imagenCarne
+                carne_label.grid(row=1, column=0)
+
+
+            
+
+
+
+
+
 
                 # Completar------------------
 
@@ -139,7 +162,7 @@ class Interfaz():
                                 title="Usuario")
                         
                             if otro:
-                                agregarprods()
+                                ofertaProductos()
                         except:
                             raise dtipoInvalido(buentipo[0], buentipo[1])
 
@@ -671,10 +694,20 @@ class Interfaz():
                                   f"\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                                   columnspan=5)
+                def carrito():
+                    self.cliente.carrito.append(objeto)
+                    otro = messagebox.askyesno(
+                                message="¡Producto agregado con éxito!\n\n¿Desea finalizar su compra?", title="Alimentos")
 
+                    if otro:
+                        finalizarCompra()
+                        pass
+                    else:
+                        ComprarAlimento(objeto, eleccion)
+                        
 
                 tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10),
-                              command=finalizarCompra).grid(row=3, column=2, pady=10)
+                              command=carrito).grid(row=3, column=2, pady=10)
 
                 tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
                               command=ofertaProductos).grid(row=4, column=2, pady=10)
@@ -691,9 +724,7 @@ class Interfaz():
                 elif eleccion == 3:
                     tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos+self.mercado.ofercarne, 3)).grid(row=5,
                                                                                                               column=2,
-                                                                                                              pady=10)
-
-                
+                                                                                                              pady=10)                
 
             # PARTE DE LOS ELECTRONICOS -----------------------------------------
 
@@ -1288,7 +1319,7 @@ en el supermercado seleccionado anteriormente"""
             menu_procesos.add_command(label="Seleccionar supermercado", command=selectsuper)
             menu_procesos.add_command(label="Comprar Libros", command=comprarLibro)
             # Aqui se agregarian las demas funcionalidades
-            menu_procesos.add_command(label="Ver carrito de compras")
+            menu_procesos.add_command(label="Ver carrito de compras",command=finalizarCompra)
             barra_usuario.add_cascade(menu=menu_procesos, label="Procesos y Consultas")
 
             menu_ayuda = tk.Menu(barra_usuario, tearoff=False)
