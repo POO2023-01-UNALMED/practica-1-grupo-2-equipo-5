@@ -1,10 +1,8 @@
-
 from ErrorAplicacion import *
 import tkinter as tk
 import regex as re
 from tkinter import messagebox
 from PIL import ImageTk, Image
-
 
 from Celular import Celular
 from FieldFrame import FieldFrame
@@ -28,8 +26,8 @@ class Interfaz():
         self.lista_celulares = []
         self.lista_super = []
         self.cliente = Cliente()
-        self.mercado = None
-        self.filtrolibro=0
+        self.mercado = Supermercado()
+        self.filtrolibro = 0
 
     def venInicio(self):
 
@@ -129,11 +127,11 @@ class Interfaz():
                 Aceptar.grid(row=len(identificadores.criterios) + 1, column=0, pady=10)
 
             # Boton crear supermercado
-            c_super = "" #Esto es para poder reutilizar el codigo de crear productos más adelante
+            c_super = ""  # Esto es para poder reutilizar el codigo de crear productos más adelante
+
             def crearsuper():
                 limpia_frame()
                 global c_super
-
 
                 tk.Label(frame_zona2, text="Crear Supermercado", borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
@@ -164,60 +162,61 @@ class Interfaz():
                     # Boton Aceptar
                     def agregarLib():
                         bookfield.valores = [x.get() for x in bookfield.lst_entrys]
-                        
+
                         if "" in bookfield.valores:
                             raise entrySinvalor
                         else:
-                            
+
                             try:
-                                if re.match(r"\D",bookfield.valores[0])==None:
-                                    buentipo=[crilibros[0],"palabras/letras"]
-                                    0/0
-                                if re.match(r"\D",bookfield.valores[1])==None:
-                                    buentipo=[crilibros[1],"palabras/letras"]
-                                    0/0
-                                if re.match(r"\D",bookfield.valores[2])==None:
-                                    buentipo=[crilibros[2],"palabras/letras"]
-                                    0/0
-                                buentipo=[crilibros[3],"un numero"]
+                                if re.match(r"\D", bookfield.valores[0]) == None:
+                                    buentipo = [crilibros[0], "palabras/letras"]
+                                    0 / 0
+                                if re.match(r"\D", bookfield.valores[1]) == None:
+                                    buentipo = [crilibros[1], "palabras/letras"]
+                                    0 / 0
+                                if re.match(r"\D", bookfield.valores[2]) == None:
+                                    buentipo = [crilibros[2], "palabras/letras"]
+                                    0 / 0
+                                buentipo = [crilibros[3], "un numero"]
                                 int(bookfield.valores[3])
-                                buentipo=[crilibros[4],"un numero"]
+                                buentipo = [crilibros[4], "un numero"]
                                 int(bookfield.valores[4])
-                                buentipo=[crilibros[5],"un numero"]
+                                buentipo = [crilibros[5], "un numero"]
                                 int(bookfield.valores[5])
-                                
-                                
-                                
+
                                 libro = Libro(bookfield.valores[0], bookfield.valores[1], bookfield.valores[2]
                                               , bookfield.valores[3], bookfield.valores[4], bookfield.valores[5]
                                               , self.mercado)
-        
+
                                 self.mercado.oferlibros.append(libro)
-        
+
                                 otro = messagebox.askyesno(
                                     message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
                                     title="Producto")
-        
+
                                 if otro:
                                     agregarprods()
-                            
+
                             except:
-                                raise dtipoInvalido(buentipo[0],buentipo[1])
+                                raise dtipoInvalido(buentipo[0], buentipo[1])
 
                     Aceptar = tk.Button(bookfield, text="Aceptar", font="Times 13", command=agregarLib)
-                    Aceptar.grid(row=len(bookfield.criterios) + 1, column=0, pady=10)            
+                    Aceptar.grid(row=len(bookfield.criterios) + 1, column=0, pady=10)
 
-                # Obtiene los valores del frame anterior
+                    # Obtiene los valores del frame anterior
+
                 if c_super.valores is None:
                     c_super.valores = [x.get() for x in c_super.lst_entrys]
-                self.mercado=Supermercado(c_super.getValue("Nombre"))
+                self.mercado.nombre = c_super.getValue("Nombre")
+
                 self.lista_super.append(self.mercado)
 
                 limpia_frame()
 
                 tk.Label(frame_zona2, text="Agregar Productos", borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
-                tk.Label(frame_zona2, text=f"¿Que productos deseas agregar al Supermercado {self.mercado.nombre}", borderwidth=2,
+                tk.Label(frame_zona2, text=f"¿Que productos deseas agregar al Supermercado {self.mercado.nombre}",
+                         borderwidth=2,
                          relief="solid", font="Times 13", bg="white").pack(pady=20)
 
                 # Botones para agregar diferentes tipos de producto
@@ -225,16 +224,19 @@ class Interfaz():
                 tk.Button(frame_zona2, text="Electronica", font="Times 13", command=agregarElectronica).pack(
                     pady=10)
                 tk.Button(frame_zona2, text="Alimentos", font="Times 13", command=AgregarAlimentos).pack(pady=10)
-            
+
                 # Flujo para agregar Alimentos
+
             def agregarCarnico():
                 limpia_frame()
 
-                tk.Label(frame_zona2, text=f"Agregar Alimentos Carnicos al Supermercado {self.mercado.nombre}", borderwidth=2,
+                tk.Label(frame_zona2, text=f"Agregar Alimentos Carnicos al Supermercado {self.mercado.nombre}",
+                         borderwidth=2,
                          relief="solid", font="Times 13", bg="white").pack(pady=20)
                 tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos Carnicos al Supermercado seleccionado",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
-                cricarne = ["Nombre", "Precio por Libra", "Tipo de Producto", "Peso en Libras", "Unidades que desea añadir"]
+                cricarne = ["Nombre", "Precio por Libra", "Tipo de Producto", "Peso en Libras",
+                            "Unidades que desea añadir"]
                 carnefield = FieldFrame(frame_zona2, "Datos del producto Carncio", cricarne, "Valores", None, None)
                 carnefield.pack()
 
@@ -243,7 +245,7 @@ class Interfaz():
                     carnefield.valores = [x.get() for x in carnefield.lst_entrys]
 
                     carne = Carne(carnefield.valores[0], carnefield.valores[1], carnefield.valores[2]
-                            ,carnefield.valores[3], carnefield.valores[4], self.mercado)
+                                  , carnefield.valores[3], carnefield.valores[4], self.mercado)
 
                     self.mercado.ofercarne.append(carne)
 
@@ -255,21 +257,23 @@ class Interfaz():
                         agregarprods()
                     else:
                         crearsuper()
-                
+
                 aceptar = tk.Button(carnefield, text="Aceptar", font="Times 13", command=agregarCarne)
                 aceptar.grid(row=len(carnefield.criterios) + 1, column=0, pady=10)
-
 
             def agregarnoCarnicos():
                 limpia_frame()
 
-                tk.Label(frame_zona2, text=f"Agregar Alimentos noCarnicos al Supermercado {self.mercado.nombre}", borderwidth=2,
+                tk.Label(frame_zona2, text=f"Agregar Alimentos noCarnicos al Supermercado {self.mercado.nombre}",
+                         borderwidth=2,
                          relief="solid", font="Times 13", bg="white").pack(pady=20)
                 tk.Label(frame_zona2, text="Aquí podrá agregar Alimentos noCarnicos al Supermercado seleccionado",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
 
-                crinocarnes = ["Nombre", "Precio","Categoria:1.Granos / 2.Lacteos / 3.Verduras / 4.Otros", "Cantidad unidades que desea añadir"]
-                nocarnefield = FieldFrame(frame_zona2, "Datos del producto noCarncio", crinocarnes, "Valores", None, None)
+                crinocarnes = ["Nombre", "Precio", "Categoria:1.Granos / 2.Lacteos / 3.Verduras / 4.Otros",
+                               "Cantidad unidades que desea añadir"]
+                nocarnefield = FieldFrame(frame_zona2, "Datos del producto noCarncio", crinocarnes, "Valores", None,
+                                          None)
                 nocarnefield.pack()
 
                 # Boton Aceptar
@@ -277,7 +281,7 @@ class Interfaz():
                     nocarnefield.valores = [x.get() for x in nocarnefield.lst_entrys]
 
                     nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1], nocarnefield.valores[2]
-                            ,nocarnefield.valores[3], self.mercado)
+                                         , nocarnefield.valores[3], self.mercado)
 
                     self.mercado.ofernocarnicos.append(nocarne)
 
@@ -289,10 +293,10 @@ class Interfaz():
                         agregarprods()
                     else:
                         crearsuper()
-                
+
                 aceptar = tk.Button(nocarnefield, text="Aceptar", font="Times 13", command=agregarnoCarne)
                 aceptar.grid(row=len(nocarnefield.criterios) + 1, column=0, pady=10)
-            
+
             def AgregarAlimentos():
                 limpia_frame()
                 tk.Label(frame_zona2,
@@ -309,17 +313,17 @@ class Interfaz():
                 # Redimensionar la imagen si es necesario
                 imagenCarne = imagenCarne.resize((200, 200))
                 # Crear objeto PhotoImage y mantener una referencia
-                imagenCarne = ImageTk.PhotoImage(imagenCarne) 
+                imagenCarne = ImageTk.PhotoImage(imagenCarne)
 
                 # Crear el widget Label para mostrar la imagen de Carnicos
                 carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
                 carne_label.image = imagenCarne
-                carne_label.grid(row=1, column=0)     
+                carne_label.grid(row=1, column=0)
 
                 tk.Button(frame_zona2, text="Carnicos", font="Times 13", command=agregarCarnico).grid(row=2,
-                                                                                                   column=0,
-                                                                                                   pady=20)
-                                                                         
+                                                                                                      column=0,
+                                                                                                      pady=20)
+
                 # Cargar la imagen de noCarnicos
                 imagennoCarne = Image.open("noCarnico.jpg")
                 # Redimensionar la imagen si es necesario
@@ -333,8 +337,8 @@ class Interfaz():
                 nocarne_label.grid(row=1, column=1)
 
                 tk.Button(frame_zona2, text="noCarnico", font="Times 13", command=agregarnoCarnicos).grid(row=2,
-                                                                                                     column=1,
-                                                                                                     pady=20)
+                                                                                                          column=1,
+                                                                                                          pady=20)
 
             # Funcionalidad Alimentos                                                                                          
             def MenuAlimentos():
@@ -354,49 +358,59 @@ class Interfaz():
                 # Redimensionar la imagen si es necesario
                 opcCarne = opcCarne.resize((180, 180))
                 # Crear objeto PhotoImage y mantener una referencia
-                opcCarne = ImageTk.PhotoImage(opcCarne) 
+                opcCarne = ImageTk.PhotoImage(opcCarne)
 
                 # Crear el widget Label para mostrar la imagen de Carnicos
                 Opcarne_label = tk.Label(frame_zona2, image=opcCarne, relief="solid")
                 Opcarne_label.image = opcCarne
-                Opcarne_label.grid(row=2, column=0)     
+                Opcarne_label.grid(row=2, column=0)
 
-                tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS CARNICOS", font="Times 13", command=ofertaCarnicos).grid(row=3,
-                                                                                                     column=0,
-                                                                                                     pady=10)
+                tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS CARNICOS", font="Times 13",
+                          command=ofertaCarnicos).grid(row=3,
+                                                       column=0,
+                                                       pady=10)
 
-                tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS noCARNICOS", font="Times 13", command=agregarnoCarnicos).grid(row=4,
-                                                                                                     column=0,
-                                                                                                     pady=15)
+                tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS noCARNICOS", font="Times 13",
+                          command=agregarnoCarnicos).grid(row=4,
+                                                          column=0,
+                                                          pady=15)
 
-                tk.Button(frame_zona2, text="!COMPRAR ALIMENTOS CARNICOS Y noCARNICOS", font="Times 13", command=agregarnoCarnicos).grid(row=5,
-                                                                                                     column=0,
-                                                                                                     pady=15)                                                                                     
+                tk.Button(frame_zona2, text="!COMPRAR ALIMENTOS CARNICOS Y noCARNICOS", font="Times 13",
+                          command=agregarnoCarnicos).grid(row=5,
+                                                          column=0,
+                                                          pady=15)
 
             def ofertaCarnicos():
                 limpia_frame()
                 if (len(self.mercado.ofercarne) == 0):
                     tk.Label(frame_zona2, text="Esta seccion no tiene productos \n\n:(\n\n¿Desea ingresar un producto?",
-                            borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=30, ipadx=16,ipady=15,columnspan=3)
-                    tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command = agregarCarnico).grid(row=1, column=2, pady = 20) 
-                    tk.Button(frame_zona2, text="No, ir a otra Sección", font=("Times 13", 16), command = ofertaProductos).grid(row=2, column=2, pady = 20)
+                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=30, ipadx=16,
+                                                                                              ipady=15, columnspan=3)
+                    tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCarnico).grid(row=1,
+                                                                                                          column=2,
+                                                                                                          pady=20)
+                    tk.Button(frame_zona2, text="No, ir a otra Sección", font=("Times 13", 16),
+                              command=ofertaProductos).grid(row=2, column=2, pady=20)
                 else:
                     # funcion de los botones del listbox
                     def listboxselectCarne(event):
-                       
+
                         selected_item = self.mercado.ofercarne[int(listbox.get(listbox.curselection())[0]) - 1]
 
-                        tk.Label(frame_zona2, text= ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid", font="Times 13",
+                        tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid",
+                                 font="Times 13",
                                  bg="white").pack(pady=20)
 
-                    #Presentación de bienvenida
-                    tk.Label(frame_zona2, text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
-                            borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5,ipady=5,columnspan=5, row = 0)
+                    # Presentación de bienvenida
+                    tk.Label(frame_zona2,
+                             text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
+                                                                                              columnspan=5, row=0)
 
-                    #Se crea el listbox para mostrar los productos
+                    # Se crea el listbox para mostrar los productos
                     listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
 
-                    listbox.grid(row=1, column=2)  
+                    listbox.grid(row=1, column=2)
 
                     if not self.mercado.ofercarne == []:
                         for l in range(len(self.mercado.ofercarne)):
@@ -406,43 +420,48 @@ class Interfaz():
 
                     listbox.bind('<<ListboxSelect>>', listboxselectCarne)
 
-                    #Se muestra las opciones adicionales de filtros e ir a otras secciones
+                    # Se muestra las opciones adicionales de filtros e ir a otras secciones
                     tk.Label(frame_zona2, text="***Opciones adcionales***",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, row = 2, column=2)
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                              row=2, column=2)
 
-                    tk.Button(frame_zona2, text="Filtrar por tipo de carne", font=("Times 12", 10), command = lambda: filtrosAliementos(1)).grid(row=3, column=2, pady = 8) 
-                    tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10), command = MenuAlimentos).grid(row=4, column=2, pady = 8)
-                    tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10), command = ofertaProductos).grid(row=5, column=2, pady = 8)
-
+                    tk.Button(frame_zona2, text="Filtrar por tipo de carne", font=("Times 12", 10),
+                              command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                    tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
+                              command=MenuAlimentos).grid(row=4, column=2, pady=8)
+                    tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
+                              command=ofertaProductos).grid(row=5, column=2, pady=8)
 
             def filtrosAliementos(fil_Alim):
                 limpia_frame()
 
-                if fil_Alim == 1:#filtro por tipo de carne        
+                if fil_Alim == 1:  # filtro por tipo de carne
 
                     tk.Label(frame_zona2, text=f"***Bienvenido al filtro por tipo de Carne***"
-                     f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, row = 1, column=2)
-                                                            
+                                               f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                              row=1, column=2)
+
                     tipoCarne = Carne.listaTipos(self.mercado.ofercarne)
 
-                      #Se define el metodo para mostrar la listabox
+                    # Se define el metodo para mostrar la listabox
                     def listbox_filtroCarne(event):
 
                         selected_item = tipoCarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
-                        #Comprar el alimento escogido
-                        tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid", font="Times 13",
+                        # Comprar el alimento escogido
+                        tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid",
+                                 font="Times 13",
                                  bg="white").grid(pady=20)
 
-                    #Se crea el listbox para mostrar los productos
-                    listbox_f= tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    # Se crea el listbox para mostrar los productos
+                    listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
 
-                    listbox_f.grid(row=2, column=2)  
+                    listbox_f.grid(row=2, column=2)
 
                     if not tipoCarne == []:
                         for k in range(len(tipoCarne)):
-                            listbox_f.insert(tk.END, str(k + 1) + ". " +tipoCarne[k])
+                            listbox_f.insert(tk.END, str(k + 1) + ". " + tipoCarne[k])
 
                     listbox_f.grid()
 
@@ -451,59 +470,74 @@ class Interfaz():
                     def mostrar_filtro(selected_item):
 
                         def lista_filtro(event):
-                        
+
                             selected_item2 = self.mercado.ofercarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
-                            #Comprar el alimento escogido
-                            tk.Label(frame_zona2, text = ComprarAlimento(selected_item2,1), borderwidth=2, relief="solid", font="Times 13",
-                                 bg="white").grid(pady=20)
+                            # Comprar el alimento escogido
+                            tk.Label(frame_zona2, text=ComprarAlimento(selected_item2, 1), borderwidth=2,
+                                     relief="solid", font="Times 13",
+                                     bg="white").grid(pady=20)
 
-                        #Se crea el listbox para mostrar los productos
-                        listbox_f= tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                        # Se crea el listbox para mostrar los productos
+                        listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
                         listbox_f.grid(row=5, column=2)
 
                         if not self.mercado.ofercarne == []:
                             for j in range(len(self.mercado.ofercarne)):
                                 if self.mercado.ofercarne[j].tipo == selected_item:
-                                    listbox_f.insert(tk.END, str(j + 1) + ". " +self.mercado.ofercarne[j].nombre)
+                                    listbox_f.insert(tk.END, str(j + 1) + ". " + self.mercado.ofercarne[j].nombre)
 
                         listbox_f.grid()
 
                         listbox_f.bind('<<ListboxSelect>>', lista_filtro)
 
-                        tk.Label(frame_zona2, text=f"**Escoja la oferta que desee comprar**\nEl resultado para la carne {selected_item} es",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, row = 4, column=2)
-
+                        tk.Label(frame_zona2,
+                                 text=f"**Escoja la oferta que desee comprar**\nEl resultado para la carne {selected_item} es",
+                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
+                                                                                                  ipady=2, row=4,
+                                                                                                  column=2)
 
             def ComprarAlimento(objeto, eleccion):
                 limpia_frame()
 
                 tk.Label(frame_zona2, text="SECCIÓN DE COMPRAS DE ALIMENTOS",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,columnspan=5)
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                          columnspan=5)
 
-                if eleccion == 1:#comprar Carne
+                if eleccion == 1:  # comprar Carne
                     tk.Label(frame_zona2, text=f"Has seleccionado la Oferta {objeto.nombre}",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, columnspan=5)
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                              columnspan=5)
 
-                    tk.Label(frame_zona2, text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
-                    f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
-                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, columnspan=5)
+                    tk.Label(frame_zona2,
+                             text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
+                                  f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                              columnspan=5)
 
-                    tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10), command = finalizarCompra).grid(row=3, column=2, pady = 10)
+                    tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10),
+                              command=finalizarCompra).grid(row=3, column=2, pady=10)
 
-                    tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10), command = ofertaProductos).grid(row=4, column=2, pady = 10)
+                    tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
+                              command=ofertaProductos).grid(row=4, column=2, pady=10)
 
-                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command = ofertaCarnicos).grid(row=5, column=2, pady = 10)
-                
-                    
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=ofertaCarnicos).grid(row=5,
+                                                                                                              column=2,
+                                                                                                              pady=10)
+
                     print("Es usted menor de edad.")
-                elif eleccion == 2:#Comprar noCarnicos
-                    
+                elif eleccion == 2:  # Comprar noCarnicos
+
                     print("Es usted menor de edad.")
-                elif eleccion == 3:#Comprar Carnicos y noCarnicos
-                    
+                elif eleccion == 3:  # Comprar Carnicos y noCarnicos
+
                     print("Es usted menor de edad.")
 
+            # PARTE DE LOS ELECTRONICOS -----------------------------------------
+
+            def filtrosCelular(filtro_seleccionado):
+                if (filtro_seleccionado == 1):  # Filtro por nombre
+                    pass
 
             def agregarTvs():
                 limpia_frame()
@@ -520,21 +554,42 @@ class Interfaz():
                 # Boton Aceptar
                 def agregarTv():
                     tvfield.valores = [x.get() for x in tvfield.lst_entrys]
-
-                    tv = Tv(tvfield.valores[0], tvfield.valores[1], tvfield.valores[2]
-                            , tvfield.valores[3], tvfield.valores[4], tvfield.valores[5]
-                            , self.mercado)
-
-                    self.mercado.ofercarne.append(tv)
-
-                    otro = messagebox.askyesno(
-                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                        title="Producto")
-
-                    if otro:
-                        agregarprods()
+                    if "" in tvfield.valores:
+                        raise entrySinvalor
                     else:
-                        crearsuper()
+                        try:
+                            if re.match(r"\D", tvfield.valores[0]) == None:
+                                buentipo = [critv[0], "palabras/letras"]  # Parametro nombre
+                                0 / 0
+                            if re.match(r"\D", tvfield.valores[1]) == None:
+                                buentipo = [critv[1], "palabras/letras"]  # Parametro marca
+                                0 / 0
+                            buentipo = [critv[2], "un numero"]  # Parametro pulgadas
+                            int(tvfield.valores[2])
+                            if re.match(r"\D", tvfield.valores[3]) == None:
+                                buentipo = [critv[3], "palabras/letras"]  # Resolucion
+                                0 / 0
+
+                            buentipo = [critv[4], "un numero"]  # Precio
+                            int(tvfield.valores[4])
+                            buentipo = [critv[5], "un numero"]  # Cantidad
+                            int(tvfield.valores[5])
+
+                            tv = Tv(tvfield.valores[0], tvfield.valores[1], tvfield.valores[2]
+                                    , tvfield.valores[3], tvfield.valores[4], tvfield.valores[5]
+                                    , self.mercado)
+                            self.mercado.ofercarne.append(tv)
+
+                            otro = messagebox.askyesno(
+                                message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                title="Producto")
+
+                            if otro:
+                                agregarprods()
+                            else:
+                                crearsuper()
+                        except:
+                            raise dtipoInvalido(buentipo[0], buentipo[1])
 
                 aceptar = tk.Button(tvfield, text="Aceptar", font="Times 13", command=agregarTv)
                 aceptar.grid(row=len(tvfield.criterios) + 1, column=0, pady=10)
@@ -555,33 +610,59 @@ class Interfaz():
                 # Boton Aceptar
                 def agregarCel():
                     celfield.valores = [x.get() for x in celfield.lst_entrys]
-
-                    celular = Celular(celfield.valores[0], celfield.valores[1], celfield.valores[2]
-                                      , celfield.valores[3], celfield.valores[4], celfield.valores[5],
-                                      celfield.valores[6], celfield.valores[7], celfield.valores[8],
-                                      self.mercado)
-
-                    self.mercado.ofercelular.append(celular)
-
-                    otro = messagebox.askyesno(
-                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                        title="Producto")
-
-                    if otro:
-                        agregarprods()
+                    if "" in celfield.valores:
+                        raise entrySinvalor
                     else:
-                        crearsuper()
+                        try:
+                            if re.match(r"\D", celfield.valores[0]) == None:
+                                buentipo = [cricelulares[0], "palabras/letras"]  # Parametro nombre
+                                0 / 0
+                            if re.match(r"\D", celfield.valores[1]) == None:
+                                buentipo = [cricelulares[1], "palabras/letras"]  # Parametro marca
+                                0 / 0
+                            buentipo = [cricelulares[2], "un numero"]  # Parametro Almacenamiento
+                            int(celfield.valores[2])
+                            buentipo = [cricelulares[3], "un numero"]  # Parametro Camaras
+                            int(celfield.valores[3])
+                            buentipo = [cricelulares[4], "un numero"]  # Parametro Bateria
+                            int(celfield.valores[4])
+                            if re.match(r"\D", celfield.valores[5]) == None:
+                                buentipo = [cricelulares[5], "palabras/letras"]  # Parametro Color
+                                0 / 0
+                            buentipo = [cricelulares[6], "un numero"]  # Parametro Ram
+                            int(celfield.valores[6])
+                            buentipo = [cricelulares[7], "un numero"]  # Precio
+                            int(celfield.valores[7])
+                            buentipo = [cricelulares[8], "un numero"]  # Cantidad
+                            int(celfield.valores[8])
+
+                            celular = Celular(celfield.valores[0], celfield.valores[1], celfield.valores[2]
+                                              , celfield.valores[3], celfield.valores[4], celfield.valores[5],
+                                              celfield.valores[6], celfield.valores[7], celfield.valores[8],
+                                              self.mercado)
+
+                            self.mercado.ofercelular.append(celular)
+
+                            otro = messagebox.askyesno(
+                                message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                title="Producto")
+
+                            if otro:
+                                agregarprods()
+                            else:
+                                crearsuper()
+                        except:
+                            raise dtipoInvalido(buentipo[0], buentipo[1])
 
                 aceptar = tk.Button(celfield, text="Aceptar", font="Times 13", command=agregarCel)
                 aceptar.grid(row=len(celfield.criterios) + 1, column=0, pady=10)
+
             def agregarElectronica():
                 limpia_frame()
                 tk.Label(frame_zona2,
                          text=f"¿Que tipo de productos electronicos deseas agregar a {self.mercado.nombre}?",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(row=0, columnspan=2,
                                                                                           pady=30)
-
-
 
                 # Flujo para agregar un producto electrónico
 
@@ -616,13 +697,14 @@ class Interfaz():
                 tk.Button(frame_zona2, text="Celular", font="Times 13", command=agregarCelular).grid(row=2,
                                                                                                      column=1,
                                                                                                      pady=20)
+
             def ofertaProductos():
                 limpia_frame()
 
                 tk.Label(frame_zona2,
                          text=f"Estos son los productos que tenemos disponibles en el Supermercado {self.mercado.nombre}",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=25, ipadx=15, ipady=10)
-                    
+
                 # Cargar la imagen
                 imagenCelular = Image.open("Secciones.jpg")
                 # Redimensionar la imagen si es necesario
@@ -638,14 +720,18 @@ class Interfaz():
                 def ofertaElectronico():
                     limpia_frame()
                     tk.Label(frame_zona2, text="¿Que tipo de producto electronico deseas?", borderwidth=2,
-                             relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15, ipady=10, columnspan=2)
+                             relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15, ipady=10,
+                                                                               columnspan=2)
 
                     def ofertaCelulares():
                         limpia_frame()
                         if (len(self.mercado.ofercelular) == 0):
                             tk.Label(frame_zona2, text="Este supermercado no tiene celulares :(\n¿Deseas crear uno?",
-                                     borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15,ipady=10,columnspan=2)
-                            tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCelular).grid(row=1, column=0)  # Creo que si lo pude implementar
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15,
+                                                                                                      ipady=10,
+                                                                                                      columnspan=2)
+                            tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCelular).grid(row=1,
+                                                                                                                  column=0)  # Creo que si lo pude implementar
                             tk.Button(frame_zona2, text="No", font=("Times 13", 16)).grid(row=1, column=1)
                         else:
                             # funcion de los botones del listbox
@@ -660,7 +746,7 @@ class Interfaz():
 
                             tk.Label(frame_zona2, text="Seleccionar Celular", borderwidth=2, relief="solid",
                                      font="Times 13",
-                                     bg="white").pack(pady=20)
+                                     bg="white").grid(pady=20)
 
                             descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
 
@@ -668,11 +754,11 @@ class Interfaz():
 
                             tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
                                      font="Times 13",
-                                     bg="white").pack(pady=20)
+                                     bg="white").grid(pady=20)
 
                             tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
                                      font="Times 13",
-                                     bg="white", fg="red").pack(pady=20)
+                                     bg="white", fg="red").grid(pady=20)
 
                             listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
                                                  bg="white")
@@ -681,17 +767,46 @@ class Interfaz():
                                 for s in self.mercado.ofercelular:
                                     listbox.insert(tk.END, s.nombre)
 
-                            listbox.pack()
+                            listbox.grid()
 
                             listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                            # Se muestra las opciones adicionales de filtros e ir a otras secciones
+                            tk.Label(frame_zona2, text="***Opciones adcionales***",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
+                                                                                                      ipady=2, row=2,
+                                                                                                      column=2)
 
-                    tk.Button(frame_zona2, text="Celular", font=("Times 13", 16), command=ofertaCelulares).grid(column=0, row=1)
+                            tk.Button(frame_zona2, text="Filtrar por nombre de celular", font=("Times 12", 10),
+                                      command=lambda: filtrosCelular(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por marca de celular", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por almacenamiento", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por número de camaras", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por bateria", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por color de celular", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por ram", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por precio", font=("Times 12", 10),
+                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+
+                            tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
+                                      command=MenuAlimentos).grid(row=4, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
+                                      command=ofertaProductos).grid(row=5, column=2, pady=8)
+
+                    tk.Button(frame_zona2, text="Celular", font=("Times 13", 16), command=ofertaCelulares).grid(
+                        column=0, row=1)
                     tk.Button(frame_zona2, text="Televisor", font=("Times 13", 16)).grid(column=1, row=1)
 
                 tk.Button(frame_zona2, text="Libros", font="Times 13", command=comprarLibro).grid(pady=15)
                 tk.Button(frame_zona2, text="Electronios", font="Times 13", command=ofertaElectronico).grid(pady=15)
-                tk.Button(frame_zona2, text="Alimentos", font="Times 13", command= MenuAlimentos).grid(pady=15)
+                tk.Button(frame_zona2, text="Alimentos", font="Times 13", command=MenuAlimentos).grid(pady=15)
 
+            # ENDS PARTE ELECTONICOS ---------------------------------------------------------
             # Boton seleccionar supermercado
             def selectsuper():
 
@@ -738,24 +853,24 @@ También, permite agregar un nuevo supermercado al listado"""
 
             # Funcionalidad comprarLibro
             def comprarLibro():
-                
-                if self.mercado.nombre==None:
+
+                if self.mercado.nombre == None:
                     raise comprarSinEligirSup(selectsuper)
-                if self.cliente.nombre==None:
+                if self.cliente.nombre == None:
                     raise comprarSinUsuario(IdenUsuario)
-                    
+
                 limpia_frame()
-                self.filtrolibro=0
-                
+                self.filtrolibro = 0
+
                 def mostraroferlibros(oferlibro):
                     limpia_frame()
                     oferlibros = oferlibro.copy()
-                    
+
                     def borrarFiltros():
-                        self.filtrolibro=0
+                        self.filtrolibro = 0
                         mostraroferlibros(self.mercado.oferlibros)
-                    
-                    #Filtro #1
+
+                    # Filtro #1
                     def filtroAutor():
                         autores = Libro.listaAutores(oferlibros)
 
@@ -763,7 +878,7 @@ También, permite agregar un nuevo supermercado al listado"""
 
                         def selectAutor(event):
                             selected_item = oferlibros[int(listboxAutores.get(listboxAutores.curselection())[0]) - 1]
-                            self.filtrolibro=1
+                            self.filtrolibro = 1
                             mostraroferlibros(Libro.filtrarporAutor(oferlibros, selected_item.autor))
 
                         tk.Label(frame_zona2, text="Filtrar por autor", borderwidth=2, relief="solid", font="Times 13",
@@ -779,33 +894,30 @@ También, permite agregar un nuevo supermercado al listado"""
                         listboxAutores.pack(pady=20)
 
                         listboxAutores.bind('<<ListboxSelect>>', selectAutor)
-                        
-                    #Filtro 2
+
+                    # Filtro 2
                     def filtroPrecio():
                         limpia_frame()
-                        
+
                         def defrango():
-                            precioField.valores=[x.get() for x in precioField.lst_entrys]
-                            self.filtrolibro=2
+                            precioField.valores = [x.get() for x in precioField.lst_entrys]
+                            self.filtrolibro = 2
                             mostraroferlibros(Libro.filtrarporPrecio(oferlibros, precioField.valores[0]
                                                                      , precioField.valores[1]))
-                            
-                            
+
                         tk.Label(frame_zona2, text="Filtrar por precio", borderwidth=2, relief="solid", font="Times 13",
                                  bg="white").pack(pady=20)
-                                 
-                        tk.Label(frame_zona2, text="Aquí podrás filtrar los libros en un rango de precio", borderwidth=2, relief="solid", font="Times 13",
+
+                        tk.Label(frame_zona2, text="Aquí podrás filtrar los libros en un rango de precio",
+                                 borderwidth=2, relief="solid", font="Times 13",
                                  bg="white").pack(pady=20)
-                                 
-                        precioField=FieldFrame(frame_zona2, "Precios", ["Precio Mínimo","Precio Máximo"], "Valores", None, None)
-                        
+
+                        precioField = FieldFrame(frame_zona2, "Precios", ["Precio Mínimo", "Precio Máximo"], "Valores",
+                                                 None, None)
+
                         Aceptar = tk.Button(precioField, text="Aceptar", font="Times 13", command=defrango)
                         Aceptar.grid(row=len(precioField.criterios) + 1, column=0, pady=10)
-                        
-                        
-                                 
-                        
-                        
+
                     def selectlibro(event):
 
                         selected_item = oferlibros[int(listbox_libros.get(listbox_libros.curselection())[0]) - 1]
@@ -829,7 +941,8 @@ También, permite agregar un nuevo supermercado al listado"""
                         tk.Label(frame_zona2, text=selected_item, borderwidth=2, relief="solid", font="Times 13",
                                  bg="white").pack(pady=20)
 
-                        tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13",command=agregarlibalcarro).pack(pady=10)
+                        tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13",
+                                  command=agregarlibalcarro).pack(pady=10)
                         tk.Button(frame_zona2, text="Volver", font="Times 13", command=comprarLibro).pack()
 
                     L_antesdelistbox = tk.Label(frame_zona2, text="Estos son los libros que tenemos disponibles",
@@ -848,10 +961,8 @@ También, permite agregar un nuevo supermercado al listado"""
 
                     tk.Button(frame_zona2, text="Autor", font="Times 13", command=filtroAutor).pack(pady=10)
                     tk.Button(frame_zona2, text="Precio", font="Times 13").pack(pady=10)
-                    
-                    
-                    
-                    if self.filtrolibro!=0:
+
+                    if self.filtrolibro != 0:
                         tk.Button(frame_zona2, text="Quitar filtros", font="Times 13"
                                   , command=borrarFiltros).pack(pady=10)
 
@@ -933,7 +1044,7 @@ en el supermercado seleccionado anteriormente"""
         # bio Ruben
         def mbioR():
             biografia_Text.delete("1.0", tk.END)
-            bioR="Nombre: Ruben Urías Salas Higuita\nFecha/Lugar de nacimiento:2/09/1995 - Medellín Antioquia"+"\nPresentación:Apasionado por la tecnología, leer,la musica,Jugar video juegos y salir a conocer/aprender del mundo"
+            bioR = "Nombre: Ruben Urías Salas Higuita\nFecha/Lugar de nacimiento:2/09/1995 - Medellín Antioquia" + "\nPresentación:Apasionado por la tecnología, leer,la musica,Jugar video juegos y salir a conocer/aprender del mundo"
             biografia_Text.insert(tk.END, bioR)
 
         # cambiamos las imagenes de P4

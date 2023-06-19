@@ -1,10 +1,10 @@
 class Supermercado():
-    
-    def __init__(self,nombre):
-        self.nombre=nombre
-        self.oferlibros=[]
-        self.ofercarne=[]
-        self.ofercomi=[]
-        self.ofernocarnicos=[]
-        self.ofertv=[]
-        self.ofercelular=[]
+
+    def __init__(self):
+        self.nombre = None
+        self.oferlibros = []
+        self.ofercarne = []
+        self.ofercomi = []
+        self.ofernocarnicos = []
+        self.ofertv = []
+        self.ofercelular = []
