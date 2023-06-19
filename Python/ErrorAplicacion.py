@@ -32,6 +32,7 @@ class noesISBN(ErrorLogico):
     def __init__(self,lendigits):
         super().__init__("Error: Este no es un código ISBN. El código debe tener 13 dígitos")
         messagebox.showerror("Error", f"Ese no es un código ISBN: El código debe tener 13 dígitos.\nIngresaste: {lendigits}")
+        
 #Falta aplicar este
 class saldoInsuficiente(ErrorLogico):
     def __init__(self):
