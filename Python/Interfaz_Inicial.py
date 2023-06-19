@@ -305,9 +305,9 @@ class Interfaz():
                                                                                           pady=35)
 
                 # Cargar imagen Carnicos
-                imagenCarne = Image.open("Carne.jpg")
+                imagenCarne = Image.open("Carnes.jpg")
                 # Redimensionar la imagen si es necesario
-                imagenCarne = imagenCarne.resize((170, 170))
+                imagenCarne = imagenCarne.resize((200, 200))
                 # Crear objeto PhotoImage y mantener una referencia
                 imagenCarne = ImageTk.PhotoImage(imagenCarne) 
 
@@ -323,7 +323,7 @@ class Interfaz():
                 # Cargar la imagen de noCarnicos
                 imagennoCarne = Image.open("noCarnico.jpg")
                 # Redimensionar la imagen si es necesario
-                imagennoCarne = imagennoCarne.resize((170, 170))
+                imagennoCarne = imagennoCarne.resize((200, 200))
                 # Crear objeto PhotoImage y mantener una referencia
                 imagennoCarne = ImageTk.PhotoImage(imagennoCarne)
 
@@ -418,37 +418,62 @@ class Interfaz():
             def filtrosAliementos(fil_Alim):
                 limpia_frame()
 
-                if fil_Alim == 1:#filtro por tipo de carne
-
-                    tipoCarne = []
+                if fil_Alim == 1:#filtro por tipo de carne        
 
                     tk.Label(frame_zona2, text=f"***Bienvenido al filtro por tipo de Carne***"
-                    f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
+                     f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, row = 1, column=2)
+                                                            
+                    tipoCarne = Carne.listaTipos(self.mercado.ofercarne)
 
-                    #Se define el metodo para mostrar la listabox
+                      #Se define el metodo para mostrar la listabox
                     def listbox_filtroCarne(event):
-                       
+
                         selected_item = tipoCarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
                         #Comprar el alimento escogido
-                        tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid", font="Times 13",
-                                 bg="white").pack(pady=20)
+                        tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid", font="Times 13",
+                                 bg="white").grid(pady=20)
 
                     #Se crea el listbox para mostrar los productos
                     listbox_f= tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
 
                     listbox_f.grid(row=2, column=2)  
 
-                    if not self.mercado.ofercarne == []:
-                        for k in range(len(self.mercado.ofercarne)):
-                            if  self.mercado.ofercarne[k].tipo not in tipoCarne:
-                                listbox_f.insert(tk.END, str(k + 1) + ". " +self.mercado.ofercarne[k].tipo)
-                                tipoCarne.append(self.mercado.ofercarne[k].tipo)
+                    if not tipoCarne == []:
+                        for k in range(len(tipoCarne)):
+                            listbox_f.insert(tk.END, str(k + 1) + ". " +tipoCarne[k])
 
                     listbox_f.grid()
 
                     listbox_f.bind('<<ListboxSelect>>', listbox_filtroCarne)
+
+                    def mostrar_filtro(selected_item):
+
+                        def lista_filtro(event):
+                        
+                            selected_item2 = self.mercado.ofercarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
+
+                            #Comprar el alimento escogido
+                            tk.Label(frame_zona2, text = ComprarAlimento(selected_item2,1), borderwidth=2, relief="solid", font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        #Se crea el listbox para mostrar los productos
+                        listbox_f= tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                        listbox_f.grid(row=5, column=2)
+
+                        if not self.mercado.ofercarne == []:
+                            for j in range(len(self.mercado.ofercarne)):
+                                if self.mercado.ofercarne[j].tipo == selected_item:
+                                    listbox_f.insert(tk.END, str(j + 1) + ". " +self.mercado.ofercarne[j].nombre)
+
+                        listbox_f.grid()
+
+                        listbox_f.bind('<<ListboxSelect>>', lista_filtro)
+
+                        tk.Label(frame_zona2, text=f"**Escoja la oferta que desee comprar**\nEl resultado para la carne {selected_item} es",
+                            borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2, row = 4, column=2)
+
 
             def ComprarAlimento(objeto, eleccion):
                 limpia_frame()
@@ -595,8 +620,20 @@ class Interfaz():
                 limpia_frame()
 
                 tk.Label(frame_zona2,
-                         text=f"Estos son los productos que tenemos disponibles en el Supermercado: {self.mercado.nombre}",
-                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15, ipady=10)
+                         text=f"Estos son los productos que tenemos disponibles en el Supermercado {self.mercado.nombre}",
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=25, ipadx=15, ipady=10)
+                    
+                # Cargar la imagen
+                imagenCelular = Image.open("Secciones.jpg")
+                # Redimensionar la imagen si es necesario
+                imagenCelular = imagenCelular.resize((250, 250))
+                # Crear objeto PhotoImage y mantener una referencia
+                imagenCelular = ImageTk.PhotoImage(imagenCelular)
+
+                # Crear el widget Label para mostrar la imagen del celular
+                celular_label = tk.Label(frame_zona2, image=imagenCelular, relief="solid")
+                celular_label.image = imagenCelular
+                celular_label.grid(row=1, column=0)
 
                 def ofertaElectronico():
                     limpia_frame()
