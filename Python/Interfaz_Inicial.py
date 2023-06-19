@@ -105,23 +105,43 @@ class Interfaz():
 
                 tk.Label(frame_zona2, text="Identificar Usuario", borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
-
                 descrip_idenusuario = """Este proceso permite la identificación del usuario.\nEsto se hace por medio de sus datos personales básicos"""
-
                 tk.Label(frame_zona2, text=descrip_idenusuario, borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
-
-                identificadores = FieldFrame(frame_zona2, "Datos", ["Nombre", "Dirección", "Saldo"], "Valor", None,
-                                             None)
+                
+                criUser = ["Nombre", "Dirección", "Saldo"]
+  
+                identificadores = FieldFrame(frame_zona2, "Datos",criUser, "Valor", None,None)
                 identificadores.pack()
 
                 # Acciones al oprimir el boton aceptar
                 def aceptar():
                     identificadores.valores = [x.get() for x in identificadores.lst_entrys]
+                    if "" in identificadores.valores:
+                        raise entrySinvalor
+                    else:
+                        try:
+                            if re.match(r"\D", identificadores.valores[0]) == None:
+                                buentipo = [criUser[0], "palabras/letras"]  # Parametro nombre
+                                0 / 0
+                            if re.match(r"\D", identificadores.valores[1]) == None:
+                                buentipo = [criUser[1], "palabras/letras"]  # Parametro direccion
+                                0 / 0
+                            buentipo = [criUser[2], "un numero"]  # Parametro saldo
+                            int(identificadores.valores[2])
 
-                    self.cliente.nombre = identificadores.getValue("Nombre")
-                    self.cliente.direccion = identificadores.getValue("Dirección")
-                    self.cliente.saldo = identificadores.getValue("Saldo")
+                            self.cliente.nombre = identificadores.getValue("Nombre")
+                            self.cliente.direccion = identificadores.getValue("Dirección")
+                            self.cliente.saldo = identificadores.getValue("Saldo")
+
+                            otro = messagebox.showinfo(
+                                message="¡Usuario registrado con éxito!",
+                                title="Usuario")
+                        
+                            if otro:
+                                agregarprods()
+                        except:
+                            raise dtipoInvalido(buentipo[0], buentipo[1])
 
                 Aceptar = tk.Button(identificadores, text="Aceptar", font="Times 13", command=aceptar)
                 Aceptar.grid(row=len(identificadores.criterios) + 1, column=0, pady=10)
@@ -223,8 +243,8 @@ class Interfaz():
                     pady=10)
                 tk.Button(frame_zona2, text="Alimentos", font="Times 13", command=AgregarAlimentos).pack(pady=10)
 
-                # Flujo para agregar Alimentos
-
+            # Flujo para agregar Alimentos
+            # Funcionalidad Alimentos......................  
             def agregarCarnico():
                 limpia_frame()
 
@@ -241,20 +261,39 @@ class Interfaz():
                 # Boton Aceptar
                 def agregarCarne():
                     carnefield.valores = [x.get() for x in carnefield.lst_entrys]
+                    if "" in carnefield.valores:
+                        raise entrySinvalor
+                    else:
+                        try:
+                            if re.match(r"\D", carnefield.valores[0]) == None:
+                                buentipo = [cricarne[0], "palabras/letras"]  # Parametro nombre
+                                0 / 0
+                            buentipo = [cricarne[1], "un numero"]  # paremetro precio
+                            int(carnefield.valores[1])
+                            if re.match(r"\D", carnefield.valores[2]) == None:
+                                buentipo = [cricarne[2], "palabras/letras"]  # Parametro tipo
+                                0 / 0
+                            buentipo = [cricarne[3], "un numero"]  # Parametro peso libra
+                            int(carnefield.valores[3])
+                            buentipo = [cricarne[4], "un numero"]  # Parametro cantidad
+                            int(carnefield.valores[4])
+                            
 
-                    carne = Carne(carnefield.valores[0], carnefield.valores[1], carnefield.valores[2]
+                            carne = Carne(carnefield.valores[0], carnefield.valores[1], carnefield.valores[2]
                                   , carnefield.valores[3], carnefield.valores[4], self.mercado)
 
-                    self.mercado.ofercarne.append(carne)
+                            self.mercado.ofercarne.append(carne)
 
-                    otro = messagebox.askyesno(
-                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                        title="Producto")
-
-                    if otro:
-                        agregarprods()
-                    else:
-                        crearsuper()
+                            otro = messagebox.askyesno(
+                              message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                  title="Producto")
+                            
+                            if otro:
+                                agregarprods()
+                            else:
+                                crearsuper()
+                        except:
+                            raise dtipoInvalido(buentipo[0], buentipo[1])
 
                 aceptar = tk.Button(carnefield, text="Aceptar", font="Times 13", command=agregarCarne)
                 aceptar.grid(row=len(carnefield.criterios) + 1, column=0, pady=10)
@@ -278,19 +317,34 @@ class Interfaz():
                 def agregarnoCarne():
                     nocarnefield.valores = [x.get() for x in nocarnefield.lst_entrys]
 
-                    nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1], nocarnefield.valores[2]
-                                         , nocarnefield.valores[3], self.mercado)
-
-                    self.mercado.ofernocarnicos.append(nocarne)
-
-                    otro = messagebox.askyesno(
-                        message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                        title="Producto")
-
-                    if otro:
-                        agregarprods()
+                    if "" in nocarnefield.valores:
+                        raise entrySinvalor
                     else:
-                        crearsuper()
+                        try:
+                            if re.match(r"\D", nocarnefield.valores[0]) == None:
+                                buentipo = [crinocarnes[0], "palabras/letras"]  # Parametro nombre
+                                0 / 0
+                            buentipo = [crinocarnes[1], "un numero"]  # paremetro precio
+                            int(nocarnefield.valores[1])
+                            buentipo = [crinocarnes[2], "un numero"]  # Parametro grupo
+                            int(nocarnefield.valores[2])
+                            buentipo = [crinocarnes[3], "un numero"]  # Parametro cantidad
+                            int(nocarnefield.valores[3])
+
+                            nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1], nocarnefield.valores[2]
+                                         , nocarnefield.valores[3], self.mercado)
+                            self.mercado.ofernocarnicos.append(nocarne)
+
+                            otro = messagebox.askyesno(
+                             message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                               title="Producto")
+
+                            if otro:
+                                agregarprods()
+                            else:
+                                crearsuper()
+                        except:
+                            raise dtipoInvalido(buentipo[0], buentipo[1])
 
                 aceptar = tk.Button(nocarnefield, text="Aceptar", font="Times 13", command=agregarnoCarne)
                 aceptar.grid(row=len(nocarnefield.criterios) + 1, column=0, pady=10)
@@ -338,7 +392,7 @@ class Interfaz():
                                                                                                           column=1,
                                                                                                           pady=20)
 
-            # Funcionalidad Alimentos......................                                                                                          
+            #Procesos alimentos......................                                                                                        
             def MenuAlimentos():
                 limpia_frame()
 
@@ -385,12 +439,28 @@ class Interfaz():
                 if (len(listaAlimento) == 0):
                     tk.Label(frame_zona2, text="Esta seccion no tiene productos \n\n:(\n\n¿Desea ingresar un producto?",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=30, ipadx=16,
-                                                                                              ipady=15, columnspan=3)
-                    tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCarnico).grid(row=1,
+                                                                                              ipady=15, columnspan=4)
+                    
+                    if opcion == 1:
+                        tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCarnico).grid(row=1,
                                                                                                           column=2,
                                                                                                           pady=20)
+                    elif opcion == 2:
+                        tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=1,
+                                                                                                          column=2,
+                                                                                                          pady=20)
+                    elif opcion == 3:
+                        tk.Button(frame_zona2, text="Si, Carnicos", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=1,
+                                                                                                          column=2,
+                                                                                                          pady=20)
+                        
+                        tk.Button(frame_zona2, text="Si, noCarnicos", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=2,
+                                                                                                          column=2,
+                                                                                                          pady=20)
+
+
                     tk.Button(frame_zona2, text="No, ir a otra Sección", font=("Times 13", 16),
-                              command=ofertaProductos).grid(row=2, column=2, pady=20)
+                              command=ofertaProductos).grid(row=3, column=2, pady=20)
                 else:
                     # funcion de los botones del listbox
                     def listboxselectCarne(event):
@@ -412,17 +482,17 @@ class Interfaz():
                     
 
                     # Presentación de bienvenida
-                    if opcion == 1:
+                    if opcion == 1: # Oferta carnicos
                         tk.Label(frame_zona2,
                              text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
                                                                                               columnspan=5, row=0)
-                    elif opcion == 2:
+                    elif opcion == 2: # oferta nocarnicos
                         tk.Label(frame_zona2,
                              text="Bienvenido al Area de noCarnes del Supermercado\n\n*** !noCARNICOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
                                                                                               columnspan=5, row=0)
-                    elif opcion == 3:
+                    elif opcion == 3: # Oferta carnicos y nocarnicos
                         tk.Label(frame_zona2,
                              text="Bienvenido al Area de Alimentos del Supermercado\n\n*** !ACÁ TODOS LOS ALIMENTOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
@@ -546,7 +616,7 @@ class Interfaz():
                         listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
                         listbox_f.grid(row=5, column=2)
 
-                        dic_filtro = {"Granos":"1", "Lácteos":2,"Vegetales":3,"Otros":4}
+                        dic_filtro = {"Granos": "1", "Lácteos": "22", "Vegetales": "3", "Otros": "4"}
 
                         if not  self.mercado.ofernocarnicos == []:
                             for j in range(len(self.mercado.ofernocarnicos)):
@@ -565,6 +635,7 @@ class Interfaz():
 
             def ComprarAlimento(objeto, eleccion):
                 limpia_frame()
+                dic_filtro = {"1":"Granos","2":"Lácteos","3":"Vegetales","4":"Otros"} # Dicionario de compra noCarnicos
 
                 tk.Label(frame_zona2, text="SECCIÓN DE COMPRAS DE ALIMENTOS",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
@@ -580,17 +651,23 @@ class Interfaz():
                                                                                                   columnspan=5)
                                                                                                   
                 elif eleccion == 2: # comprar noCarnico
-                    dic_filtro = {1:"Granos",2:"Lácteos",3:"Vegetales",4:"Otros"}
-
                     tk.Label(frame_zona2,
                              text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
                                   f"\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                                   columnspan=5)
 
-                elif eleccion == 3:
-                    tk.Label(frame_zona2,
-                             text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}"
+                elif eleccion == 3: # comprar carnico y nocarnicos
+                    
+                    if (objeto in self.mercado.ofercarne):
+                        tk.Label(frame_zona2,
+                             text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
+                                  f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                                  columnspan=5)
+                    elif (objeto in self.mercado.ofernocarnicos):
+                        tk.Label(frame_zona2,
+                             text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
                                   f"\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                                   columnspan=5)
@@ -601,8 +678,18 @@ class Interfaz():
 
                 tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
                               command=ofertaProductos).grid(row=4, column=2, pady=10)
+                              
 
-                tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=ofertaCarnicos).grid(row=5,
+                if eleccion == 1:
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=5,
+                                                                                                              column=2,
+                                                                                                              pady=10)
+                elif  eleccion == 2:
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos, 2)).grid(row=5,
+                                                                                                              column=2,
+                                                                                                              pady=10)
+                elif eleccion == 3:
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos+self.mercado.ofercarne, 3)).grid(row=5,
                                                                                                               column=2,
                                                                                                               pady=10)
 
