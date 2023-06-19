@@ -338,7 +338,7 @@ class Interfaz():
                                                                                                           column=1,
                                                                                                           pady=20)
 
-            # Funcionalidad Alimentos                                                                                          
+            # Funcionalidad Alimentos......................                                                                                          
             def MenuAlimentos():
                 limpia_frame()
 
@@ -364,23 +364,25 @@ class Interfaz():
                 Opcarne_label.grid(row=2, column=0)
 
                 tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS CARNICOS", font="Times 13",
-                          command=ofertaCarnicos).grid(row=3,
+                        command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=3,
                                                        column=0,
                                                        pady=10)
 
                 tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS noCARNICOS", font="Times 13",
-                          command=agregarnoCarnicos).grid(row=4,
+                          command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos, 2)).grid(row=4,
                                                           column=0,
                                                           pady=15)
 
                 tk.Button(frame_zona2, text="!COMPRAR ALIMENTOS CARNICOS Y noCARNICOS", font="Times 13",
-                          command=agregarnoCarnicos).grid(row=5,
+                          command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos+self.mercado.ofercarne, 3)).grid(row=5,
                                                           column=0,
                                                           pady=15)
+            
 
-            def ofertaCarnicos():
+            def ofertaCarnicos(listaAlimento, opcion):
                 limpia_frame()
-                if (len(self.mercado.ofercarne) == 0):
+
+                if (len(listaAlimento) == 0):
                     tk.Label(frame_zona2, text="Esta seccion no tiene productos \n\n:(\n\n¿Desea ingresar un producto?",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=30, ipadx=16,
                                                                                               ipady=15, columnspan=3)
@@ -393,15 +395,36 @@ class Interfaz():
                     # funcion de los botones del listbox
                     def listboxselectCarne(event):
 
-                        selected_item = self.mercado.ofercarne[int(listbox.get(listbox.curselection())[0]) - 1]
+                        selected_item = listaAlimento[int(listbox.get(listbox.curselection())[0]) - 1]
 
-                        tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid",
+                        if opcion == 1:
+                            tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid",
                                  font="Times 13",
-                                 bg="white").pack(pady=20)
+                                 bg="white").grid(pady=20)
+                        elif opcion == 2:
+                            tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 2), borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+                        elif opcion == 3:
+                            tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 3), borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+                    
 
                     # Presentación de bienvenida
-                    tk.Label(frame_zona2,
+                    if opcion == 1:
+                        tk.Label(frame_zona2,
                              text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
+                                                                                              columnspan=5, row=0)
+                    elif opcion == 2:
+                        tk.Label(frame_zona2,
+                             text="Bienvenido al Area de noCarnes del Supermercado\n\n*** !noCARNICOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
+                                                                                              columnspan=5, row=0)
+                    elif opcion == 3:
+                        tk.Label(frame_zona2,
+                             text="Bienvenido al Area de Alimentos del Supermercado\n\n*** !ACÁ TODOS LOS ALIMENTOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
                                                                                               columnspan=5, row=0)
 
@@ -410,9 +433,9 @@ class Interfaz():
 
                     listbox.grid(row=1, column=2)
 
-                    if not self.mercado.ofercarne == []:
-                        for l in range(len(self.mercado.ofercarne)):
-                            listbox.insert(tk.END, str(l + 1) + ". " + self.mercado.ofercarne[l].nombre)
+                    if not listaAlimento == []:
+                        for l in range(len(listaAlimento)):
+                            listbox.insert(tk.END, str(l + 1) + ". " + listaAlimento[l].nombre)
 
                     listbox.grid()
 
@@ -422,53 +445,66 @@ class Interfaz():
                     tk.Label(frame_zona2, text="***Opciones adcionales***",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                               row=2, column=2)
+                    if opcion == 1:
+                        tipoCarne = Carne.listaTipos(self.mercado.ofercarne)
+                        tk.Button(frame_zona2, text="Filtrar por tipo de carne", font=("Times 12", 10),
+                              command=lambda: filtrosAliementos(tipoCarne, 1)).grid(row=3, column=2, pady=8)
+                    elif opcion == 2:
+                        Grupo = ['Granos','Lácteos','Vegetales','Otros']
+                        tk.Button(frame_zona2, text="Filtrar por Categoria", font=("Times 12", 10),
+                              command=lambda: filtrosAliementos(Grupo, 2)).grid(row=3, column=2, pady=8)
+                    
 
-                    tk.Button(frame_zona2, text="Filtrar por tipo de carne", font=("Times 12", 10),
-                              command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
                     tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
                               command=MenuAlimentos).grid(row=4, column=2, pady=8)
                     tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
-                              command=ofertaProductos).grid(row=5, column=2, pady=8)
+                              command=ofertaProductos).grid(row=5, column=2, pady=8)   
 
-            def filtrosAliementos(fil_Alim):
+
+            def filtrosAliementos(lista_filtro, fil_Alim):
                 limpia_frame()
 
                 if fil_Alim == 1:  # filtro por tipo de carne
-
-                    tk.Label(frame_zona2, text=f"***Bienvenido al filtro por tipo de Carne***"
+                    tk.Label(frame_zona2, text=f"***Bienvenido al filtro por Tipo de Carne***"
                                                f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                               row=1, column=2)
 
-                    tipoCarne = Carne.listaTipos(self.mercado.ofercarne)
+                elif fil_Alim == 2:# filtro por tipo de nocarnicos
+                     tk.Label(frame_zona2, text=f"***Bienvenido al filtro por Categoria de noCarnicos***"
+                                               f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                              row=1, column=2)
 
-                    # Se define el metodo para mostrar la listabox
-                    def listbox_filtroCarne(event):
+                # Se define el metodo para mostrar la listabox
+                def listbox_filtroCarne(event):
+                    
+                    selected_item = lista_filtro[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
-                        selected_item = tipoCarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
+                    # Comprar el alimento escogido
+                    tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid",
+                                font="Times 13",
+                                bg="white").grid(pady=20)
 
-                        # Comprar el alimento escogido
-                        tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid",
-                                 font="Times 13",
-                                 bg="white").grid(pady=20)
+                # Se crea el listbox para mostrar los productos
+                listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
 
-                    # Se crea el listbox para mostrar los productos
-                    listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                listbox_f.grid(row=2, column=2)
 
-                    listbox_f.grid(row=2, column=2)
+                if not lista_filtro == []:
+                    for k in range(len(lista_filtro)):
+                        listbox_f.insert(tk.END, str(k + 1) + ". " + lista_filtro[k])
 
-                    if not tipoCarne == []:
-                        for k in range(len(tipoCarne)):
-                            listbox_f.insert(tk.END, str(k + 1) + ". " + tipoCarne[k])
+                listbox_f.grid()
 
-                    listbox_f.grid()
+                listbox_f.bind('<<ListboxSelect>>', listbox_filtroCarne)
 
-                    listbox_f.bind('<<ListboxSelect>>', listbox_filtroCarne)
 
+                if fil_Alim == 1:
                     def mostrar_filtro(selected_item):
-
+                        
                         def lista_filtro(event):
-
+                            
                             selected_item2 = self.mercado.ofercarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
                             # Comprar el alimento escogido
@@ -494,6 +530,38 @@ class Interfaz():
                                  borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
                                                                                                   ipady=2, row=4,
                                                                                                   column=2)
+                elif fil_Alim == 2:
+                    def mostrar_filtro(selected_item):
+                        
+                        def lista_filtro(event):
+                            
+                            selected_item2 = self.mercado.ofernocarnicos[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
+
+                            # Comprar el alimento escogido
+                            tk.Label(frame_zona2, text=ComprarAlimento(selected_item2, 2), borderwidth=2,
+                                     relief="solid", font="Times 13",
+                                     bg="white").grid(pady=20)
+
+                        # Se crea el listbox para mostrar los productos
+                        listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                        listbox_f.grid(row=5, column=2)
+
+                        dic_filtro = {"Granos":"1", "Lácteos":2,"Vegetales":3,"Otros":4}
+
+                        if not  self.mercado.ofernocarnicos == []:
+                            for j in range(len(self.mercado.ofernocarnicos)):
+                                if  self.mercado.ofernocarnicos[j].grupo == dic_filtro[selected_item]:
+                                    listbox_f.insert(tk.END, str(j + 1) + ". " + self.mercado.ofernocarnicos[j].nombre)
+
+                        listbox_f.grid()
+                        listbox_f.bind('<<ListboxSelect>>', lista_filtro)
+
+                        tk.Label(frame_zona2,
+                                 text=f"****Escoja la oferta que desee comprar****\nEl resultado para los prodcutos {selected_item} es",
+                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
+                                                                                                  ipady=2, row=4,
+                                                                                                  column=2)
+
 
             def ComprarAlimento(objeto, eleccion):
                 limpia_frame()
@@ -501,35 +569,44 @@ class Interfaz():
                 tk.Label(frame_zona2, text="SECCIÓN DE COMPRAS DE ALIMENTOS",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                           columnspan=5)
-
-                if eleccion == 1:  # comprar Carne
-                    tk.Label(frame_zona2, text=f"Has seleccionado la Oferta {objeto.nombre}",
+                tk.Label(frame_zona2, text=f"Has seleccionado la Oferta {objeto.nombre}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                               columnspan=5)
-
+                if eleccion == 1:  # comprar Carne
                     tk.Label(frame_zona2,
                              text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
                                   f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
-                                                                                              columnspan=5)
+                                                                                                  columnspan=5)
+                                                                                                  
+                elif eleccion == 2: # comprar noCarnico
+                    dic_filtro = {1:"Granos",2:"Lácteos",3:"Vegetales",4:"Otros"}
 
-                    tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10),
+                    tk.Label(frame_zona2,
+                             text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
+                                  f"\nUnidades en Stock: {objeto.cantidad}",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                                  columnspan=5)
+
+                elif eleccion == 3:
+                    tk.Label(frame_zona2,
+                             text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}"
+                                  f"\nUnidades en Stock: {objeto.cantidad}",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                                  columnspan=5)
+
+
+                tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10),
                               command=finalizarCompra).grid(row=3, column=2, pady=10)
 
-                    tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
+                tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
                               command=ofertaProductos).grid(row=4, column=2, pady=10)
 
-                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=ofertaCarnicos).grid(row=5,
+                tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=ofertaCarnicos).grid(row=5,
                                                                                                               column=2,
                                                                                                               pady=10)
 
-                    print("Es usted menor de edad.")
-                elif eleccion == 2:  # Comprar noCarnicos
-
-                    print("Es usted menor de edad.")
-                elif eleccion == 3:  # Comprar Carnicos y noCarnicos
-
-                    print("Es usted menor de edad.")
+                
 
             # PARTE DE LOS ELECTRONICOS -----------------------------------------
 
