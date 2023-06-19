@@ -208,8 +208,8 @@ class Interfaz():
                 if c_super.valores is None:
                     c_super.valores = [x.get() for x in c_super.lst_entrys]
                 self.mercado.nombre = c_super.getValue("Nombre")
-
-                self.lista_super.append(self.mercado)
+                if self.mercado not in self.lista_super:
+                    self.lista_super.append(self.mercado)
 
                 limpia_frame()
 
