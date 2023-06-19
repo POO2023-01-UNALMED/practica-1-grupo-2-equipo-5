@@ -625,8 +625,9 @@ class Interfaz():
                                  borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
                                                                                                   ipady=2,
                                                                                                   row=1, column=2)
-                        limpia_frame()#Usar el grid forget
-
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
                         # funcion de los botones del listbox
                         def listboxselectcel(event):
                             selected_item = listbox.get(listbox.curselection())
@@ -660,13 +661,13 @@ class Interfaz():
 
                         listbox.bind('<<ListboxSelect>>', listboxselectcel)
 
-                    tk.Label(frame_zona2,
-                             text="----Bienvenido al filtro por nombre de celulares----\nEscribe el nombre del celular que buscas",
-                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
-                                                                                              row=1, column=2)
+                    label = tk.Label(frame_zona2, text="----Bienvenido al filtro por nombre de celulares----\nEscribe el nombre del celular que buscas",
+                             borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
                     entryInput = tk.Entry(frame_zona2)
-                    entryInput.grid()
-                    tk.Button(frame_zona2, text="Aceptar", command=filtroNombreCelular).grid()
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroNombreCelular)
+                    boton.grid()
 
             def agregarTvs():
                 limpia_frame()
