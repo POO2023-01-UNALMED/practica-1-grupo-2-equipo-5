@@ -3,7 +3,7 @@ class Libro():
     def __init__(self,*args):
         
         if len(args)==2:
-            self.titulo=args[0].titulo
+            self.nombre=args[0].nombre
             self.autor=args[0].autor
             self.descripcion=args[0].descripcion
             self.isbn=args[0].isbn
@@ -11,7 +11,7 @@ class Libro():
             self.cantidad=args[1]
             self.supermercado=args[0].supermercado
         else:
-            self.titulo=args[0]
+            self.nombre=args[0]
             self.autor=args[1]
             self.descripcion=args[2]
             self.isbn=args[3]
@@ -48,5 +48,5 @@ class Libro():
         
     
     def __str__(self):
-        return f"Titulo: {self.titulo}\nAutor: {self.autor}\nPrecio: {self.precio}\nUnidades disponibles: {self.cantidad}"
+        return f"Titulo: {self.nombre}\nAutor: {self.autor}\nPrecio: {self.precio}\nUnidades disponibles: {self.cantidad}"
     

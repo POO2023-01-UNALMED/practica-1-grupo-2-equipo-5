@@ -3,12 +3,14 @@ import tkinter as tk
 import regex as re
 from tkinter import messagebox
 from PIL import ImageTk, Image
+from tabulate import tabulate
 
 from Celular import Celular
 from FieldFrame import FieldFrame
 from Cliente import Cliente
 from Supermercado import Supermercado
 from Libro import Libro
+from Alimentos import Alimentos
 import random
 
 from tabulate import tabulate
@@ -17,6 +19,7 @@ from Tv import Tv
 
 from Carne import Carne
 from noCarnicos import noCarnicos
+from Electronico import Electronico
 
 
 class Interfaz():
@@ -30,7 +33,10 @@ class Interfaz():
         self.cliente = Cliente()
         self.mercado = Supermercado()
         self.filtrolibro = 0
-
+    
+    
+    
+                
     def venInicio(self):
 
         # Ingreso a la aplicacion
@@ -65,9 +71,32 @@ class Interfaz():
                      "\n\n\n- Al finalizar todas tus compras (libros, comida, componentes electronicos) debes dirigirte al carrito de compra y concretar tu pedido"
                      "\n\n\n\n ¡Espero que disfrutes usando nuestro gestor de tiendas!")
             pasos_uso_zona2.grid(row=2, pady=30, ipadx=10, ipady=20)
-
+            
+            #Función para añadir productos al carrito
+            
+            def añadirAlCarrito(producto,ofermerca):
+                prodencarrito=False
+                
+                for p in self.cliente.carrito:
+                    if p.nombre==producto.nombre:
+                        prodencarrito=True
+                        p.cantidad=int(p.cantidad)+1
+                        break
+                
+                if not prodencarrito:
+                    
+                    if isinstance(producto, Libro):
+                        self.cliente.carrito.append(Libro(producto,1))
+                    elif isinstance(producto, Electronico):
+                        self.cliente.carrito.append(Electronico(producto,1))
+                    elif isinstance(producto, Alimentos):
+                        self.cliente.carrito.append(Alimentos(producto,1))
+                        
+                producto.cantidad=int(producto.cantidad)-1
+                if producto.cantidad==0:
+                    ofermerca.remove(producto)
+            
             # Funcion para limpiar el frame
-            # Esto debe ir en la linea inicial de cada proceso o consulta
             def limpia_frame():
                 for widget in frame_zona2.winfo_children():
                     widget.destroy()
@@ -95,7 +124,8 @@ class Interfaz():
             # Boton ver carrito de compras
             def finalizarCompra():
                 limpia_frame()
-
+                
+                
                 tk.Label(frame_zona2, text=f"BIENVENIDO AL CARRITO DE COMPRAS"
                  f"\n***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***", borderwidth=2, relief="solid", font="Times 13",
                          bg="white").grid(row=0, columnspan=1,pady=8)
@@ -108,17 +138,111 @@ class Interfaz():
                 imagenCarne = ImageTk.PhotoImage(imagenCarne)
 
                 # Crear el widget Label para mostrar la imagen
-                carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
-                carne_label.image = imagenCarne
-                carne_label.grid(row=1, column=0)
-
-
-            
-
-
-
-
-
+                # carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
+                # carne_label.image = imagenCarne
+                # carne_label.grid(row=1, column=0)
+                
+                encabezados=["Nombre","Tipo","Supermercado","Cantidad","Precio","Total"]
+                productos=[]
+                total=0
+                for p in self.cliente.carrito:
+                    if isinstance(p, Libro):
+                        productos.append([p.nombre,"Libro",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
+                    elif isinstance(p, Alimentos):
+                        productos.append([p.nombre,"Alimento",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
+                    elif isinstance(p, Electronico):
+                        productos.append([p.marca+": "+p.nombre,"Electronico",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
+                    
+                    total=total+(int(p.cantidad)*int(p.precio))
+                
+                productos.append(["","","","","",str(total)])
+                
+                tabla=tabulate(productos,headers=encabezados,tablefmt="fancy_grid")
+                
+                text_widget = tk.Text(frame_zona2, font=("Courier", 10), relief="solid")
+                text_widget.tag_configure("center", justify="center")
+                text_widget.insert(tk.END, tabla,"center")
+                text_widget.grid(row=1, column=0)
+                
+                #Funciones de los botones
+                def pagar():
+                    
+                    if self.cliente.saldo<total:
+                        raise saldoInsuficiente
+                    else:
+                        mensaje_salida=f"""¡Muchas gracias por su compra!\nSu pedido será enviado a nombre de 
+                        {self.cliente.nombre} con direccion a {self.cliente.direccion}.\n\n
+                        ¡Esperamos que vuelva pronto!"""
+                        messagebox.showinfo("Pago Aplicación", mensaje_salida)
+                        ventana_usuario.destroy()
+                        
+                def quitarProds():
+                    limpia_frame()
+                    
+                    def devolverProd(event):
+                        selected_item = self.cliente.carrito[int(listbox.get(listbox.curselection())[0]) - 1]
+                        
+                        limpia_frame()
+                        
+                        def aceptar():
+                            
+                            devolverField.valores = [x.get() for x in devolverField.lst_entrys]
+                            
+                            if int(devolverField.valores[0])>int(selected_item.cantidad):
+                                raise cantidadMaxima(selected_item.cantidad)
+                            
+                            if int(selected_item.cantidad)-int(devolverField.valores[0])==0:
+                                self.cliente.carrito.remove(selected_item)
+                            else:
+                                selected_item.cantidad=int(selected_item.cantidad)-int(devolverField.valores[0])
+                                
+                            messagebox.showinfo("Regresar productos", "¡Producto devuelto con éxito!")
+                            
+                        tk.Label(frame_zona2, text="Quitar productos", borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").pack(pady=20)
+                         
+                        tk.Label(frame_zona2, text="Ingrese las unidades del producto que quiere devolver", borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").pack(pady=20)
+                        
+                        devolverField=FieldFrame(frame_zona2, "Devolver", ["Cantidad a devolver"], "Cantidad", None, None)
+                        devolverField.pack(pady=10)
+                        
+                        Aceptar = tk.Button(devolverField, text="Aceptar", font="Times 13",command=aceptar)
+                        Aceptar.grid(row=len(devolverField.criterios) + 1, column=0, pady=10)
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    tk.Label(frame_zona2, text="Quitar", borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").pack(pady=20)
+                         
+                    tk.Label(frame_zona2, text="Seleccione el producto que desea quitar del carrito", borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").pack(pady=20)
+                         
+                    listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    listbox.pack(pady=20)
+                    for s in range(len(self.cliente.carrito)):
+                        listbox.insert(tk.END, str(s+1)+". "+self.cliente.carrito[s].nombre)
+                        
+                    listbox.bind('<<ListboxSelect>>',devolverProd)
+                    
+                    
+                         
+                    
+                         
+                    
+                    
+                                    
+                tk.Button(frame_zona2, text="Pagar", font="Times 13",command=pagar).grid(row=2,column=0,pady=10)
+                tk.Button(frame_zona2, text="Quitar Productos", font="Times 13",command=quitarProds).grid(row=3,column=0,pady=10)
+                
+                
+                
+                
 
                 # Completar------------------
 
@@ -219,13 +343,13 @@ class Interfaz():
                             try:
                                 if re.match(r"\D", bookfield.valores[0]) == None:
                                     buentipo = [crilibros[0], "palabras/letras"]
-                                    0 / 0
+                                    raise Exception
                                 if re.match(r"\D", bookfield.valores[1]) == None:
                                     buentipo = [crilibros[1], "palabras/letras"]
-                                    0 / 0
+                                    raise Exception
                                 if re.match(r"\D", bookfield.valores[2]) == None:
                                     buentipo = [crilibros[2], "palabras/letras"]
-                                    0 / 0
+                                    raise Exception
                                 buentipo = [crilibros[3], "un numero"]
                                 int(bookfield.valores[3])
                                 buentipo = [crilibros[4], "un numero"]
@@ -1250,7 +1374,7 @@ También, permite agregar un nuevo supermercado al listado"""
                         limpia_frame()
 
                         def agregarlibalcarro():
-                            self.cliente.carrito.append(selected_item)
+                            añadirAlCarrito(selected_item,selected_item.supermercado.oferlibros)
                             otro = messagebox.askyesno(
                                 message="¡Libro agregado con éxito!\n\n¿Desea finalizar su compra?", title="Libro")
 
@@ -1277,7 +1401,7 @@ También, permite agregar un nuevo supermercado al listado"""
                     listbox_libros = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
 
                     for l in range(len(oferlibros)):
-                        listbox_libros.insert(tk.END, str(l + 1) + ". " + oferlibros[l].titulo)
+                        listbox_libros.insert(tk.END, str(l + 1) + ". " + oferlibros[l].nombre)
 
                     listbox_libros.pack()
 

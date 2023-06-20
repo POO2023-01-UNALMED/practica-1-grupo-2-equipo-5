@@ -28,10 +28,10 @@ class comprarSinUsuario(ErrorOrden):
         IdenUsuario()
 
 #Falta aplicar este
-class noesISBN(ErrorLogico):
-    def __init__(self,lendigits):
-        super().__init__("Error: Este no es un código ISBN. El código debe tener 13 dígitos")
-        messagebox.showerror("Error", f"Ese no es un código ISBN: El código debe tener 13 dígitos.\nIngresaste: {lendigits}")
+class cantidadMaxima(ErrorLogico):
+    def __init__(self,cantidad):
+        super().__init__("Error: Cantidad de productos sobrepasada")
+        messagebox.showerror("Error", f"El maximo de este producto que puedes quitar es {cantidad}")
         
 #Falta aplicar este
 class saldoInsuficiente(ErrorLogico):
