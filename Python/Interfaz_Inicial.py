@@ -4,6 +4,8 @@ import regex as re
 from tkinter import messagebox
 from PIL import ImageTk, Image
 from tabulate import tabulate
+from tkinter import ttk
+import tkinter.filedialog
 
 from Celular import Celular
 from FieldFrame import FieldFrame
@@ -16,7 +18,7 @@ import random
 from tabulate import tabulate
 
 from Tv import Tv
-
+from Ropa import Ropa
 from Carne import Carne
 from noCarnicos import noCarnicos
 from Electronico import Electronico
@@ -28,6 +30,7 @@ class Interfaz():
         self.lista_carnicos = []
         self.lista_no_carnicos = []
         self.lista_tvs = []
+        self.lista_ropa = []
         self.lista_celulares = []
         self.lista_super = []
         self.cliente = Cliente()
@@ -65,7 +68,7 @@ class Interfaz():
                      "\n\n\n- Posteriormente, debes dirigirte al apartado 'Identificar usuario', donde deberas ingresar los datos que se te piden y dar en el boton 'Aceptar'"
                      "\n\n\n- Luego deberas elegir si deseas crear un supermercado o crearlo, por lo que en el menu 'Procesos y Consultas' encontraras dichas opciones"
                      "\n\n\n- En general, encontraras todo lo que nececitas en el apartado 'Procesos y Consultas'. Debes tener cuidado de seguir bien el flujo del programa"
-                     "\n\n\n- Al finalizar todas tus compras (libros, comida, componentes electronicos) debes dirigirte al carrito de compra y concretar tu pedido"
+                     "\n\n\n- Al finalizar todas tus compras (libros, comida, componentes electronicos, Ropa) debes dirigirte al carrito de compra y concretar tu pedido"
                      "\n\n\n\n ¡Espero que disfrutes usando nuestro gestor de tiendas!")
             pasos_uso_zona2.grid(row=2, pady=30, ipadx=10, ipady=20)
 
@@ -102,7 +105,7 @@ class Interfaz():
 
             # Mensaje del boton acerca de
             def acercade():
-                texto_acerca_de = "Autores:\n\n-Alejandro Ramírez Ramírez\n\n-Rubén Urias Salas\n\n-Santiago Acevedo Cacua"
+                texto_acerca_de = "Autores:\n\n-Alejandro Ramírez Ramírez\n\n-Rubén Urias Salas\n\n-Santiago Acevedo Cacua\n\n-Yiduar Duvier Rangel Quintero "
                 messagebox.showinfo("Acerca de :", texto_acerca_de)
 
             # Mensaje del boton aplicacion    
@@ -308,6 +311,48 @@ class Interfaz():
                 Aceptar.grid(row=len(c_super.criterios) + 1, column=0, pady=10)
 
             def agregarprods():
+
+                def agregarRopa():
+                    limpia_frame()
+                tk.Label(frame_zona2, text=f"Agregar Ropa al Supermercado {self.mercado.nombre}", borderwidth=2,
+                         relief="solid", font="Times 13", bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text="Aquí podrás agregar productos de ropa al supermercado seleccionado",
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").pack(pady=20)
+                criterios_ropa = ["Tipo", "Marca", "Talla", "Color", "Precio", "Cantidad"]
+                ropafield = FieldFrame(frame_zona2, "Datos del producto de ropa", criterios_ropa, "Valores", None, None)
+                ropafield.pack()
+                
+                #Boton Aceptar #Yiduar
+                def agregarRopa():
+                    ropafield.valores = [x.get() for x in ropafield.lst_entrys]
+                    if "" in ropafield.valores:
+                      raise entrySinvalor
+                    else:
+                        try:
+                            tipo = ropafield.valores[0]
+                            marca = ropafield.valores[1]
+                            talla = ropafield.valores[2]
+                            color = ropafield.valores[3]
+                            precio = float(ropafield.valores[4])
+                            cantidad = int(ropafield.valores[5])
+
+                            ruta_imagen = tkinter.filedialog.askopenfilename()
+                        
+                            ropa = Ropa(tipo, marca, talla, color, precio, cantidad, self.mercado,ruta_imagen)
+                            self.mercado.agregar_producto(ropa)
+                        
+                            otro = messagebox.askyesno(
+                                message="¡Producto agregado con éxito!\n\n¿Desea agregar otro producto de ropa?",
+                                title="Producto")
+                            if otro:
+                                agregarRopa()
+                            else:
+                                crearsuper()
+                        except ValueError:
+                            messagebox.showerror("Error", "El precio debe ser un número válido.")
+
+                aceptar = tk.Button(ropafield, text="Aceptar", font="Times 13", command=agregarRopa)
+                aceptar.grid(row=len(ropafield.criterios) + 1, column=0, pady=10)
 
                 def agregarLibro():
                     limpia_frame()
@@ -2077,6 +2122,110 @@ También, permite agregar un nuevo supermercado al listado"""
                 listbox.pack()
 
                 listbox.bind('<<ListboxSelect>>', listboxselecsuper)
+            #ComprarRopa-By Yiduar
+            def comprarRopa():
+                if self.mercado.nombre == None:
+                    raise comprarSinEligirSup(selectsuper)
+                if self.cliente.nombre == None:
+                    raise comprarSinUsuario(IdenUsuario)
+                limpia_frame()
+                self.filtroRopa = None
+                
+                def mostrarOfertasRopa(ofertas):
+                    limpia_frame()
+                    ofertas_ropa = ofertas.copy()
+
+                    def borrarFiltros():
+                        self.filtroRopa = None
+                        mostrarOfertasRopa(self.mercado.oferropa)
+
+                    def agregarRopaCarrito():
+                        selected_items = []
+                        for item in lista_prendas.selection():
+                            selected_items.append(lista_prendas.item(item)["values"])
+      
+                        for item in selected_items:
+                            nombre = item[0]
+                            precio = float(item[1])
+                            categoria = item[2]
+                            self.cliente.carrito.append(Ropa(nombre, precio, categoria))
+                            
+                        cantidad_seleccionada = len(self.cliente.carrito)  # Obtener la cantidad de productos seleccionados
+                        
+                        if cantidad_seleccionada >= 3:
+                            descuento = 0.1  # Descuento del 10% para 3 o más productos
+                        else:
+                            descuento = 0
+
+                        precio_total = sum([producto.precio for producto in self.cliente.carrito])
+                        descuento_total = precio_total * descuento
+                        precio_con_descuento = precio_total - descuento_total
+                        
+                        mensaje_descuento = f"Descuento aplicado: {descuento * 100}%"
+                        
+                        mensaje_final = f"¡Ropa agregada al carrito con éxito!\n\n" \
+                                        f"Precio total: ${precio_total:.2f}\n" \
+                                        f"{mensaje_descuento}\n" \
+                                        f"Precio con descuento: ${precio_con_descuento:.2f}\n\n" \
+                                        f"¿Desea finalizar su compra?"
+                        if messagebox.askyesno(message=mensaje_final, title="Ropa"):
+                            finalizarCompra()
+                        else:
+                            comprarRopa()
+                        
+                    def aplicarFiltro():
+                        categoria_seleccionada = combo_categorias.get()
+
+                        if categoria_seleccionada == "Todas":
+                           self.filtroRopa = None
+                        else:
+                           self.filtroRopa = categoria_seleccionada
+
+                        mostrarOfertasRopa(self.mercado.oferropa)
+
+                    def cargarImagen(ruta_imagen):
+                         img = Image.open(ruta_imagen)
+                         img = img.resize((100, 100), Image.ANTIALIAS)
+                         return ImageTk.PhotoImage(img)
+                    
+                    # Crear ventana principal
+                    ventana = tk.Toplevel()
+                    ventana.title("Ofertas de Ropa")
+                    ventana.geometry("1200x600")
+                    
+                    frame_principal = ttk.Frame(ventana)
+                    frame_principal.pack(padx=20, pady=20)
+                    
+                    categorias = ["Todas", "Hombres", "Mujeres", "Niños"]
+                    combo_categorias = ttk.Combobox(frame_principal, values=categorias)
+                    combo_categorias.current(0)  # Establecer la opción predeterminada
+                    combo_categorias.pack(pady=10)
+                    boton_aplicar_filtro = ttk.Button(frame_principal, text="Aplicar filtro", command=aplicarFiltro)
+                    boton_aplicar_filtro.pack(pady=10)
+                    lista_prendas = ttk.Treeview(frame_principal, columns=("Nombre", "Precio", "Categoría"))
+                    lista_prendas.heading("#0", text="ID")
+                    lista_prendas.heading("Nombre", text="Nombre")
+                    lista_prendas.heading("Precio", text="Precio")
+                    lista_prendas.heading("Categoría", text="Categoría")
+                    lista_prendas.column("#0", width=50)
+                    lista_prendas.column("Nombre", width=200)
+                    lista_prendas.column("Precio", width=100)
+                    lista_prendas.column("Categoría", width=100)
+                    lista_prendas.pack(padx=10, pady=10)
+
+                    for i, oferta in enumerate(ofertas_ropa, start=1):
+                        if self.filtroRopa is None or oferta.categoria == self.filtroRopa:
+                            lista_prendas.insert("", "end", text=str(i), values=(oferta.nombre, str(oferta.precio), oferta.categoria))
+                            img = cargarImagen(oferta.rutaImagen)
+                            lista_prendas.image = img
+                            lista_prendas.insert(str(i), "end", image=img)
+           
+                    boton_borrar_filtros = ttk.Button(frame_principal, text="Borrar filtros", command=borrarFiltros)
+                    boton_borrar_filtros.pack(pady=10)
+                    boton_agregar_carrito = ttk.Button(frame_principal, text="Agregar al Carrito", command=agregarRopaCarrito)
+                    boton_agregar_carrito.pack(pady=10)
+                    ventana.mainloop()
+                    mostrarOfertasRopa(self.mercado.oferropa)                
 
             # Funcionalidad comprarLibro
             def comprarLibro():
@@ -2256,11 +2405,19 @@ en el supermercado seleccionado anteriormente"""
             descrip.pack()
             Bok.pack()
 
+        
+
         # bio Alejandro
         def mbioA():
             biografia_Text.delete("1.0", tk.END)
             bioA = "Nombre: Alejandro Ramírez Ramírez\nFecha de Nacimiento: 01/11/2001\nGustos: Leer, Dormir y jugar"
             biografia_Text.insert(tk.END, bioA)
+
+        # bio Yiduar
+        def mbioY():
+            biografia_Text.delete("1.0", tk.END)
+            bioY = "Nombre: Yiduar Duvier Rangel Quintero\nFecha/Lugar de nacimiento:06/09/2005 - Saravena Arauca" + "\nPresentación: Hago música"
+            biografia_Text.insert(tk.END, bioY)
 
         # bio Santiago
         def mbioS():
