@@ -113,7 +113,7 @@ class Interfaz():
 
             # Mensaje del boton acerca de
             def acercade():
-                texto_acerca_de = "Autores:\n\n-Alejandro Ramírez Ramírez\n\n-Rubén Urias Salas\n\n-Santiago Acevedo Cacua\n\n-Yiduar Duvier Rangel Quintero "
+                texto_acerca_de = "Autores:\n\n-Alejandro Ramírez Ramírez\n\n-Rubén Urias Salas\n\n-Santiago Acevedo Cacua"#\n\n-Yiduar Duvier Rangel Quintero "
                 messagebox.showinfo("Acerca de :", texto_acerca_de)
 
             # Mensaje del boton aplicacion    
@@ -134,7 +134,7 @@ class Interfaz():
                 limpia_frame()
 
                 tk.Label(frame_zona2, text=f"BIENVENIDO AL CARRITO DE COMPRAS"
-                                           f"\n***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***",
+                                           f"\n***MUCHAS GRACIAS POR COMPRAR CON    NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***",
                          borderwidth=2, relief="solid", font="Times 13",
                          bg="white").grid(row=0, columnspan=1, pady=8)
 
@@ -175,6 +175,12 @@ class Interfaz():
                 text_widget.tag_configure("center", justify="center")
                 text_widget.insert(tk.END, tabla, "center")
                 text_widget.grid(row=1, column=0)
+                
+                ## Ajustar el ancho del widget según el contenido
+                text_widget.configure(width=max(len(line) for line in tabla.split("\n")))
+                # Establecer una altura fija para el widget
+                text_widget.configure(height=25)
+               
 
                 # Funciones de los botones
                 def pagar():
