@@ -8,3 +8,4 @@ class Supermercado():
         self.ofernocarnicos = []
         self.ofertv = []
         self.ofercelular = []
+        self.oferropa = []
