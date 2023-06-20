@@ -971,7 +971,6 @@ class Interfaz():
                     entryInput.grid(pady=5)
                     boton = tk.Button(frame_zona2, text="Aceptar", command=filtroMarcaCelular)
                     boton.grid()
-
                 elif filtro_seleccionado == 3:  # Filtro por Almacenamiento
                     def filtroAlmacenamientoCelular():
                         def listboxselectcel(event):
@@ -1237,7 +1236,6 @@ class Interfaz():
                     entryInput.grid(pady=5)
                     boton = tk.Button(frame_zona2, text="Aceptar", command=filtroColorCelular)
                     boton.grid()
-
                 elif filtro_seleccionado == 7:  # Filtro ram
                     def filtroRamCelular():
                         def listboxselectcel(event):
@@ -1306,7 +1304,6 @@ class Interfaz():
                     entryInput2.grid(pady=5, row=3, padx=5, column=2)
                     boton = tk.Button(frame_zona2, text="Aceptar", command=filtroRamCelular)
                     boton.grid(column=1)
-
                 elif filtro_seleccionado == 8:  # Filtro precio
                     def filtroPrecioCelular():
                         def listboxselectcel(event):
@@ -1376,6 +1373,328 @@ class Interfaz():
                     boton = tk.Button(frame_zona2, text="Aceptar", command=filtroPrecioCelular)
                     boton.grid(column=1)
 
+            def filtrosTv(filtro_seleccionado):
+                limpia_frame()
+                if filtro_seleccionado == 1:  # Filtro nombre
+                    def filtroNombreTv():
+                        if entryInput.get() == '':
+                            raise entrySinvalor
+                        else:
+                            filtrados = Tv.filtroNombre(self.mercado.ofertv, entryInput.get())
+                            if len(filtrados) == 0:
+                                filtrados = Tv.filtroNombreSimilar(self.mercado.ofertv, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
+
+                        # funcion de los botones del listbox
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
+
+                        descrip_selectsuperindi = "Selecciona el tv que deseas comprar: "
+
+                        tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white", fg="red").grid(pady=20)
+
+                        listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                             bg="white")
+
+                        if not filtrados == []:
+                            for s in filtrados:
+                                listbox.insert(tk.END, s.nombre)
+
+                        listbox.grid(rowspan=10, column=0)
+
+                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por nombre de televisores----\nEscribe el nombre del televisor que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
+                    entryInput = tk.Entry(frame_zona2)
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroNombreTv)
+                    boton.grid()
+                elif filtro_seleccionado == 2:  # Filtro por marca
+                    def filtroMarcaTv():
+                        if entryInput.get() == '':
+                            raise entrySinvalor
+                        else:
+                            filtrados = Tv.filtroMarca(self.mercado.ofertv, entryInput.get())
+                            if len(filtrados) == 0:
+                                filtrados = Tv.filtroMarcaSimilar(self.mercado.ofertv, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
+
+                        # funcion de los botones del listbox
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
+
+                        descrip_selectsuperindi = "Selecciona el tv que deseas comprar: "
+
+                        tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white", fg="red").grid(pady=20)
+
+                        listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                             bg="white")
+
+                        if not filtrados == []:
+                            for s in filtrados:
+                                listbox.insert(tk.END, s.nombre)
+
+                        listbox.grid(rowspan=10, column=0)
+
+                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por marca de televisores----\nEscribe la marca del televisor que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
+                    entryInput = tk.Entry(frame_zona2)
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroMarcaTv)
+                    boton.grid()
+                elif filtro_seleccionado == 3:  # Filtro pulgadas
+                    def filtroPulgadasTv():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Tv.filtroPulgadas(self.mercado.ofertv,
+                                                              int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofertv
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos tvs en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el tv que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por Pulgadas----\nEscribe un rango para las pulgadas del tv que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroPulgadasTv)
+                    boton.grid(column=1)
+                elif filtro_seleccionado == 4:  # Filtro resolucion
+                    def filtroResolucionTv():
+                        if entryInput.get() == '':
+                            raise entrySinvalor
+                        else:
+                            filtrados = Tv.filtroResolucion(self.mercado.ofertv, entryInput.get())
+                            if len(filtrados) == 0:
+                                filtrados = Tv.filtroResolucionSimilar(self.mercado.ofertv, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
+
+                        # funcion de los botones del listbox
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
+
+                        descrip_selectsuperindi = "Selecciona el tv que deseas comprar: "
+
+                        tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white", fg="red").grid(pady=20)
+
+                        listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                             bg="white")
+
+                        if not filtrados == []:
+                            for s in filtrados:
+                                listbox.insert(tk.END, s.nombre)
+
+                        listbox.grid(rowspan=10, column=0)
+
+                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por resolucion de televisores----\nEscribe la resolucion del televisor que buscas (ej: 4k)",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
+                    entryInput = tk.Entry(frame_zona2)
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroResolucionTv)
+                    boton.grid()
+                elif filtro_seleccionado == 5:  # Filtro precio
+                    def filtroPrecioTv():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Tv.filtroPrecio(self.mercado.ofertv,
+                                                              int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofertv
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos tvs en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el tv que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por Precio----\nEscribe un rango para el precio del tv que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroPrecioTv)
+                    boton.grid(column=1)
+
             def agregarTvs():
                 limpia_frame()
 
@@ -1403,7 +1722,7 @@ class Interfaz():
                                 0 / 0
                             buentipo = [critv[2], "un numero"]  # Parametro pulgadas
                             int(tvfield.valores[2])
-                            if re.match(r"\D", tvfield.valores[3]) == None:
+                            if re.match(r"(.*\D*)+", tvfield.valores[3]) == None:
                                 buentipo = [critv[3], "palabras/letras"]  # Resolucion
                                 0 / 0
 
@@ -1644,7 +1963,7 @@ class Interfaz():
                                                                                                       ipady=10,
                                                                                                       columnspan=2)
                             tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarTvs).grid(row=1,
-                                                                                                              column=0)  # Creo que si lo pude implementar
+                                                                                                              column=0)
                             tk.Button(frame_zona2, text="No", font=("Times 13", 16)).grid(row=1, column=1)
                         else:
                             # funcion de los botones del listbox
@@ -1680,36 +1999,30 @@ class Interfaz():
                                 for s in self.mercado.ofertv:
                                     listbox.insert(tk.END, s.nombre)
 
-                            listbox.grid()
+                            listbox.grid(rowspan=10, column=0)
 
                             listbox.bind('<<ListboxSelect>>', listboxselecttv)
                             # Se muestra las opciones adicionales de filtros e ir a otras secciones
                             tk.Label(frame_zona2, text="***Opciones adcionales***",
                                      borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
-                                                                                                      ipady=2, row=2,
+                                                                                                      ipady=2, row=0,
                                                                                                       column=2)
 
-                            tk.Button(frame_zona2, text="Filtrar por nombre de celular", font=("Times 12", 10),
-                                      command=lambda: filtrosCelular(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por marca de celular", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por almacenamiento", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por número de camaras", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por bateria", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por color de celular", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
-                            tk.Button(frame_zona2, text="Filtrar por ram", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por nombre de televisor", font=("Times 12", 10),
+                                      command=lambda: filtrosTv(1)).grid(column=2, row=1, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por marca de televisor", font=("Times 12", 10),
+                                      command=lambda: filtrosTv(2)).grid(column=2, row=2, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por pulgadas", font=("Times 12", 10),
+                                      command=lambda: filtrosTv(3)).grid(column=2, row=3, pady=8)
+                            tk.Button(frame_zona2, text="Filtrar por resolucion", font=("Times 12", 10),
+                                      command=lambda: filtrosTv(4)).grid(column=2, row=4, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por precio", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(row=3, column=2, pady=8)
+                                      command=lambda: filtrosTv(5)).grid(column=2, pady=8, row=8)
 
-                            tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
-                                      command=MenuAlimentos).grid(row=4, column=2, pady=8)
+                            tk.Button(frame_zona2, text="Volver al menu Electronico", font=("Times 12", 10),
+                                      command=ofertaElectronico).grid(column=2, pady=8, row=9)
                             tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
-                                      command=ofertaProductos).grid(row=5, column=2, pady=8)
+                                      command=ofertaProductos).grid(column=2, pady=8, row=10)
 
                     tk.Button(frame_zona2, text="Celular", font=("Times 13", 16), command=ofertaCelulares).grid(
                         column=0, row=1)
