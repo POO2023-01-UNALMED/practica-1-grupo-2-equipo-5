@@ -2019,7 +2019,7 @@ class Interfaz():
                                                                                                       columnspan=2)
                             tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarTvs).grid(row=1,
                                                                                                               column=0)
-                            tk.Button(frame_zona2, text="No", font=("Times 13", 16)).grid(row=1, column=1)
+                            tk.Button(frame_zona2, text="No", font=("Times 13", 16), command=ofertaProductos).grid(row=1, column=1)
                         else:
                             # funcion de los botones del listbox
                             def selectTv(event):
