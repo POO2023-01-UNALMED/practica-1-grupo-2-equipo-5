@@ -18,7 +18,7 @@ import random
 from tabulate import tabulate
 
 from Tv import Tv
-from Ropa import Ropa
+#from Ropa import Ropa
 from Carne import Carne
 from noCarnicos import noCarnicos
 from Electronico import Electronico
@@ -323,7 +323,7 @@ class Interfaz():
                 ropafield.pack()
                 
                 #Boton Aceptar #Yiduar
-                def agregarRopa():
+                """def agregarRopa():
                     ropafield.valores = [x.get() for x in ropafield.lst_entrys]
                     if "" in ropafield.valores:
                       raise entrySinvalor
@@ -352,7 +352,7 @@ class Interfaz():
                             messagebox.showerror("Error", "El precio debe ser un número válido.")
 
                 aceptar = tk.Button(ropafield, text="Aceptar", font="Times 13", command=agregarRopa)
-                aceptar.grid(row=len(ropafield.criterios) + 1, column=0, pady=10)
+                aceptar.grid(row=len(ropafield.criterios) + 1, column=0, pady=10)"""
 
                 def agregarLibro():
                     limpia_frame()
@@ -890,7 +890,10 @@ class Interfaz():
                                                                       pady=10)
 
                     # PARTE DE LOS ELECTRONICOS -----------------------------------------
-
+            #Apartado para ver información del celular seleccionado y determinar compra
+            def comprarCelular(celular):
+                limpia_frame()
+                print("Hola")
             # APARTADO FILTROS
             def filtrosCelular(filtro_seleccionado):
                 limpia_frame()
@@ -918,7 +921,7 @@ class Interfaz():
 
                             for s in filtrados:
                                 if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    comprarCelular(s)
                                     # Este metodo nos muestra que products hay en el supermercado seleccionado
                                     break
 
@@ -939,7 +942,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1000,7 +1003,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1064,7 +1067,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1132,7 +1135,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1200,7 +1203,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1265,7 +1268,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1329,7 +1332,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1397,7 +1400,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1465,7 +1468,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1526,7 +1529,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1590,7 +1593,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1655,7 +1658,7 @@ class Interfaz():
 
                         if not filtrados == []:
                             for s in filtrados:
-                                listbox.insert(tk.END, s.nombre)
+                                listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                         listbox.grid(rowspan=10, column=0)
 
@@ -1719,7 +1722,7 @@ class Interfaz():
 
                                 if not filtrados == []:
                                     for s in filtrados:
-                                        listbox.insert(tk.END, s.nombre)
+                                        listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                                 listbox.grid(rowspan=10, column=0)
 
@@ -1942,7 +1945,7 @@ class Interfaz():
 
                                 for s in self.mercado.ofercelular:
                                     if s.nombre == selected_item:
-                                        messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                        comprarCelular(s)
                                         # Este metodo nos muestra que products hay en el supermercado seleccionado
                                         break
 
@@ -1967,7 +1970,7 @@ class Interfaz():
 
                             if not self.mercado.ofercelular == []:
                                 for s in self.mercado.ofercelular:
-                                    listbox.insert(tk.END, s.nombre)
+                                    listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                             listbox.grid(rowspan=10, column=0)
 
@@ -2042,7 +2045,7 @@ class Interfaz():
 
                             if not self.mercado.ofertv == []:
                                 for s in self.mercado.ofertv:
-                                    listbox.insert(tk.END, s.nombre)
+                                    listbox.insert(tk.END, s.nombre+" Marca: "+s.marca)
 
                             listbox.grid(rowspan=10, column=0)
 
@@ -2123,7 +2126,8 @@ También, permite agregar un nuevo supermercado al listado"""
 
                 listbox.bind('<<ListboxSelect>>', listboxselecsuper)
             #ComprarRopa-By Yiduar
-            def comprarRopa():
+
+            """def comprarRopa():
                 if self.mercado.nombre == None:
                     raise comprarSinEligirSup(selectsuper)
                 if self.cliente.nombre == None:
@@ -2225,7 +2229,7 @@ También, permite agregar un nuevo supermercado al listado"""
                     boton_agregar_carrito = ttk.Button(frame_principal, text="Agregar al Carrito", command=agregarRopaCarrito)
                     boton_agregar_carrito.pack(pady=10)
                     ventana.mainloop()
-                    mostrarOfertasRopa(self.mercado.oferropa)                
+                    mostrarOfertasRopa(self.mercado.oferropa)   """
 
             # Funcionalidad comprarLibro
             def comprarLibro():
