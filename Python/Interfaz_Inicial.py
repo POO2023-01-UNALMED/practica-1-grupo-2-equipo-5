@@ -805,7 +805,7 @@ class Interfaz():
                         listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
                         listbox_f.grid(row=5, column=2)
 
-                        dic_filtro = {"Granos": "1", "Lácteos": "22", "Vegetales": "3", "Otros": "4"}
+                        dic_filtro = {"Granos": "1", "Lácteos": "2", "Vegetales": "3", "Otros": "4"}
 
                         if not self.mercado.ofernocarnicos == []:
                             for j in range(len(self.mercado.ofernocarnicos)):
