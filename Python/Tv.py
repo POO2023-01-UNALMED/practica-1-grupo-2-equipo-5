@@ -101,3 +101,6 @@ class Tv(Electronico):
             if min_value <= int(cel.precio) <= max_value:
                 filtrados.append(cel)
         return filtrados
+
+    def __str__(self):
+        return f"Nombre: {self.nombre}\nMarca: {self.marca}\nPulgadas: {self.pulgadas}\nPrecio: {self.precio}"

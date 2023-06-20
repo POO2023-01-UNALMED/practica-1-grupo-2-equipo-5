@@ -139,3 +139,8 @@ class Celular(Electronico):
             if min_value <= int(cel.precio) <= max_value:
                 filtrados.append(cel)
         return filtrados
+
+    def __str__(self):
+        return f"Nombre: {self.nombre}\nMarca: {self.marca}\nAlmacenamiento: {self.almacenamiento}" \
+               f"\nNumero de camaras: {self.camaras}\nBateria: {self.bateria}mAH\nColor: {self.color}" \
+               f"\nRam: {self.ram}\nPrecio: {self.precio}"

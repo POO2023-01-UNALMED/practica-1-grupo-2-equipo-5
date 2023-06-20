@@ -1,7 +1,7 @@
 import pickle as pk
 #Creamos una clase deserializador
 
-class Deseerializador():
+class Deserializador():
     @classmethod
     def deserializarObjetos(cls):
         #Abrimos archivo
