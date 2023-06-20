@@ -893,7 +893,56 @@ class Interfaz():
             #Apartado para ver información del celular seleccionado y determinar compra
             def comprarCelular(celular):
                 limpia_frame()
-                print("Hola")
+
+                def agregarCelcarro():
+                    añadirAlCarrito(celular, celular.supermercado.ofercelular)
+                    otro = messagebox.askyesno(
+                        message="¡Celular agregado con éxito!\n\n¿Desea finalizar su compra?",
+                        title="Celular")
+
+                    if otro:
+                        finalizarCompra()
+                        pass
+
+                    else:
+                        ofertaProductos()
+
+                tk.Label(frame_zona2, text="Seleccionaste:", borderwidth=2, relief="solid",
+                         font="Times 13",
+                         bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text=celular, borderwidth=2, relief="solid",
+                         font="Times 13",
+                         bg="white").pack(pady=20)
+
+                tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13",
+                          command=agregarCelcarro).pack(pady=10)
+                tk.Button(frame_zona2, text="Volver", font="Times 13", command=ofertaProductos).pack()
+            def comprarTv(tv):
+                limpia_frame()
+
+                def agregarTvcarro():
+                    añadirAlCarrito(tv, tv.supermercado.ofertv)
+                    otro = messagebox.askyesno(
+                        message="¡Televisor agregado con éxito!\n\n¿Desea finalizar su compra?",
+                        title="Televisor")
+
+                    if otro:
+                        finalizarCompra()
+                        pass
+
+                    else:
+                        ofertaProductos()
+
+                tk.Label(frame_zona2, text="Seleccionaste:", borderwidth=2, relief="solid",
+                         font="Times 13",
+                         bg="white").pack(pady=20)
+                tk.Label(frame_zona2, text=tv, borderwidth=2, relief="solid",
+                         font="Times 13",
+                         bg="white").pack(pady=20)
+
+                tk.Button(frame_zona2, text="Agregar al carrito", font="Times 13",
+                          command=agregarTvcarro).pack(pady=10)
+                tk.Button(frame_zona2, text="Volver", font="Times 13", command=ofertaProductos).pack()
             # APARTADO FILTROS
             def filtrosCelular(filtro_seleccionado):
                 limpia_frame()
@@ -916,14 +965,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    comprarCelular(s)
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
 
@@ -946,7 +991,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectCel)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -977,14 +1022,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
 
@@ -1007,7 +1048,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectCel)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -1021,14 +1062,10 @@ class Interfaz():
                     boton.grid()
                 elif filtro_seleccionado == 3:  # Filtro por Almacenamiento
                     def filtroAlmacenamientoCelular():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1071,7 +1108,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectCel)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1089,14 +1126,10 @@ class Interfaz():
                     boton.grid(column=1)
                 elif filtro_seleccionado == 4:  # Filtro por numero de camaras
                     def filtroCamarasCelular():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1139,7 +1172,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectCel)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1157,14 +1190,10 @@ class Interfaz():
                     boton.grid(column=1)
                 elif filtro_seleccionado == 5:  # Filtro por batería
                     def filtroBateriaCelular():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1207,7 +1236,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectCel)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1242,14 +1271,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
 
@@ -1272,7 +1297,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectCel)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -1286,14 +1311,10 @@ class Interfaz():
                     boton.grid()
                 elif filtro_seleccionado == 7:  # Filtro ram
                     def filtroRamCelular():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1336,7 +1357,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectCel)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1354,14 +1375,10 @@ class Interfaz():
                     boton.grid(column=1)
                 elif filtro_seleccionado == 8:  # Filtro precio
                     def filtroPrecioCelular():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectCel(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1404,7 +1421,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectCel)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1442,14 +1459,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectTv(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
 
@@ -1472,7 +1485,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectTv)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -1503,14 +1516,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectTv(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
 
@@ -1533,7 +1542,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectTv)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -1547,14 +1556,10 @@ class Interfaz():
                     boton.grid()
                 elif filtro_seleccionado == 3:  # Filtro pulgadas
                     def filtroPulgadasTv():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectTv(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1597,7 +1602,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectTv)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1632,14 +1637,10 @@ class Interfaz():
                         boton.grid_forget()
 
                         # funcion de los botones del listbox
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectTv(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         descrip_selectsuper = """Elige cual es el tv que deseas comprar."""
 
@@ -1662,7 +1663,7 @@ class Interfaz():
 
                         listbox.grid(rowspan=10, column=0)
 
-                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        listbox.bind('<<ListboxSelect>>', selectTv)
                         tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
                             pady=7)
 
@@ -1676,14 +1677,10 @@ class Interfaz():
                     boton.grid()
                 elif filtro_seleccionado == 5:  # Filtro precio
                     def filtroPrecioTv():
-                        def listboxselectcel(event):
-                            selected_item = listbox.get(listbox.curselection())
+                        def selectTv(event):
 
-                            for s in filtrados:
-                                if s.nombre == selected_item:
-                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                    break
+                            selected_item = filtrados[int(list(listbox.curselection())[0])]
+                            comprarCelular(selected_item)
 
                         if entryInput1.get() == '' or entryInput2.get() == '':
                             raise entrySinvalor
@@ -1726,7 +1723,7 @@ class Interfaz():
 
                                 listbox.grid(rowspan=10, column=0)
 
-                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                listbox.bind('<<ListboxSelect>>', selectTv)
                                 tk.Button(frame_zona2, text="Volver al menú de los productos",
                                           command=ofertaProductos).grid(pady=7)
                             except:
@@ -1940,14 +1937,11 @@ class Interfaz():
                                 row=1, column=1)
                         else:
                             # funcion de los botones del listbox
-                            def listboxselectcel(event):
-                                selected_item = listbox.get(listbox.curselection())
+                            def selectCel(event):
 
-                                for s in self.mercado.ofercelular:
-                                    if s.nombre == selected_item:
-                                        comprarCelular(s)
-                                        # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                        break
+                                selected_item = self.mercado.ofercelular[int(list(listbox.curselection())[0])]
+                                comprarCelular(selected_item)
+
 
                             tk.Label(frame_zona2, text="Seleccionar Celular", borderwidth=2, relief="solid",
                                      font="Times 13",
@@ -1974,7 +1968,7 @@ class Interfaz():
 
                             listbox.grid(rowspan=10, column=0)
 
-                            listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                            listbox.bind('<<ListboxSelect>>', selectCel)
                             # Se muestra las opciones adicionales de filtros e ir a otras secciones
                             tk.Label(frame_zona2, text="***Opciones adcionales***",
                                      borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
@@ -2015,14 +2009,10 @@ class Interfaz():
                             tk.Button(frame_zona2, text="No", font=("Times 13", 16)).grid(row=1, column=1)
                         else:
                             # funcion de los botones del listbox
-                            def listboxselecttv(event):
-                                selected_item = listbox.get(listbox.curselection())
+                            def selectTv(event):
 
-                                for s in self.mercado.ofertv:
-                                    if s.nombre == selected_item:
-                                        messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
-                                        # Este metodo nos muestra que products hay en el supermercado seleccionado
-                                        break
+                                selected_item = self.mercado.ofertv[int(list(listbox.curselection())[0])]
+                                comprarCelular(selected_item)
 
                             tk.Label(frame_zona2, text="Seleccionar Televisor", borderwidth=2, relief="solid",
                                      font="Times 13",
@@ -2049,7 +2039,7 @@ class Interfaz():
 
                             listbox.grid(rowspan=10, column=0)
 
-                            listbox.bind('<<ListboxSelect>>', listboxselecttv)
+                            listbox.bind('<<ListboxSelect>>', selectTv)
                             # Se muestra las opciones adicionales de filtros e ir a otras secciones
                             tk.Label(frame_zona2, text="***Opciones adcionales***",
                                      borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
