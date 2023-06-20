@@ -33,10 +33,7 @@ class Interfaz():
         self.cliente = Cliente()
         self.mercado = Supermercado()
         self.filtrolibro = 0
-    
-    
-    
-                
+
     def venInicio(self):
 
         # Ingreso a la aplicacion
@@ -71,31 +68,31 @@ class Interfaz():
                      "\n\n\n- Al finalizar todas tus compras (libros, comida, componentes electronicos) debes dirigirte al carrito de compra y concretar tu pedido"
                      "\n\n\n\n ¡Espero que disfrutes usando nuestro gestor de tiendas!")
             pasos_uso_zona2.grid(row=2, pady=30, ipadx=10, ipady=20)
-            
-            #Función para añadir productos al carrito
-            
-            def añadirAlCarrito(producto,ofermerca):
-                prodencarrito=False
-                
+
+            # Función para añadir productos al carrito
+
+            def añadirAlCarrito(producto, ofermerca):
+                prodencarrito = False
+
                 for p in self.cliente.carrito:
-                    if p.nombre==producto.nombre:
-                        prodencarrito=True
-                        p.cantidad=int(p.cantidad)+1
+                    if p.nombre == producto.nombre:
+                        prodencarrito = True
+                        p.cantidad = int(p.cantidad) + 1
                         break
-                
+
                 if not prodencarrito:
-                    
+
                     if isinstance(producto, Libro):
-                        self.cliente.carrito.append(Libro(producto,1))
+                        self.cliente.carrito.append(Libro(producto, 1))
                     elif isinstance(producto, Electronico):
-                        self.cliente.carrito.append(Electronico(producto,1))
+                        self.cliente.carrito.append(Electronico(producto, 1))
                     elif isinstance(producto, Alimentos):
-                        self.cliente.carrito.append(Alimentos(producto,1))
-                        
-                producto.cantidad=int(producto.cantidad)-1
-                if producto.cantidad==0:
+                        self.cliente.carrito.append(Alimentos(producto, 1))
+
+                producto.cantidad = int(producto.cantidad) - 1
+                if producto.cantidad == 0:
                     ofermerca.remove(producto)
-            
+
             # Funcion para limpiar el frame
             def limpia_frame():
                 for widget in frame_zona2.winfo_children():
@@ -124,12 +121,12 @@ class Interfaz():
             # Boton ver carrito de compras
             def finalizarCompra():
                 limpia_frame()
-                
-                
+
                 tk.Label(frame_zona2, text=f"BIENVENIDO AL CARRITO DE COMPRAS"
-                 f"\n***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").grid(row=0, columnspan=1,pady=8)
-            
+                                           f"\n***MUCHAS GRACIAS POR COMPRAR CON NOSOTROS A CONTINUACION SU CARRITO DE COMPRAS***",
+                         borderwidth=2, relief="solid", font="Times 13",
+                         bg="white").grid(row=0, columnspan=1, pady=8)
+
                 # Cargar imagen 
                 imagenCarne = Image.open("CarritoComprass.jpg")
                 # Redimensionar la imagen si es necesario
@@ -141,108 +138,99 @@ class Interfaz():
                 # carne_label = tk.Label(frame_zona2, image=imagenCarne, relief="solid")
                 # carne_label.image = imagenCarne
                 # carne_label.grid(row=1, column=0)
-                
-                encabezados=["Nombre","Tipo","Supermercado","Cantidad","Precio","Total"]
-                productos=[]
-                total=0
+
+                encabezados = ["Nombre", "Tipo", "Supermercado", "Cantidad", "Precio", "Total"]
+                productos = []
+                total = 0
                 for p in self.cliente.carrito:
                     if isinstance(p, Libro):
-                        productos.append([p.nombre,"Libro",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
+                        productos.append([p.nombre, "Libro", p.supermercado.nombre, str(p.cantidad),
+                                          str(int(p.cantidad) * int(p.precio)), ""])
                     elif isinstance(p, Alimentos):
-                        productos.append([p.nombre,"Alimento",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
+                        productos.append([p.nombre, "Alimento", p.supermercado.nombre, str(p.cantidad),
+                                          str(int(p.cantidad) * int(p.precio)), ""])
                     elif isinstance(p, Electronico):
-                        productos.append([p.marca+": "+p.nombre,"Electronico",p.supermercado.nombre,str(p.cantidad),str(int(p.cantidad)*int(p.precio)),""])
-                    
-                    total=total+(int(p.cantidad)*int(p.precio))
-                
-                productos.append(["","","","","",str(total)])
-                
-                tabla=tabulate(productos,headers=encabezados,tablefmt="fancy_grid")
-                
+                        productos.append(
+                            [p.marca + ": " + p.nombre, "Electronico", p.supermercado.nombre, str(p.cantidad),
+                             str(int(p.cantidad) * int(p.precio)), ""])
+
+                    total = total + (int(p.cantidad) * int(p.precio))
+
+                productos.append(["", "", "", "", "", str(total)])
+
+                tabla = tabulate(productos, headers=encabezados, tablefmt="fancy_grid")
+
                 text_widget = tk.Text(frame_zona2, font=("Courier", 10), relief="solid")
                 text_widget.tag_configure("center", justify="center")
-                text_widget.insert(tk.END, tabla,"center")
+                text_widget.insert(tk.END, tabla, "center")
                 text_widget.grid(row=1, column=0)
-                
-                #Funciones de los botones
+
+                # Funciones de los botones
                 def pagar():
-                    
-                    if self.cliente.saldo<total:
+
+                    if self.cliente.saldo < total:
                         raise saldoInsuficiente
                     else:
-                        mensaje_salida=f"""¡Muchas gracias por su compra!\nSu pedido será enviado a nombre de 
+                        mensaje_salida = f"""¡Muchas gracias por su compra!\nSu pedido será enviado a nombre de 
                         {self.cliente.nombre} con direccion a {self.cliente.direccion}.\n\n
                         ¡Esperamos que vuelva pronto!"""
                         messagebox.showinfo("Pago Aplicación", mensaje_salida)
                         ventana_usuario.destroy()
-                        
+
                 def quitarProds():
                     limpia_frame()
-                    
+
                     def devolverProd(event):
                         selected_item = self.cliente.carrito[int(listbox.get(listbox.curselection())[0]) - 1]
-                        
+
                         limpia_frame()
-                        
+
                         def aceptar():
-                            
+
                             devolverField.valores = [x.get() for x in devolverField.lst_entrys]
-                            
-                            if int(devolverField.valores[0])>int(selected_item.cantidad):
+
+                            if int(devolverField.valores[0]) > int(selected_item.cantidad):
                                 raise cantidadMaxima(selected_item.cantidad)
-                            
-                            if int(selected_item.cantidad)-int(devolverField.valores[0])==0:
+
+                            if int(selected_item.cantidad) - int(devolverField.valores[0]) == 0:
                                 self.cliente.carrito.remove(selected_item)
                             else:
-                                selected_item.cantidad=int(selected_item.cantidad)-int(devolverField.valores[0])
-                                
+                                selected_item.cantidad = int(selected_item.cantidad) - int(devolverField.valores[0])
+
                             messagebox.showinfo("Regresar productos", "¡Producto devuelto con éxito!")
-                            
+
                         tk.Label(frame_zona2, text="Quitar productos", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").pack(pady=20)
-                         
-                        tk.Label(frame_zona2, text="Ingrese las unidades del producto que quiere devolver", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").pack(pady=20)
-                        
-                        devolverField=FieldFrame(frame_zona2, "Devolver", ["Cantidad a devolver"], "Cantidad", None, None)
+                                 bg="white").pack(pady=20)
+
+                        tk.Label(frame_zona2, text="Ingrese las unidades del producto que quiere devolver",
+                                 borderwidth=2, relief="solid", font="Times 13",
+                                 bg="white").pack(pady=20)
+
+                        devolverField = FieldFrame(frame_zona2, "Devolver", ["Cantidad a devolver"], "Cantidad", None,
+                                                   None)
                         devolverField.pack(pady=10)
-                        
-                        Aceptar = tk.Button(devolverField, text="Aceptar", font="Times 13",command=aceptar)
+
+                        Aceptar = tk.Button(devolverField, text="Aceptar", font="Times 13", command=aceptar)
                         Aceptar.grid(row=len(devolverField.criterios) + 1, column=0, pady=10)
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+
                     tk.Label(frame_zona2, text="Quitar", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").pack(pady=20)
-                         
-                    tk.Label(frame_zona2, text="Seleccione el producto que desea quitar del carrito", borderwidth=2, relief="solid", font="Times 13",
-                         bg="white").pack(pady=20)
-                         
+                             bg="white").pack(pady=20)
+
+                    tk.Label(frame_zona2, text="Seleccione el producto que desea quitar del carrito", borderwidth=2,
+                             relief="solid", font="Times 13",
+                             bg="white").pack(pady=20)
+
                     listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
                     listbox.pack(pady=20)
                     for s in range(len(self.cliente.carrito)):
-                        listbox.insert(tk.END, str(s+1)+". "+self.cliente.carrito[s].nombre)
-                        
-                    listbox.bind('<<ListboxSelect>>',devolverProd)
-                    
-                    
-                         
-                    
-                         
-                    
-                    
-                                    
-                tk.Button(frame_zona2, text="Pagar", font="Times 13",command=pagar).grid(row=2,column=0,pady=10)
-                tk.Button(frame_zona2, text="Quitar Productos", font="Times 13",command=quitarProds).grid(row=3,column=0,pady=10)
-                
-                
-                
-                
+                        listbox.insert(tk.END, str(s + 1) + ". " + self.cliente.carrito[s].nombre)
+
+                    listbox.bind('<<ListboxSelect>>', devolverProd)
+
+                tk.Button(frame_zona2, text="Pagar", font="Times 13", command=pagar).grid(row=2, column=0, pady=10)
+                tk.Button(frame_zona2, text="Quitar Productos", font="Times 13", command=quitarProds).grid(row=3,
+                                                                                                           column=0,
+                                                                                                           pady=10)
 
                 # Completar------------------
 
@@ -255,10 +243,10 @@ class Interfaz():
                 descrip_idenusuario = """Este proceso permite la identificación del usuario.\nEsto se hace por medio de sus datos personales básicos"""
                 tk.Label(frame_zona2, text=descrip_idenusuario, borderwidth=2, relief="solid", font="Times 13",
                          bg="white").pack(pady=20)
-                
+
                 criUser = ["Nombre", "Dirección", "Saldo"]
-  
-                identificadores = FieldFrame(frame_zona2, "Datos",criUser, "Valor", None,None)
+
+                identificadores = FieldFrame(frame_zona2, "Datos", criUser, "Valor", None, None)
                 identificadores.pack()
 
                 # Acciones al oprimir el boton aceptar
@@ -284,7 +272,7 @@ class Interfaz():
                             otro = messagebox.showinfo(
                                 message="¡Usuario registrado con éxito!",
                                 title="Usuario")
-                        
+
                             if otro:
                                 ofertaProductos()
                         except:
@@ -424,17 +412,16 @@ class Interfaz():
                             int(carnefield.valores[3])
                             buentipo = [cricarne[4], "un numero"]  # Parametro cantidad
                             int(carnefield.valores[4])
-                            
 
                             carne = Carne(carnefield.valores[0], carnefield.valores[1], carnefield.valores[2]
-                                  , carnefield.valores[3], carnefield.valores[4], self.mercado)
+                                          , carnefield.valores[3], carnefield.valores[4], self.mercado)
 
                             self.mercado.ofercarne.append(carne)
 
                             otro = messagebox.askyesno(
-                              message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                                  title="Producto")
-                            
+                                message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                title="Producto")
+
                             if otro:
                                 agregarprods()
                             else:
@@ -478,13 +465,14 @@ class Interfaz():
                             buentipo = [crinocarnes[3], "un numero"]  # Parametro cantidad
                             int(nocarnefield.valores[3])
 
-                            nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1], nocarnefield.valores[2]
-                                         , nocarnefield.valores[3], self.mercado)
+                            nocarne = noCarnicos(nocarnefield.valores[0], nocarnefield.valores[1],
+                                                 nocarnefield.valores[2]
+                                                 , nocarnefield.valores[3], self.mercado)
                             self.mercado.ofernocarnicos.append(nocarne)
 
                             otro = messagebox.askyesno(
-                             message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
-                               title="Producto")
+                                message="¡Producto agregado con éxito!\n\n¿Desea agregar un producto diferente?",
+                                title="Producto")
 
                             if otro:
                                 agregarprods()
@@ -539,7 +527,7 @@ class Interfaz():
                                                                                                           column=1,
                                                                                                           pady=20)
 
-            #Procesos alimentos......................                                                                                        
+            # Procesos alimentos......................
             def MenuAlimentos():
                 limpia_frame()
 
@@ -565,20 +553,20 @@ class Interfaz():
                 Opcarne_label.grid(row=2, column=0)
 
                 tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS CARNICOS", font="Times 13",
-                        command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=3,
-                                                       column=0,
-                                                       pady=10)
+                          command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=3,
+                                                                                          column=0,
+                                                                                          pady=10)
 
                 tk.Button(frame_zona2, text="!COMPRAR SOLO ALIMENTOS noCARNICOS", font="Times 13",
                           command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos, 2)).grid(row=4,
-                                                          column=0,
-                                                          pady=15)
+                                                                                               column=0,
+                                                                                               pady=15)
 
                 tk.Button(frame_zona2, text="!COMPRAR ALIMENTOS CARNICOS Y noCARNICOS", font="Times 13",
-                          command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos+self.mercado.ofercarne, 3)).grid(row=5,
-                                                          column=0,
-                                                          pady=15)
-            
+                          command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos + self.mercado.ofercarne, 3)).grid(
+                    row=5,
+                    column=0,
+                    pady=15)
 
             def ofertaCarnicos(listaAlimento, opcion):
                 limpia_frame()
@@ -587,24 +575,25 @@ class Interfaz():
                     tk.Label(frame_zona2, text="Esta seccion no tiene productos \n\n:(\n\n¿Desea ingresar un producto?",
                              borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=30, ipadx=16,
                                                                                               ipady=15, columnspan=4)
-                    
+
                     if opcion == 1:
                         tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarCarnico).grid(row=1,
-                                                                                                          column=2,
-                                                                                                          pady=20)
+                                                                                                              column=2,
+                                                                                                              pady=20)
                     elif opcion == 2:
                         tk.Button(frame_zona2, text="Si", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=1,
-                                                                                                          column=2,
-                                                                                                          pady=20)
+                                                                                                                 column=2,
+                                                                                                                 pady=20)
                     elif opcion == 3:
-                        tk.Button(frame_zona2, text="Si, Carnicos", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=1,
-                                                                                                          column=2,
-                                                                                                          pady=20)
-                        
-                        tk.Button(frame_zona2, text="Si, noCarnicos", font=("Times 13", 16), command=agregarnoCarnicos).grid(row=2,
-                                                                                                          column=2,
-                                                                                                          pady=20)
+                        tk.Button(frame_zona2, text="Si, Carnicos", font=("Times 13", 16),
+                                  command=agregarnoCarnicos).grid(row=1,
+                                                                  column=2,
+                                                                  pady=20)
 
+                        tk.Button(frame_zona2, text="Si, noCarnicos", font=("Times 13", 16),
+                                  command=agregarnoCarnicos).grid(row=2,
+                                                                  column=2,
+                                                                  pady=20)
 
                     tk.Button(frame_zona2, text="No, ir a otra Sección", font=("Times 13", 16),
                               command=ofertaProductos).grid(row=3, column=2, pady=20)
@@ -616,34 +605,36 @@ class Interfaz():
 
                         if opcion == 1:
                             tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 1), borderwidth=2, relief="solid",
-                                 font="Times 13",
-                                 bg="white").grid(pady=20)
+                                     font="Times 13",
+                                     bg="white").grid(pady=20)
                         elif opcion == 2:
                             tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 2), borderwidth=2, relief="solid",
-                                 font="Times 13",
-                                 bg="white").grid(pady=20)
+                                     font="Times 13",
+                                     bg="white").grid(pady=20)
                         elif opcion == 3:
                             tk.Label(frame_zona2, text=ComprarAlimento(selected_item, 3), borderwidth=2, relief="solid",
-                                 font="Times 13",
-                                 bg="white").grid(pady=20)
-                    
+                                     font="Times 13",
+                                     bg="white").grid(pady=20)
 
                     # Presentación de bienvenida
-                    if opcion == 1: # Oferta carnicos
+                    if opcion == 1:  # Oferta carnicos
                         tk.Label(frame_zona2,
-                             text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
-                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
-                                                                                              columnspan=5, row=0)
-                    elif opcion == 2: # oferta nocarnicos
+                                 text="Bienvenido al Area de Carnes del Supermercado\n\n*** !CARNES EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                                 borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5,
+                                                                                                  ipady=5,
+                                                                                                  columnspan=5, row=0)
+                    elif opcion == 2:  # oferta nocarnicos
                         tk.Label(frame_zona2,
-                             text="Bienvenido al Area de noCarnes del Supermercado\n\n*** !noCARNICOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
-                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
-                                                                                              columnspan=5, row=0)
-                    elif opcion == 3: # Oferta carnicos y nocarnicos
+                                 text="Bienvenido al Area de noCarnes del Supermercado\n\n*** !noCARNICOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                                 borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5,
+                                                                                                  ipady=5,
+                                                                                                  columnspan=5, row=0)
+                    elif opcion == 3:  # Oferta carnicos y nocarnicos
                         tk.Label(frame_zona2,
-                             text="Bienvenido al Area de Alimentos del Supermercado\n\n*** !ACÁ TODOS LOS ALIMENTOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
-                             borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5, ipady=5,
-                                                                                              columnspan=5, row=0)
+                                 text="Bienvenido al Area de Alimentos del Supermercado\n\n*** !ACÁ TODOS LOS ALIMENTOS EN OFERTA!***\n\nAcontinuacion nuestros productos disponibles",
+                                 borderwidth=2, relief="solid", font="Times 14", bg="white").grid(pady=20, ipadx=5,
+                                                                                                  ipady=5,
+                                                                                                  columnspan=5, row=0)
 
                     # Se crea el listbox para mostrar los productos
                     listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
@@ -665,18 +656,16 @@ class Interfaz():
                     if opcion == 1:
                         tipoCarne = Carne.listaTipos(self.mercado.ofercarne)
                         tk.Button(frame_zona2, text="Filtrar por tipo de carne", font=("Times 12", 10),
-                              command=lambda: filtrosAliementos(tipoCarne, 1)).grid(row=3, column=2, pady=8)
+                                  command=lambda: filtrosAliementos(tipoCarne, 1)).grid(row=3, column=2, pady=8)
                     elif opcion == 2:
-                        Grupo = ['Granos','Lácteos','Vegetales','Otros']
+                        Grupo = ['Granos', 'Lácteos', 'Vegetales', 'Otros']
                         tk.Button(frame_zona2, text="Filtrar por Categoria", font=("Times 12", 10),
-                              command=lambda: filtrosAliementos(Grupo, 2)).grid(row=3, column=2, pady=8)
-                    
+                                  command=lambda: filtrosAliementos(Grupo, 2)).grid(row=3, column=2, pady=8)
 
                     tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
                               command=MenuAlimentos).grid(row=4, column=2, pady=8)
                     tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
-                              command=ofertaProductos).grid(row=5, column=2, pady=8)   
-
+                              command=ofertaProductos).grid(row=5, column=2, pady=8)
 
             def filtrosAliementos(lista_filtro, fil_Alim):
                 limpia_frame()
@@ -687,21 +676,21 @@ class Interfaz():
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                               row=1, column=2)
 
-                elif fil_Alim == 2:# filtro por tipo de nocarnicos
-                     tk.Label(frame_zona2, text=f"***Bienvenido al filtro por Categoria de noCarnicos***"
+                elif fil_Alim == 2:  # filtro por tipo de nocarnicos
+                    tk.Label(frame_zona2, text=f"***Bienvenido al filtro por Categoria de noCarnicos***"
                                                f"\nEstas son las Carnes disponibles\nSeleccione el tipo de carne que desea filtrar",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                               row=1, column=2)
 
                 # Se define el metodo para mostrar la listabox
                 def listbox_filtroCarne(event):
-                    
+
                     selected_item = lista_filtro[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
                     # Comprar el alimento escogido
                     tk.Label(frame_zona2, text=mostrar_filtro(selected_item), borderwidth=2, relief="solid",
-                                font="Times 13",
-                                bg="white").grid(pady=20)
+                             font="Times 13",
+                             bg="white").grid(pady=20)
 
                 # Se crea el listbox para mostrar los productos
                 listbox_f = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13", bg="white")
@@ -716,12 +705,11 @@ class Interfaz():
 
                 listbox_f.bind('<<ListboxSelect>>', listbox_filtroCarne)
 
-
                 if fil_Alim == 1:
                     def mostrar_filtro(selected_item):
-                        
+
                         def lista_filtro(event):
-                            
+
                             selected_item2 = self.mercado.ofercarne[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
                             # Comprar el alimento escogido
@@ -749,10 +737,11 @@ class Interfaz():
                                                                                                   column=2)
                 elif fil_Alim == 2:
                     def mostrar_filtro(selected_item):
-                        
+
                         def lista_filtro(event):
-                            
-                            selected_item2 = self.mercado.ofernocarnicos[int(listbox_f.get(listbox_f.curselection())[0]) - 1]
+
+                            selected_item2 = self.mercado.ofernocarnicos[
+                                int(listbox_f.get(listbox_f.curselection())[0]) - 1]
 
                             # Comprar el alimento escogido
                             tk.Label(frame_zona2, text=ComprarAlimento(selected_item2, 2), borderwidth=2,
@@ -765,9 +754,9 @@ class Interfaz():
 
                         dic_filtro = {"Granos": "1", "Lácteos": "22", "Vegetales": "3", "Otros": "4"}
 
-                        if not  self.mercado.ofernocarnicos == []:
+                        if not self.mercado.ofernocarnicos == []:
                             for j in range(len(self.mercado.ofernocarnicos)):
-                                if  self.mercado.ofernocarnicos[j].grupo == dic_filtro[selected_item]:
+                                if self.mercado.ofernocarnicos[j].grupo == dic_filtro[selected_item]:
                                     listbox_f.insert(tk.END, str(j + 1) + ". " + self.mercado.ofernocarnicos[j].nombre)
 
                         listbox_f.grid()
@@ -779,78 +768,83 @@ class Interfaz():
                                                                                                   ipady=2, row=4,
                                                                                                   column=2)
 
-
             def ComprarAlimento(objeto, eleccion):
                 limpia_frame()
-                dic_filtro = {"1":"Granos","2":"Lácteos","3":"Vegetales","4":"Otros"} # Dicionario de compra noCarnicos
+                dic_filtro = {"1": "Granos", "2": "Lácteos", "3": "Vegetales",
+                              "4": "Otros"}  # Dicionario de compra noCarnicos
 
                 tk.Label(frame_zona2, text="SECCIÓN DE COMPRAS DE ALIMENTOS",
                          borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
                                                                                           columnspan=5)
                 tk.Label(frame_zona2, text=f"Has seleccionado la Oferta {objeto.nombre}",
-                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
-                                                                                              columnspan=5)
+                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                                                                          columnspan=5)
                 if eleccion == 1:  # comprar Carne
                     tk.Label(frame_zona2,
                              text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
                                   f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
-                                                                                                  columnspan=5)
-                                                                                                  
-                elif eleccion == 2: # comprar noCarnico
+                                                                                              columnspan=5)
+
+                elif eleccion == 2:  # comprar noCarnico
                     tk.Label(frame_zona2,
                              text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
                                   f"\nUnidades en Stock: {objeto.cantidad}",
                              borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
-                                                                                                  columnspan=5)
+                                                                                              columnspan=5)
 
-                elif eleccion == 3: # comprar carnico y nocarnicos
-                    
+                elif eleccion == 3:  # comprar carnico y nocarnicos
+
                     if (objeto in self.mercado.ofercarne):
                         tk.Label(frame_zona2,
-                             text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
-                                  f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
-                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                 text=f"Nombre: {objeto.nombre}\nPrecio por libra: {objeto.precio}\nTipo de carne: {objeto.tipo}"
+                                      f"\nLibras por unidad: {objeto.pesolibra}\nUnidades en Stock: {objeto.cantidad}",
+                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
+                                                                                                  ipady=2,
                                                                                                   columnspan=5)
                     elif (objeto in self.mercado.ofernocarnicos):
                         tk.Label(frame_zona2,
-                             text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
-                                  f"\nUnidades en Stock: {objeto.cantidad}",
-                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8, ipady=2,
+                                 text=f"Nombre: {objeto.nombre}\nPrecio por unidad: {objeto.precio}\nTipo de categoria: {dic_filtro[objeto.grupo]}"
+                                      f"\nUnidades en Stock: {objeto.cantidad}",
+                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
+                                                                                                  ipady=2,
                                                                                                   columnspan=5)
+
                 def carrito():
                     self.cliente.carrito.append(objeto)
                     otro = messagebox.askyesno(
-                                message="¡Producto agregado con éxito!\n\n¿Desea finalizar su compra?", title="Alimentos")
+                        message="¡Producto agregado con éxito!\n\n¿Desea finalizar su compra?", title="Alimentos")
 
                     if otro:
                         finalizarCompra()
                         pass
                     else:
                         ComprarAlimento(objeto, eleccion)
-                        
 
                 tk.Button(frame_zona2, text="Agregar al carrito de compras", font=("Times 12", 10),
-                              command=carrito).grid(row=3, column=2, pady=10)
+                          command=carrito).grid(row=3, column=2, pady=10)
 
                 tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
-                              command=ofertaProductos).grid(row=4, column=2, pady=10)
-                              
+                          command=ofertaProductos).grid(row=4, column=2, pady=10)
 
                 if eleccion == 1:
-                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=5,
-                                                                                                              column=2,
-                                                                                                              pady=10)
-                elif  eleccion == 2:
-                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos, 2)).grid(row=5,
-                                                                                                              column=2,
-                                                                                                              pady=10)
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10),
+                              command=lambda: ofertaCarnicos(self.mercado.ofercarne, 1)).grid(row=5,
+                                                                                              column=2,
+                                                                                              pady=10)
+                elif eleccion == 2:
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10),
+                              command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos, 2)).grid(row=5,
+                                                                                                   column=2,
+                                                                                                   pady=10)
                 elif eleccion == 3:
-                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10), command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos+self.mercado.ofercarne, 3)).grid(row=5,
-                                                                                                              column=2,
-                                                                                                              pady=10)                
+                    tk.Button(frame_zona2, text="Volver", font=("Times 12", 10),
+                              command=lambda: ofertaCarnicos(self.mercado.ofernocarnicos + self.mercado.ofercarne,
+                                                             3)).grid(row=5,
+                                                                      column=2,
+                                                                      pady=10)
 
-            # PARTE DE LOS ELECTRONICOS -----------------------------------------
+                    # PARTE DE LOS ELECTRONICOS -----------------------------------------
 
             # APARTADO FILTROS
             def filtrosCelular(filtro_seleccionado):
@@ -862,14 +856,17 @@ class Interfaz():
                         else:
                             filtrados = Celular.filtroNombre(self.mercado.ofercelular, entryInput.get())
                             if len(filtrados) == 0:
-                                Celular.filtroNombreSimilar(self.mercado.ofercelular, entryInput.get())
-                        tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
-                                 borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8, ipadx=8,
-                                                                                                  ipady=2,
-                                                                                                  row=1, column=2)
+                                filtrados = Celular.filtroNombreSimilar(self.mercado.ofercelular, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
                         entryInput.grid_forget()
                         label.grid_forget()
                         boton.grid_forget()
+
                         # funcion de los botones del listbox
                         def listboxselectcel(event):
                             selected_item = listbox.get(listbox.curselection())
@@ -902,14 +899,482 @@ class Interfaz():
                         listbox.grid(rowspan=10, column=0)
 
                         listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
 
-                    label = tk.Label(frame_zona2, text="----Bienvenido al filtro por nombre de celulares----\nEscribe el nombre del celular que buscas",
-                             borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por nombre de celulares----\nEscribe el nombre del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
                     label.grid(pady=10, ipadx=8, ipady=4)
                     entryInput = tk.Entry(frame_zona2)
                     entryInput.grid(pady=5)
                     boton = tk.Button(frame_zona2, text="Aceptar", command=filtroNombreCelular)
                     boton.grid()
+                elif filtro_seleccionado == 2:  # Filtro por marca
+                    def filtroMarcaCelular():
+                        if entryInput.get() == '':
+                            raise entrySinvalor
+                        else:
+                            filtrados = Celular.filtroMarca(self.mercado.ofercelular, entryInput.get())
+                            if len(filtrados) == 0:
+                                filtrados = Celular.filtroMarcaSimilar(self.mercado.ofercelular, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
+
+                        # funcion de los botones del listbox
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                        descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                        tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white", fg="red").grid(pady=20)
+
+                        listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                             bg="white")
+
+                        if not filtrados == []:
+                            for s in filtrados:
+                                listbox.insert(tk.END, s.nombre)
+
+                        listbox.grid(rowspan=10, column=0)
+
+                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por marca de celulares----\nEscribe la marca del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
+                    entryInput = tk.Entry(frame_zona2)
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroMarcaCelular)
+                    boton.grid()
+
+                elif filtro_seleccionado == 3:  # Filtro por Almacenamiento
+                    def filtroAlmacenamientoCelular():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Celular.filtroAlmacenamiento(self.mercado.ofercelular,
+                                                                         int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofercelular
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos celulares en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por Almacenamiento----\nEscribe un rango para el almacenamiento del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroAlmacenamientoCelular)
+                    boton.grid(column=1)
+                elif filtro_seleccionado == 4:  # Filtro por numero de camaras
+                    def filtroCamarasCelular():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Celular.filtroCamaras(self.mercado.ofercelular,
+                                                                  int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofercelular
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos celulares con este rango de numero de camaras\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por numero de camaras----\nEscribe un rango para el numero de camaras del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroCamarasCelular)
+                    boton.grid(column=1)
+                elif filtro_seleccionado == 5:  # Filtro por batería
+                    def filtroBateriaCelular():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Celular.filtroBateria(self.mercado.ofercelular,
+                                                                  int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofercelular
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos celulares en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por Bateria----\nEscribe un rango para la capacidad de la bateria del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroBateriaCelular)
+                    boton.grid(column=1)
+                elif filtro_seleccionado == 6:  # Filtro por color de celular
+                    def filtroColorCelular():
+                        if entryInput.get() == '':
+                            raise entrySinvalor
+                        else:
+                            filtrados = Celular.filtroColor(self.mercado.ofercelular, entryInput.get())
+                            if len(filtrados) == 0:
+                                filtrados = Celular.filtroColorSimilar(self.mercado.ofercelular, entryInput.get())
+                                tk.Label(frame_zona2, text="Estos son los resultados de tu busqueda",
+                                         borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                          ipadx=8,
+                                                                                                          ipady=2,
+                                                                                                          row=1,
+                                                                                                          column=2)
+                        entryInput.grid_forget()
+                        label.grid_forget()
+                        boton.grid_forget()
+
+                        # funcion de los botones del listbox
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                        descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                        tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white").grid(pady=20)
+
+                        tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                 font="Times 13",
+                                 bg="white", fg="red").grid(pady=20)
+
+                        listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                             bg="white")
+
+                        if not filtrados == []:
+                            for s in filtrados:
+                                listbox.insert(tk.END, s.nombre)
+
+                        listbox.grid(rowspan=10, column=0)
+
+                        listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                        tk.Button(frame_zona2, text="Volver al menú de los productos", command=ofertaProductos).grid(
+                            pady=7)
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por color de celulares----\nEscribe el color del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4)
+                    entryInput = tk.Entry(frame_zona2)
+                    entryInput.grid(pady=5)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroColorCelular)
+                    boton.grid()
+
+                elif filtro_seleccionado == 7:  # Filtro ram
+                    def filtroRamCelular():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Celular.filtroRam(self.mercado.ofercelular,
+                                                              int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofercelular
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos celulares en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por RAM----\nEscribe un rango para la cantidad de RAM del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroRamCelular)
+                    boton.grid(column=1)
+
+                elif filtro_seleccionado == 8:  # Filtro precio
+                    def filtroPrecioCelular():
+                        def listboxselectcel(event):
+                            selected_item = listbox.get(listbox.curselection())
+
+                            for s in filtrados:
+                                if s.nombre == selected_item:
+                                    messagebox.showinfo("Selección", f"Has seleccionado {selected_item}")
+                                    # Este metodo nos muestra que products hay en el supermercado seleccionado
+                                    break
+
+                        if entryInput1.get() == '' or entryInput2.get() == '':
+                            raise entrySinvalor
+                        else:
+                            try:
+                                filtrados = Celular.filtroPrecio(self.mercado.ofercelular,
+                                                                 int(entryInput1.get()), int(entryInput2.get()))
+                                if len(filtrados) == 0:
+                                    filtrados = self.mercado.ofercelular
+                                    tk.Label(frame_zona2,
+                                             text="No encontramos celulares en ese rango\nAcá te dejamos otras opciones que te pueden interesar :)",
+                                             borderwidth=2, relief="solid", font="Times 13", bg="white").grid(pady=8,
+                                                                                                              ipadx=8,
+                                                                                                              ipady=2)
+                                entryInput1.grid_forget()
+                                entryInput2.grid_forget()
+                                label.grid_forget()
+                                boton.grid_forget()
+
+                                # funcion de los botones del listbox
+
+                                descrip_selectsuper = """Elige cual es el celular que deseas comprar."""
+
+                                descrip_selectsuperindi = "Selecciona el celular que deseas comprar: "
+
+                                tk.Label(frame_zona2, text=descrip_selectsuper, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white").grid(pady=20)
+
+                                tk.Label(frame_zona2, text=descrip_selectsuperindi, borderwidth=2, relief="solid",
+                                         font="Times 13",
+                                         bg="white", fg="red").grid(pady=20)
+
+                                listbox = tk.Listbox(frame_zona2, borderwidth=2, relief="solid", font="Times 13",
+                                                     bg="white")
+
+                                if not filtrados == []:
+                                    for s in filtrados:
+                                        listbox.insert(tk.END, s.nombre)
+
+                                listbox.grid(rowspan=10, column=0)
+
+                                listbox.bind('<<ListboxSelect>>', listboxselectcel)
+                                tk.Button(frame_zona2, text="Volver al menú de los productos",
+                                          command=ofertaProductos).grid(pady=7)
+                            except:
+                                raise dtipoInvalido("interval minimo o maximo", "un número")
+
+                    label = tk.Label(frame_zona2,
+                                     text="----Bienvenido al filtro por precio----\nEscribe un rango para el precio del celular que buscas",
+                                     borderwidth=2, relief="solid", font="Times 13", bg="white")
+                    label.grid(pady=10, ipadx=8, ipady=4, column=0, columnspan=3)
+                    entryInput1 = tk.Entry(frame_zona2)
+                    entryInput1.grid(pady=5, row=3, padx=5, column=0)
+                    entryInput2 = tk.Entry(frame_zona2)
+                    entryInput2.grid(pady=5, row=3, padx=5, column=2)
+                    boton = tk.Button(frame_zona2, text="Aceptar", command=filtroPrecioCelular)
+                    boton.grid(column=1)
 
             def agregarTvs():
                 limpia_frame()
@@ -1152,22 +1617,22 @@ class Interfaz():
                             tk.Button(frame_zona2, text="Filtrar por nombre de celular", font=("Times 12", 10),
                                       command=lambda: filtrosCelular(1)).grid(column=2, row=1, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por marca de celular", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, row=2, pady=8)
+                                      command=lambda: filtrosCelular(2)).grid(column=2, row=2, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por almacenamiento", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, row=3, pady=8)
+                                      command=lambda: filtrosCelular(3)).grid(column=2, row=3, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por número de camaras", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, row=4, pady=8)
+                                      command=lambda: filtrosCelular(4)).grid(column=2, row=4, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por bateria", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, row=5, pady=8)
+                                      command=lambda: filtrosCelular(5)).grid(column=2, row=5, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por color de celular", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, row=6, pady=8)
+                                      command=lambda: filtrosCelular(6)).grid(column=2, row=6, pady=8)
                             tk.Button(frame_zona2, text="Filtrar por ram", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, pady=8, row=7)
+                                      command=lambda: filtrosCelular(7)).grid(column=2, pady=8, row=7)
                             tk.Button(frame_zona2, text="Filtrar por precio", font=("Times 12", 10),
-                                      command=lambda: filtrosAliementos(1)).grid(column=2, pady=8, row=8)
+                                      command=lambda: filtrosCelular(8)).grid(column=2, pady=8, row=8)
 
-                            tk.Button(frame_zona2, text="Volver al menu Alimentos", font=("Times 12", 10),
-                                      command=MenuAlimentos).grid(column=2, pady=8, row=9)
+                            tk.Button(frame_zona2, text="Volver al menu Electronico", font=("Times 12", 10),
+                                      command=ofertaElectronico).grid(column=2, pady=8, row=9)
                             tk.Button(frame_zona2, text="Escoger otra Seccion", font=("Times 12", 10),
                                       command=ofertaProductos).grid(column=2, pady=8, row=10)
 
@@ -1374,7 +1839,7 @@ También, permite agregar un nuevo supermercado al listado"""
                         limpia_frame()
 
                         def agregarlibalcarro():
-                            añadirAlCarrito(selected_item,selected_item.supermercado.oferlibros)
+                            añadirAlCarrito(selected_item, selected_item.supermercado.oferlibros)
                             otro = messagebox.askyesno(
                                 message="¡Libro agregado con éxito!\n\n¿Desea finalizar su compra?", title="Libro")
 
@@ -1443,7 +1908,7 @@ en el supermercado seleccionado anteriormente"""
             menu_procesos.add_command(label="Seleccionar supermercado", command=selectsuper)
             menu_procesos.add_command(label="Comprar Libros", command=comprarLibro)
             # Aqui se agregarian las demas funcionalidades
-            menu_procesos.add_command(label="Ver carrito de compras",command=finalizarCompra)
+            menu_procesos.add_command(label="Ver carrito de compras", command=finalizarCompra)
             barra_usuario.add_cascade(menu=menu_procesos, label="Procesos y Consultas")
 
             menu_ayuda = tk.Menu(barra_usuario, tearoff=False)
