@@ -2303,7 +2303,9 @@ También, permite agregar un nuevo supermercado al listado"""
 
                         precioField = FieldFrame(frame_zona2, "Precios", ["Precio Mínimo", "Precio Máximo"], "Valores",
                                                  None, None)
-
+                        
+                        precioField.pack(pady=10)
+                        
                         Aceptar = tk.Button(precioField, text="Aceptar", font="Times 13", command=defrango)
                         Aceptar.grid(row=len(precioField.criterios) + 1, column=0, pady=10)
 
@@ -2349,7 +2351,7 @@ También, permite agregar un nuevo supermercado al listado"""
                              bg="white").pack(pady=10)
 
                     tk.Button(frame_zona2, text="Autor", font="Times 13", command=filtroAutor).pack(pady=10)
-                    tk.Button(frame_zona2, text="Precio", font="Times 13").pack(pady=10)
+                    tk.Button(frame_zona2, text="Precio", font="Times 13",command=filtroPrecio).pack(pady=10)
 
                     if self.filtrolibro != 0:
                         tk.Button(frame_zona2, text="Quitar filtros", font="Times 13"
