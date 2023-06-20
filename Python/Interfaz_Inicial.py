@@ -1,3 +1,4 @@
+from Seriliazador import Serializador
 from ErrorAplicacion import *
 import tkinter as tk
 import regex as re
@@ -22,7 +23,7 @@ from Tv import Tv
 from Carne import Carne
 from noCarnicos import noCarnicos
 from Electronico import Electronico
-
+from Deserializador import Deserializador
 
 class Interfaz():
     def __init__(self):
@@ -37,6 +38,13 @@ class Interfaz():
         self.mercado = Supermercado()
         self.filtrolibro = 0
 
+        try:
+            temp = []
+            temp = list(Deserializador.deserializarObjetos())
+        except:
+            print("No hay supermercados registrados")
+        if len(temp) != 0:
+            self.lista_super = temp
     def venInicio(self):
 
         # Ingreso a la aplicacion
@@ -2509,6 +2517,7 @@ en el supermercado seleccionado anteriormente"""
         ingresar.grid(row=2, column=0, pady=10)
 
         inicio.mainloop()
+        Serializador.serializarObjets(self.lista_super)
 
 
 interfaz = Interfaz()
