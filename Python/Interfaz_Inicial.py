@@ -582,6 +582,8 @@ class Interfaz():
 
             # Procesos alimentos......................
             def MenuAlimentos():
+                if self.cliente.nombre == None:
+                    raise comprarSinUsuario(IdenUsuario)
                 limpia_frame()
 
                 tk.Label(frame_zona2,
@@ -1927,7 +1929,10 @@ class Interfaz():
                 celular_label.grid(row=1, column=0)
 
                 def ofertaElectronico():
+                    if self.cliente.nombre == None:
+                        raise comprarSinUsuario(IdenUsuario)
                     limpia_frame()
+
                     tk.Label(frame_zona2, text="¿Que tipo de producto electronico deseas?", borderwidth=2,
                              relief="solid", font="Times 13", bg="white").grid(pady=30, ipadx=15, ipady=10,
                                                                                columnspan=2)
